@@ -115,7 +115,9 @@ final _events = <Event>[
 
 final _saved = <Event>[];
 
-class Agenda extends StatelessWidget {
+class AgendaState extends State<Agenda> {
+
+  final _biggerFont = const TextStyle(fontSize: 18.0);
 
   @override
   Widget build(BuildContext context) {
@@ -135,13 +137,76 @@ class Agenda extends StatelessWidget {
       itemCount: _saved.length,
       itemBuilder: (BuildContext context, int index) {
         return Container(
-          height: 50, color: Colors.blueGrey,
-          child: Center(child: Text('${_saved[index].title}')),
+          height: 50,
+          child: Center(child: _buildRow(_saved[index])),
         );
       },
       separatorBuilder: (BuildContext context, int index) => const Divider(),
     );
   }
+
+  Widget _buildRow(Event event) {
+    final bool alreadySaved = _saved.contains(event);
+    return ListTile(
+      title: Text(
+        event.title,
+        style: _biggerFont,
+      ),
+      trailing: IconButton(
+        icon: Icon(Icons.remove_circle),
+        color: Colors.lightBlueAccent[100],
+        onPressed: () {
+          setState(() {
+              _saved.remove(event);
+          });},
+      ),
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) => _buildAboutDialog(context, event),
+        );
+      },
+    );
+  }
+
+  Widget _buildAboutDialog(BuildContext context, Event event) {
+    final bool alreadySaved = _saved.contains(event);
+    var bottom = Row(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        Text(event.speaker, textAlign: TextAlign.end,),
+        IconButton(
+          icon: Icon(Icons.remove_circle),
+          color: Colors.lightBlueAccent[100],
+          onPressed: () {
+          setState(() {
+            _saved.remove(event);
+          });
+          Navigator.of(context).pop();},
+          ),
+      ],
+    );
+
+    return new AlertDialog(
+      title: Text(event.title),
+      content: new Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          Text(event.description),
+          SizedBox(height: 30),
+          bottom,
+        ],
+      ),
+    );
+  }
+}
+
+class Agenda extends StatefulWidget {
+  @override
+  AgendaState createState() => AgendaState();
 }
 
 class CalendarState extends State<Calendar>{
@@ -165,7 +230,7 @@ class CalendarState extends State<Calendar>{
       itemCount: _events.length,
       itemBuilder: (BuildContext context, int index) {
         return Container(
-          height: 50, color: Colors.blueGrey,
+          height: 50,
           child: Center(child: _buildRow(_events[index])),
         );
       },
@@ -182,8 +247,8 @@ class CalendarState extends State<Calendar>{
         style: _biggerFont,
       ),
       trailing: IconButton(
-        icon: alreadySaved ? Icon(Icons.add_circle_outline) : Icon(Icons.add_circle),
-        color: alreadySaved ? null : Colors.lightBlueAccent[100],
+        icon: alreadySaved ? Icon(Icons.add_circle) : Icon(Icons.add_circle_outline),
+        color: alreadySaved ?  Colors.lightBlueAccent[100] : null,
         onPressed: () {
           setState(() {
             if (alreadySaved) {
@@ -210,8 +275,8 @@ class CalendarState extends State<Calendar>{
       children: <Widget>[
         Text(event.speaker, textAlign: TextAlign.end,),
         IconButton(
-          icon: alreadySaved ? Icon(Icons.add_circle_outline) : Icon(Icons.add_circle),
-          color: alreadySaved ? null : Colors.lightBlueAccent[100],
+          icon: alreadySaved ? Icon(Icons.add_circle) : Icon(Icons.add_circle_outline),
+          color: alreadySaved ? Colors.lightBlueAccent[100] : null,
           onPressed: () {
             setState(() {
               if (alreadySaved) {

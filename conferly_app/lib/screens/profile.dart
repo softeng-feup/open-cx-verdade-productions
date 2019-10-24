@@ -1,141 +1,194 @@
 import 'package:flutter/material.dart';
 
 
-class LinkButton extends StatelessWidget {
+class InfoWrapper extends StatelessWidget {
 
-  LinkButton({this.text, this.icon});
+  InfoWrapper({this.text, this.icon, this.bg});
   final String text;
   final Icon icon;
+  final Color bg;
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox.fromSize(
-        size: Size(76, 76), // button width and height
-        child: ClipOval(
-          child: Material(
-            color: Colors.grey, // button color
-            child: InkWell(
-              splashColor: Colors.blue, // splash color
-              onTap: () {}, // button pressed
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  this.icon, // icon
-                  Text(this.text), // text
-                ],
-              ),
-            ),
-          ),
-        ),
+    return Container(
+      padding: EdgeInsets.all(10.0),
+      decoration: BoxDecoration(
+        color: this.bg,
+        borderRadius: BorderRadius.circular(10.0),
       ),
+      child: Row(
+          children: <Widget>[
+            this.icon, // icon
+            Text(this.text), // text
+          ]
+      ),
+
+
     );
   }
 
 }
+
 
 
 
 class Profile extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body:
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-                   Icon(
-                       Icons.person,
-                       color: Colors.grey,
-                       size:100 ,
 
-                      ),
-              Text(
-                'Tiago Verdade',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                ),
-              ),
-              Text(
-                'Staff',
-                style:TextStyle(
-                  fontSize: 25,
-                  color: Colors.grey,
-                  letterSpacing: 2,
+  final String _fullName = "Tiago Verdade";
+  final String _status = "Staff";
+  final String _bio = "'Sou o Tiago e Mi gusta los meninos' ";
+  final String _local = "Porto, Portugal";
+  final String _work = "Student";
 
-                )
-              ),
-              Container(
-                margin: const EdgeInsets.fromLTRB(15, 10, 15, 0),
-                child: Text (
-                  'ola sou o tiago e mi gusta fazer aplicacoes. Tou no Ni',
-                  style: TextStyle(
-                    fontSize: 20
-                  ),
+  Widget _coverImage(Size screen) {
+    return Container(
+      height: screen.height / 3,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/feup.jpeg'),
+          fit: BoxFit.cover,
 
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.fromLTRB(15, 10, 15, 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Icon(Icons.insert_emoticon),
-                    Text("Student"),
-                  ],
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.fromLTRB(15, 10, 15, 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Icon(Icons.place),
-                    Text("Porto, Portugal"),
-                  ],
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.fromLTRB(15, 10, 15, 15),
-                child: LinkButton(
-                   text: "Interesses",
-                    icon: Icon(Icons.bubble_chart)
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  LinkButton(
-                    text:"AI",
-                    icon: Icon(Icons.adb)
-                  ),
-                  LinkButton(
-                    text:"Android",
-                    icon:Icon(Icons.ac_unit)
-                  ),
-                  LinkButton(
-                      text:"Web",
-                      icon:Icon(Icons.cast_connected)
-                  ),
-                  LinkButton(
-                      text:"Robotics",
-                      icon:Icon(Icons.check_box_outline_blank)
-                  ),
-                ],
-              )
+        ),
+      ),
+    );
 
+  }
 
-
-
-
-
-            ],
+  Widget _profileImage() {
+    return Center(
+      child: Container (
+        width: 140.0, height:140.0,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/profile.png'),
+            fit: BoxFit.cover,
           ),
-            // Navigate to second route when tapped.
+          borderRadius: BorderRadius.circular(100.0),
+          border: Border.all(
+            color:Colors.grey,
+            width:5.0,
+          )
+        ),
+      )
+    );
+  }
 
+  Widget _buildFullName() {
+    TextStyle _nameStyle = TextStyle(
+      fontFamily: 'Roboto',
+      color:Colors.black,
+      fontSize: 28.0,
+      fontWeight: FontWeight.w700,
+    );
+    return Text(
+      _fullName,
+      style: _nameStyle,
+    );
+  }
 
+  Widget _buildStatus(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 4.0,horizontal: 50.0),
+      decoration: BoxDecoration(
+        color:Theme.of(context).scaffoldBackgroundColor,
+        borderRadius: BorderRadius.circular(4.0),
+      ),
+      child:Text(
+        _status,
+        style:TextStyle(
+          fontFamily: 'Spectral',
+          color: Colors.black,
+          fontSize: 20.0,
+          fontWeight: FontWeight.w300,
+
+        )
+      )
 
     );
   }
+
+
+  Widget _buildBio() {
+    TextStyle _style = TextStyle(
+      fontFamily: 'Spectral',
+      fontSize: 20.0,
+      fontWeight: FontWeight.w500,
+      fontStyle: FontStyle.italic,
+      color: Color(0xFF788495),
+    );
+    return Text(
+      _bio,
+      style:_style,
+    );
+  }
+
+  Widget _buildSperator(Size screen) {
+    return Container(
+      width: screen.width/1.6,
+      height: 2.0,
+      color:Colors.black54,
+      margin: EdgeInsets.only(top:15.0),
+    );
+  }
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    Size sizeScreen = MediaQuery.of(context).size;
+    return Scaffold(
+      body: Stack(
+        children: <Widget>[
+          _coverImage(sizeScreen),
+          SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: sizeScreen.height/6.4,),
+                  _profileImage(),
+                  _buildFullName(),
+                  _buildStatus(context),
+                  _buildBio(),
+                  _buildSperator(sizeScreen),
+                   InfoWrapper(
+                       text:_local,
+                       icon: Icon(Icons.place),
+                       bg: Theme.of(context).scaffoldBackgroundColor),
+                  InfoWrapper(
+                    text: _work,
+                    icon:Icon(Icons.work), bg: Theme.of(context).scaffoldBackgroundColor),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        InfoWrapper(
+                            text:"Robotics",
+                            icon:Icon(Icons.adb),
+                            bg: Colors.grey ),
+                        InfoWrapper(
+                            text:"AI",
+                            icon:Icon(Icons.brush),
+                            bg: Colors.grey ),
+                        InfoWrapper(
+                            text:"Web",
+                            icon:Icon(Icons.wifi),
+                            bg: Colors.grey ),
+                        InfoWrapper(
+                            text:"Android",
+                            icon:Icon(Icons.android),
+                            bg: Colors.grey ),
+
+                    ]
+                  ),
+                ],
+              ),
+            )
+            ,
+          )
+
+        ],
+      )
+    );
+  }
+
 }
+

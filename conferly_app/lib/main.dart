@@ -26,6 +26,18 @@ class MyApp extends StatelessWidget {
     new Event('A decidir', 'waecewafewaf', 'Vitor Barbosa'),
     new Event('Aqui em baixo', 'waecewafewaf', 'Vitor Barbosa'),
   ];
+
+  static final messages = <Message>[
+    new Message('ola tudo bem', true, 10023021323),
+    new Message('ola', false, 10023021323),
+    new Message('queres um part time na nossa empresa', true, 10023021323),
+  ];
+
+  static final chatProfiles = <MessageProfile> [
+    new MessageProfile("Contratador", 12312321312, true, messages),
+    new MessageProfile("Rafa Varela", 12312321312, false, messages),
+    new MessageProfile("Abelha", 12312321312, false, messages),
+  ];
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -141,6 +153,23 @@ class Event {
   final String description;
   final String speaker;
   Event(this.title, this.description, this.speaker);
+}
+
+class Message {
+  final String text;
+  final bool sentByProfile;
+  final int time;
+
+  Message(this.text, this.sentByProfile, this.time);
+}
+
+class MessageProfile {
+  String name;
+  int lastOnline;
+  bool online;
+  List<Message> messages;
+
+  MessageProfile(this.name, this.lastOnline, this.online, this.messages);
 }
 
 

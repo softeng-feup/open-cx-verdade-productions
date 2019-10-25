@@ -64,29 +64,73 @@ The **functional requirements** are exposed on the [Use case diagram](#Use-case-
 ### User stories
 *As a user I want to be able to communicate and share my ideas with others easily, wherever and whenever, so that I can promote my opinion, meet new people and learn from the experience.*
 
+![Messages Chat](https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/messages_chat.png)
+
+
+
 *As a user I want to have a open discussion about the event and its topics through forums so that I can clearify things.* 
+
+![Forum](https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/forum.png)
+
+
 
 *As a user I want to be connected with the speakers so that I can freely ask them questions.* 
 
+![Messages New](https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/messages_new.png)
+
+
+
 *As a user I want to be part of discussions of the events I am attending, so that I can find people with similar interests.* 
 
+![Forum](https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/forum.png)
+
+
+
 *As a user I want to be able to talk privately with other people, so that I can get to know them better and grow my network.* 
+
+![Messages List](https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/messages_list.png)
+
+
 
 *As a user I would like to get recommendations (users and events) based on my interests, so that I can find what I am interested in effortlessly.*
 
  *As a user I want to have a personal agenda so that I can add to it the events that I want to attend.* 
+ 
+ ![Agenda](https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/agenda.png)
+ 
+ 
 
 *As a user I want to have a complete agenda with all the events' information so that I can filter and pick the ones I am interested in.* 
 
+![Events](https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/events.png)
+
+
+
 *As a user I want to be able to see other people's interests on their profile, so that I can connect with them.*
+
+![Profile](https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/profile.png)
+
+
 
  *As a user I want to get notified in time, so that I don't miss the events that interest me the most.* 
 
 *As a user I want to manage my profile so that I can share my personal information.* 
 
+![Profile](https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/profile.png)
+
+
+
 *As a speaker I want to promote my ideas and projects so that I can find people I can work with and grow my network.* 
 
+![Event Detail](https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/event_detail.png)
+
+
+
 *As a speaker I want to share my knowledge and experience so that I can help people to be better and make better decisions.* 
+
+![Event Detail](https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/event_detail.png)
+
+
 
 *As an admin I want to supervise the discussions and intervene accordingly, banning users if necessary, so that I can make sure everything is peaceful and well organized.*
 

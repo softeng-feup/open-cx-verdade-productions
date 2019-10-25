@@ -49,29 +49,48 @@ Here's the link for the app. I'll hope to get your feedback, so that your experi
 
 ---
 ## Requirements
-Our main objective is to help the people that attend conferences guiding them through it and enabling them to discuss and share their ideas with others.
-The **functional requirements** are exposed on the Use case diagram and User stories sections.
+Our main objective is to help the people that attend conferences guiding them through it and enabling them to discuss and share their ideas with others in a simple and easy way.
 
-In this section, you should describe all kinds of requirements for your module: functional and non-functional requirements.
-
-Start by contextualizing your module, describing the main concepts, terms, roles, scope and boundaries of the application domain addressed by the project.
+About the **nonfunctional requirements** we decided it was better to focus on **usability**, since our product will  empower its users with a lot of features, while keeping it simple and intuitive. We want the user to do what it wants, without having to think to much! 
+We will also pay particular attention to **reliability** because it is extremely important for us, that the user can always make full use of the app and enjoy its conference without stressing out.
+**Portability** is something that we considerate a lot as well, so that all users can make the most of our app, in any platform they want.
+ 
+The **functional requirements** are exposed on the [Use case diagram](#Use-case-diagram) and [User stories](#User-stories) sections.
 
 ### Use case diagram 
+![Use Case Diagram](https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/Use-case.jpg](https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/Use-case.jpg)
 
-Create a use-case diagram in UML with all high-level use cases possibly addressed by your module.
-
-Give each use case a concise, results-oriented name. Use cases should reflect the tasks the user needs to be able to accomplish using the system. Include an action verb and a noun. 
-
-Briefly describe each use case mentioning the following:
-
-* **Actor**. Name only the actor that will be initiating this use case, i.e. a person or other entity external to the software system being specified who interacts with the system and performs use cases to accomplish tasks. 
-* **Description**. Provide a brief description of the reason for and outcome of this use case, or a high-level description of the sequence of actions and the outcome of executing the use case. 
-* **Preconditions and Postconditions**. Include any activities that must take place, or any conditions that must be true, before the use case can be started (preconditions) and postconditions. Describe also the state of the system at the conclusion of the use case execution (postconditions). 
-
-* **Normal Flow**. Provide a detailed description of the user actions and system responses that will take place during execution of the use case under normal, expected conditions. This dialog sequence will ultimately lead to accomplishing the goal stated in the use case name and description. This is best done as a numbered list of actions performed by the actor, alternating with responses provided by the system. 
-* **Alternative Flows and Exceptions**. Document other, legitimate usage scenarios that can take place within this use case, stating any differences in the sequence of steps that take place. In addition, describe any anticipated error conditions that could occur during execution of the use case, and define how the system is to respond to those conditions. 
 
 ### User stories
+*As a user I want to be able to communicate and share my ideas with others easily, wherever and whenever, so that I can promote my opinion, meet new people and learn from the experience.*
+
+*As a user I want to have a open discussion about the event and its topics through forums so that I can clearify things.* 
+
+*As a user I want to be connected with the speakers so that I can freely ask them questions.* 
+
+*As a user I want to be part of discussions of the events I am attending, so that I can find people with similar interests.* 
+
+*As a user I want to be able to talk privately with other people, so that I can get to know them better and grow my network.* 
+
+*As a user I would like to get recommendations (users and events) based on my interests, so that I can find what I am interested in effortlessly.*
+
+ *As a user I want to have a personal agenda so that I can add to it the events that I want to attend.* 
+
+*As a user I want to have a complete agenda with all the events' information so that I can filter and pick the ones I am interested in.* 
+
+*As a user I want to be able to see other people's interests on their profile, so that I can connect with them.*
+
+ *As a user I want to get notified in time, so that I don't miss the events that interest me the most.* 
+
+*As a user I want to manage my profile so that I can share my personal information.* 
+
+*As a speaker I want to promote my ideas and projects so that I can find people I can work with and grow my network.* 
+
+*As a speaker I want to share my knowledge and experience so that I can help people to be better and make better decisions.* 
+
+*As an admin I want to supervise the discussions and intervene accordingly, banning users if necessary, so that I can make sure everything is peaceful and well organized.*
+
+
 This section will contain the requirements of the product described as **user stories**, organized in a global **user story map** with **user roles** or **themes**.
 
 For each theme, or role, you may add a small description. User stories should be detailed in the tool you decided to use for project management (e.g. trello or github projects).
@@ -170,4 +189,3 @@ Example of tools to do this are:
   * [Jira](https://www.atlassian.com/software/jira)
 
 We recommend to use the simplest tool that can possibly work for the team.
-

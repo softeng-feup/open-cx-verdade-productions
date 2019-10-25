@@ -58,7 +58,7 @@ We will also pay particular attention to **reliability** because it is extremely
 The **functional requirements** are exposed on the [Use case diagram](#Use-case-diagram) and [User stories](#User-stories) sections.
 
 ### Use case diagram 
-![Use Case Diagram](https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/Use-case.jpg](https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/Use-case.jpg)
+![Use Case Diagram](https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/Use-case.jpg)
 
 
 ### User stories

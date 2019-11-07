@@ -1,0 +1,60 @@
+Feature: Forum
+
+  Scenario: Write a comment on forum 
+    Given a message that I want to share
+    When I write and submit it
+    Then I expect everyone to see it and answer
+
+  Scenario: See forum discussion 
+    Given a forum that I am attending to
+    When I open that forum
+    Then I want to be able to see other people's comments
+
+
+#######################################################
+
+Feature: Chat
+
+  Scenario: Message others
+    Given a message that I want to share with someone
+    When I write and send the message
+    Then I expect the other to be able to receive it and answer it.
+
+#######################################################
+
+Feature: Agenda
+
+  Scenario: Check all the events 
+    When I open the agenda
+    Then I expect to see all the events.
+
+  
+  Scenario: See event's details
+    When I open an event
+    Then I expect to see it's details.
+
+
+#######################################################
+
+Feature: Personal Agenda
+
+  Scenario: Build my own agenda 
+    Given the agenda with all the events
+    When I want to attend a specific event
+    Then I add to my personal agenda.
+
+#######################################################
+
+Feature: Profile
+
+  Scenario: Build my own profile
+    When I create my account
+    Then I expect to be able to share some of my personal information.
+
+
+  Scenario: Build my own profile
+    Given a person that got my interest
+    When I open it's profile
+    Then I expect to be able to see it's information and start chatting.
+
+

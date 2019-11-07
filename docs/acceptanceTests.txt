@@ -5,10 +5,16 @@ Feature: Forum
     When I write and submit it
     Then I expect everyone to see it and answer
 
+	Value: Must Have
+	Effort: XL
+
   Scenario: See forum discussion 
     Given a forum that I am attending to
     When I open that forum
     Then I want to be able to see other people's comments
+
+	Value: Must Have
+	Effort: M
 
 
 #######################################################
@@ -20,6 +26,9 @@ Feature: Chat
     When I write and send the message
     Then I expect the other to be able to receive it and answer it.
 
+	Value: Could Have
+	Effort: XL
+
 #######################################################
 
 Feature: Agenda
@@ -28,10 +37,16 @@ Feature: Agenda
     When I open the agenda
     Then I expect to see all the events.
 
+	Value: Must Have
+	Effort: S
+
   
   Scenario: See event's details
     When I open an event
     Then I expect to see it's details.
+
+	Value: Should Have
+	Effort: XS
 
 
 #######################################################
@@ -43,6 +58,9 @@ Feature: Personal Agenda
     When I want to attend a specific event
     Then I add to my personal agenda.
 
+	Value: Should Have
+	Effort: M
+
 #######################################################
 
 Feature: Profile
@@ -51,10 +69,16 @@ Feature: Profile
     When I create my account
     Then I expect to be able to share some of my personal information.
 
+	Value: Should Have
+	Effort: M
 
-  Scenario: Build my own profile
+
+  Scenario: Check profiles
     Given a person that got my interest
     When I open it's profile
     Then I expect to be able to see it's information and start chatting.
+
+	Value: Should Have
+	Effort: L
 
 

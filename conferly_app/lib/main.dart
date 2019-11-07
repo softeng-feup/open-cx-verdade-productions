@@ -28,9 +28,10 @@ class MyApp extends StatelessWidget {
   ];
 
   static final messages = <Message>[
-    new Message('ola tudo bem', true, 10023021323),
-    new Message('ola', false, 10023021323),
-    new Message('queres um part time na nossa empresa', true, 10023021323),
+    new Message('ola tudo bem', true, 1573125889444),
+    new Message('ola tudo bem', true, 1573125890444),
+    new Message('ola', false, 1573125989444),
+    new Message('queres um part time na nossa empresa acho que seria uma boa experieincia para comecares, se quiseres podes sempre falar comigo a qualquer momento', true, 1573135889444),
   ];
 
   static final chatProfiles = <MessageProfile> [
@@ -159,8 +160,9 @@ class Message {
   final String text;
   final bool sentByProfile;
   final int time;
+  final bool received;
 
-  Message(this.text, this.sentByProfile, this.time);
+  Message(this.text, this.sentByProfile, this.time, {this.received = false});
 }
 
 class MessageProfile {

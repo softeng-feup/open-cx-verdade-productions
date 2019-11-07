@@ -1,17 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:conferly/main.dart';
+
 
 class Bubble extends StatelessWidget {
-  Bubble({this.message, this.time, this.delivered, this.isMe});
+  Bubble({this.message});
 
-  final String message, time;
-  final delivered, isMe;
+  final Message message;
+  final delivered = true;
+
+//  var format = new DateFormat("yMd");
+//  var dateString = format.format(date);
 
   @override
   Widget build(BuildContext context) {
-    final bg = isMe ? Colors.white : Colors.greenAccent.shade100;
-    final align = isMe ? CrossAxisAlignment.start : CrossAxisAlignment.end;
+    var dateTime = DateTime.fromMillisecondsSinceEpoch(message.time, isUtc: true);
+    String dateString = dateTime.hour.toString().padLeft(2,'0') + ":" + dateTime.minute.toString().padLeft(2,'0');
+    final bg = message.sentByProfile ? Colors.white : Colors.greenAccent.shade100;
+    final align = message.sentByProfile ? CrossAxisAlignment.start : CrossAxisAlignment.end;
     final icon = delivered ? Icons.done_all : Icons.done;
-    final radius = isMe
+    final radius = message.sentByProfile
         ? BorderRadius.only(
       topRight: Radius.circular(5.0),
       bottomLeft: Radius.circular(10.0),
@@ -42,14 +49,14 @@ class Bubble extends StatelessWidget {
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.only(right: 48.0),
-                child: Text(message),
+                child: Text(message.text),
               ),
               Positioned(
                 bottom: 0.0,
                 right: 0.0,
                 child: Row(
                   children: <Widget>[
-                    Text(time,
+                    Text(dateString,
                         style: TextStyle(
                           color: Colors.black38,
                           fontSize: 10.0,

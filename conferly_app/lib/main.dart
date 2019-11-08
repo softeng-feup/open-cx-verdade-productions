@@ -1,11 +1,28 @@
+import 'package:conferly/screens/welcomePage.dart';
 import 'package:flutter/material.dart';
 
 import 'screens/agenda.dart';
 import 'screens/calendar.dart';
 import 'screens/chat.dart';
 import 'screens/profile.dart';
+import 'screens/welcomePage.dart';
 
-void main() => runApp(MyApp());
+//void main() => runApp(MyApp());
+
+void main() => runApp(MyApp2());
+
+class MyApp2 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: "form",
+      theme: new ThemeData(
+        primarySwatch: Colors.orange,
+      ),
+      home: welcomePage(),
+    );
+  }
+}
 
 class MyApp extends StatelessWidget {
 

@@ -89,7 +89,7 @@ As a user I want to be part of discussions of the events I am attending, so that
 ***
 *As a user I want to be able to talk privately with other people, so that I can get to know them better and grow my network.*
 
-<img src="https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/messages_new.png" width="160" height="350" />                       <img src="https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/messages_chat.png" width="200" height="300" />
+<img src="https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/messages_new.png" width="160" height="350" />                       <img src="https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/messages_chat.png" width="160" height="350" />
 
 **Feature**: Chat
 

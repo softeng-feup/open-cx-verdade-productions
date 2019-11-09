@@ -64,76 +64,110 @@ The **functional requirements** are exposed on the [Use case diagram](#Use-case-
 ### User stories
 *As a user I want to be able to communicate and share my ideas with others easily, wherever and whenever, so that I can promote my opinion, meet new people and learn from the experience.*
 
-<img src="https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/messages_chat.png" width="100" height="300" />
+<img src="https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/forum.png" width="200" height="300" />
 
+As a user I want to be part of discussions of the events I am attending, so that I can find people with similar interests and clearify any doubs I might be having.
 
+**Feature**: Forum
 
-*As a user I want to have a open discussion about the event and its topics through forums so that I can clearify things.* 
+**Scenario**: Write a comment on forum 
+*Given* a message that I want to share
+*When* I write and submit it
+*Then* I expect everyone to see it and answer
 
-![Forum](https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/forum.png)
+	Value: Must Have
+	Effort: XL
 
+  **Scenario**: See forum discussion 
+    *Given* a forum that I am attending to
+    *When* I open that forum
+    *Then* I want to be able to see other people's comments
 
+	Value: Must Have
+	Effort: M
+	
+***
+*As a user I want to be able to talk privately with other people, so that I can get to know them better and grow my network.*
 
-*As a user I want to be connected with the speakers so that I can freely ask them questions.* 
+<img src="https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/messages_new.png" width="200" height="300" />                       <img src="https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/messages_chat.png" width="200" height="300" />
 
-![Messages New](https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/messages_new.png)
+**Feature**: Chat
 
+ **Scenario**: Message others
+  *Given* a message that I want to share with someone
+  *When* I write and send the message
+  *Then* I expect the other to be able to receive it and answer it.
 
+	Value: Could Have
+	Effort: XL
+***
+*As a user I want to be able to see a list of my conversations so I can start chatting again easily.*
 
-*As a user I want to be part of discussions of the events I am attending, so that I can find people with similar interests.* 
+<img src="https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/agenda.png" width="200" height="300" />
 
-![Forum](https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/forum.png)
+**Feature**: Agenda
 
+**Scenario**: Check all the events 
+    *When* I open the agenda
+    *Then* I expect to see all the events.
 
+	Value: Must Have
+	Effort: S
+***
+As a user I want to be able to see the event's details so that I can know beforehand what each event will be about.
 
-*As a user I want to be able to talk privately with other people, so that I can get to know them better and grow my network.* 
+<img src="https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/event_detail.png" width="200" height="300" />
 
-![Messages List](https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/messages_list.png)
+ **Feature**: Agenda
+   
+   **Scenario**: See event's details
+    *When* I open an event
+    *Then* I expect to see it's details.
 
+	Value: Should Have
+	Effort: XS
+***
+*As a user I want to have a personal agenda so that I can add to it the events that I want to attend*
 
+<img src="https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/events.png" width="200" height="300" />
 
-*As a user I would like to get recommendations (users and events) based on my interests, so that I can find what I am interested in effortlessly.*
+**Feature**: Personal Agenda
 
- *As a user I want to have a personal agenda so that I can add to it the events that I want to attend.* 
- 
- ![Agenda](https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/agenda.png)
- 
- 
+  **Scenario**: Build my own agenda 
+    *Given* the agenda with all the events
+    *When* I want to attend a specific event
+    *Then* I add to my personal agenda.
 
-*As a user I want to have a complete agenda with all the events' information so that I can filter and pick the ones I am interested in.* 
+	Value: Should Have
+	Effort: M
+***
+*As a user I want to manage my profile so that I can share my personal information.*
 
-![Events](https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/events.png)
+<img src="https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/profile.png" width="200" height="300" />
 
+**Feature**: Profile
 
+ **Scenario**: Build my own profile
+    *When* I create my account
+    *Then* I expect to be able to personalize my profile and share it.
 
+	Value: Should Have
+	Effort: M
+***
 *As a user I want to be able to see other people's interests on their profile, so that I can connect with them.*
 
-![Profile](https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/profile.png)
+<img src="https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/profile.png" width="200" height="300" />
 
+  **Scenario**: Check profiles
+    *Given* a person that got my interest
+    *When* I open it's profile
+    *Then* I expect to be able to see it's information and start chatting.
 
-
- *As a user I want to get notified in time, so that I don't miss the events that interest me the most.* 
-
-*As a user I want to manage my profile so that I can share my personal information.* 
-
-![Profile](https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/profile.png)
-
-
-
-*As a speaker I want to promote my ideas and projects so that I can find people I can work with and grow my network.* 
-
-![Event Detail](https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/event_detail.png)
-
-
-
-*As a speaker I want to share my knowledge and experience so that I can help people to be better and make better decisions.* 
-
-![Event Detail](https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/event_detail.png)
-
-
-
-*As an admin I want to supervise the discussions and intervene accordingly, banning users if necessary, so that I can make sure everything is peaceful and well organized.*
-
+	Value: Should Have
+	Effort: L
+***
+*As a user I would like to get recommendations (users and events) based on my interests, so that I can find what I am interested in effortlessly.*
+***
 
 This section will contain the requirements of the product described as **user stories**, organized in a global **user story map** with **user roles** or **themes**.
 
@@ -233,3 +267,4 @@ Example of tools to do this are:
   * [Jira](https://www.atlassian.com/software/jira)
 
 We recommend to use the simplest tool that can possibly work for the team.
+

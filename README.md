@@ -64,7 +64,7 @@ The **functional requirements** are exposed on the [Use case diagram](#Use-case-
 ### User stories
 *As a user I want to be able to communicate and share my ideas with others easily, wherever and whenever, so that I can promote my opinion, meet new people and learn from the experience.*
 
-<img src="https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/forum.png" width="200" height="300" />
+<img src="https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/forum.png" width="160" height="350" />
 
 As a user I want to be part of discussions of the events I am attending, so that I can find people with similar interests and clearify any doubs I might be having.
 
@@ -89,7 +89,7 @@ As a user I want to be part of discussions of the events I am attending, so that
 ***
 *As a user I want to be able to talk privately with other people, so that I can get to know them better and grow my network.*
 
-<img src="https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/messages_new.png" width="200" height="300" />                       <img src="https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/messages_chat.png" width="200" height="300" />
+<img src="https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/messages_new.png" width="160" height="350" />                       <img src="https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/messages_chat.png" width="200" height="300" />
 
 **Feature**: Chat
 
@@ -103,7 +103,7 @@ As a user I want to be part of discussions of the events I am attending, so that
 ***
 *As a user I want to be able to see a list of my conversations so I can start chatting again easily.*
 
-<img src="https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/agenda.png" width="200" height="300" />
+<img src="https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/agenda.png" width="160" height="350" />
 
 **Feature**: Agenda
 
@@ -114,9 +114,9 @@ As a user I want to be part of discussions of the events I am attending, so that
 	Value: Must Have
 	Effort: S
 ***
-As a user I want to be able to see the event's details so that I can know beforehand what each event will be about.
+*As a user I want to be able to see the event's details so that I can know beforehand what each event will be about.*
 
-<img src="https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/event_detail.png" width="200" height="300" />
+<img src="https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/event_detail.png" width="160" height="350" />
 
  **Feature**: Agenda
    
@@ -129,7 +129,7 @@ As a user I want to be able to see the event's details so that I can know before
 ***
 *As a user I want to have a personal agenda so that I can add to it the events that I want to attend*
 
-<img src="https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/events.png" width="200" height="300" />
+<img src="https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/events.png" width="160" height="350" />
 
 **Feature**: Personal Agenda
 
@@ -143,7 +143,7 @@ As a user I want to be able to see the event's details so that I can know before
 ***
 *As a user I want to manage my profile so that I can share my personal information.*
 
-<img src="https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/profile.png" width="200" height="300" />
+<img src="https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/profile.png" width="160" height="350" />
 
 **Feature**: Profile
 
@@ -156,7 +156,7 @@ As a user I want to be able to see the event's details so that I can know before
 ***
 *As a user I want to be able to see other people's interests on their profile, so that I can connect with them.*
 
-<img src="https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/profile.png" width="200" height="300" />
+<img src="https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/profile.png" width="160" height="350" />
 
   **Scenario**: Check profiles
     *Given* a person that got my interest

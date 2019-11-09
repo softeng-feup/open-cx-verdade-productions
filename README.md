@@ -64,7 +64,7 @@ The **functional requirements** are exposed on the [Use case diagram](#Use-case-
 ### User stories
 *As a user I want to be able to communicate and share my ideas with others easily, wherever and whenever, so that I can promote my opinion, meet new people and learn from the experience.*
 
-![Messages Chat](https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/messages_chat.png)
+![Messages Chat](https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/messages_chat.png =100x300)
 
 
 

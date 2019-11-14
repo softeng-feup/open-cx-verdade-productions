@@ -26,8 +26,9 @@ class DetailEventState extends State<DetailEvent> {
         appBar: AppBar(
           title: Text(event.title),
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        body: ListView(
+
+//          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Container(
               margin: EdgeInsets.all(24),
@@ -69,6 +70,31 @@ class DetailEventState extends State<DetailEvent> {
               margin: EdgeInsets.symmetric(horizontal: 60, vertical: 4),
               child: Text(event.description, style: TextStyle(fontSize: 14)),
             ),
+            Container(
+              margin: EdgeInsets.fromLTRB(60, 30, 60, 4),
+              child: RaisedButton(
+                onPressed: () {
+
+                },
+                child: const Text(
+                'Go to forum',
+                style: TextStyle(fontSize: 20)
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.fromLTRB(60, 4, 60, 16),
+              child: RaisedButton(
+                onPressed: () {
+
+                },
+                child: const Text(
+                    'Add to calendar',
+                    style: TextStyle(fontSize: 20)
+                ),
+              ),
+            ),
+
           ],
         )
 

@@ -256,15 +256,11 @@ For the purpose of ESOF, we will use a very simple approach, just to manage feat
 
 ## Project management
 
+For the Software project management the group opted to use [Github Projects](https://github.com/features/project-management/com) for it's simplicity and usability, where we do things such as registering tasks, assing taks, add estimations to taks, monitor tasks progress, etc.
+We can also filter the tasks according to the project's iteration:
+
 Software project management is an art and science of planning and leading software projects, in which software projects are planned, implemented, monitored and controlled.
-
-In the context of ESOF, we expect that each team adopts a project management tool capable of registering tasks, assign tasks to people, add estimations to tasks, monitor tasks progress, and therefore being able to track their projects.
-
-Example of tools to do this are:
-  * [Trello.com](https://trello.com)
-  * [Github Projects](https://github.com/features/project-management/com)
-  * [Pivotal Tracker](https://www.pivotaltracker.com)
-  * [Jira](https://www.atlassian.com/software/jira)
-
-We recommend to use the simplest tool that can possibly work for the team.
-
+  * [Iteration 1](https://github.com/softeng-feup/open-cx-verdade-productions/projects/1?card_filter_query=label%3A%22iteration+1%22)
+  * [Iteration 2](https://github.com/softeng-feup/open-cx-verdade-productions/projects/1?card_filter_query=label%3A%22iteration+2%22)
+  * [Iteration 3](https://github.com/softeng-feup/open-cx-verdade-productions/projects/1?card_filter_query=label%3A%22iteration+3%22)
+  * [Iteration 4](https://github.com/softeng-feup/open-cx-verdade-productions/projects/1?card_filter_query=label%3A%22iteration+4%22)

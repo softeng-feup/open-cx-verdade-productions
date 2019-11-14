@@ -22,30 +22,68 @@ class Chat extends StatelessWidget {
                   margin: EdgeInsets.all(15),
                 );
               } else {
-                return GestureDetector(
-                  onTap: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => DetailChat(index-1)),
-                    );
-//                    print("Container pressed");
-                  },
-                  child: Container(
-                    height: 50,
-                    color: Colors.grey,
-                    child: Center(
-                        child: Text('${MyApp.chatProfiles[index - 1].name}')),
-                  ),
-                );
+                return getProfileChat(context, index - 1);
 
 
               }
             })
     );
   }
-}
 
-// Navigator.push(
-//    context,
-//    MaterialPageRoute(builder: (context) => SecondRoute()),
-//  );
+  Widget getProfileChat(BuildContext context, int indexProfile){
+    MessageProfile profile = MyApp.chatProfiles[indexProfile];
+    return GestureDetector(
+      onTap: (){
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => DetailChat(indexProfile)),
+        );
+//                    print("Container pressed");
+      },
+      child: Container(
+        padding: EdgeInsets.all(4),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            _profileImage(),
+            Column(children: <Widget>[
+              Text(profile.name, style: TextStyle(fontWeight: ),),
+              Text("Ola tudo bem"),
+            ],),
+            Text("12:45")
+          ],
+        ),
+      )
+
+
+
+
+
+//      child: Container(
+//        height: 50,
+//        color: Colors.grey,
+//        child: Center(
+//            child: Text('${profile.name}')),
+//      ),
+    );
+  }
+
+  Widget _profileImage() {
+    return Center(
+        child: Container (
+          width: 40.0, height:40.0,
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/profile.png'),
+                fit: BoxFit.cover,
+              ),
+              borderRadius: BorderRadius.circular(100.0),
+              border: Border.all(
+                color:Colors.grey,
+                width:1.0,
+              )
+          ),
+        )
+    );
+  }
+}

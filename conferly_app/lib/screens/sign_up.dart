@@ -1,4 +1,5 @@
 import 'package:conferly/screens/sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SignupPage extends StatefulWidget {
@@ -14,7 +15,7 @@ class _SignupPageState extends State<SignupPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Sign in'),
+          title: Text('Sign Up'),
         ),
         body: Form(
             key: _formKey,
@@ -25,6 +26,7 @@ class _SignupPageState extends State<SignupPage> {
                     if (input.isEmpty) {
                       return 'Email must not be empty!';
                     }
+                    return null;
                   },
                   onSaved: (input) => _email = input,
                   decoration: InputDecoration(
@@ -36,6 +38,7 @@ class _SignupPageState extends State<SignupPage> {
                     if (input.length < 6) {
                       return "Provide a password longer than 6!";
                     }
+                    return null;
                   },
                   onSaved: (input) => _password = input,
                   decoration: InputDecoration(
@@ -45,7 +48,7 @@ class _SignupPageState extends State<SignupPage> {
                 ),
                 RaisedButton(
                   onPressed: signUp,
-                  child: Text('Sign in'),
+                  child: Text('Sign Up'),
                 )
               ],
             )
@@ -54,16 +57,21 @@ class _SignupPageState extends State<SignupPage> {
     );
   }
 
-  void signUp() {
+  void signUp() async {
     // validate fields
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
-      //connect to db and create user
-      //send email verification to the user
-      Navigator.of(context).pop();
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => LoginPage()));
+     try {
+       FirebaseUser user = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password);
+       //user.sendEmailVerification();
+       Navigator.of(context).pop();
+       Navigator.pushReplacement(
+           context, MaterialPageRoute(builder: (context) => LoginPage()));
+     } catch(e) {
+
+     }
+
     }
   }
 }

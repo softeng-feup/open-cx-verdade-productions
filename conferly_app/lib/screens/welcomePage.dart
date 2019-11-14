@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
  */
 
 class welcomePage extends StatefulWidget {
+
   @override
   _welcomePageState createState() => _welcomePageState();
 }

@@ -1,4 +1,6 @@
+import 'package:conferly/main.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -54,12 +56,18 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void signIn() {
+  Future<void> signIn() async{
     // validate fields
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-
-      //connect to db
+      try {
+        FirebaseUser user = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(email: _email, password: _password);
+        Navigator.push(context,MaterialPageRoute(builder: (context)=> MyApp()));
+      }
+      catch(e) {
+        print(e.message);
+      }
     }
   }
 }

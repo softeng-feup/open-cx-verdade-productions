@@ -47,24 +47,13 @@ class Chat extends StatelessWidget {
           children: <Widget>[
             _profileImage(),
             Column(children: <Widget>[
-              Text(profile.name, style: TextStyle(fontWeight: ),),
+              Text(profile.name, style: TextStyle(fontWeight: FontWeight.bold),),
               Text("Ola tudo bem"),
             ],),
             Text("12:45")
           ],
         ),
       )
-
-
-
-
-
-//      child: Container(
-//        height: 50,
-//        color: Colors.grey,
-//        child: Center(
-//            child: Text('${profile.name}')),
-//      ),
     );
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:conferly/main.dart';
+import 'detailEvent.dart';
 
 class CalendarState extends State<Calendar>{
   final _biggerFont = const TextStyle(fontSize: 18.0);
@@ -49,9 +50,9 @@ class CalendarState extends State<Calendar>{
           });},
       ),
       onTap: () {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) => _buildAboutDialog(context, event),
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => DetailEvent(event)),
         );
       },
     );

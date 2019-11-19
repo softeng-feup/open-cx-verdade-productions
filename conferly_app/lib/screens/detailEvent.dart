@@ -1,10 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:conferly/main.dart';
 
 class DetailEvent extends StatefulWidget {
 
-  final event;
+  DocumentSnapshot event;
 
   DetailEvent(this.event);
 
@@ -16,7 +17,7 @@ class DetailEvent extends StatefulWidget {
 
 class DetailEventState extends State<DetailEvent> {
 
-  Event event;
+  DocumentSnapshot event;
 
   DetailEventState(this.event);
 
@@ -24,7 +25,7 @@ class DetailEventState extends State<DetailEvent> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(event.title),
+          title: Text(event['name']),
         ),
         body: ListView(
 
@@ -40,7 +41,7 @@ class DetailEventState extends State<DetailEvent> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      Text(event.speaker, style: TextStyle(fontSize: 25),),
+                      Text(event['speaker'], style: TextStyle(fontSize: 25),),
                       FlatButton(
                         onPressed: () {
 
@@ -68,7 +69,7 @@ class DetailEventState extends State<DetailEvent> {
             ),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 60, vertical: 4),
-              child: Text(event.description, style: TextStyle(fontSize: 14)),
+              child: Text(event['description'], style: TextStyle(fontSize: 14)),
             ),
             Container(
               margin: EdgeInsets.fromLTRB(60, 30, 60, 4),

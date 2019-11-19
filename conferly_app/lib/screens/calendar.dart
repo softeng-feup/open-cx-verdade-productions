@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:conferly/main.dart';
@@ -16,6 +17,20 @@ class CalendarState extends State<Calendar>{
   }
 
   Widget _showEvents() {
+    return StreamBuilder(
+        stream: Firestore.instance.collection('Events').snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) return const Text('Loading...');
+          return ListView.separated(
+              itemBuilder: (context, index) => _buildRow(snapshot.data.documents[index]),
+              separatorBuilder: (context, index) => const Divider(),
+              itemCount: snapshot.data.documents.length);
+        }
+      );
+  }
+
+/*
+  Widget _showEvents() {
     return ListView.separated(
       padding: const EdgeInsets.all(16.0),
       itemCount: MyApp.events.length,
@@ -28,13 +43,13 @@ class CalendarState extends State<Calendar>{
       separatorBuilder: (BuildContext context, int index) => const Divider(),
     );
   }
+*/
 
-
-  Widget _buildRow(Event event) {
+  Widget _buildRow(DocumentSnapshot event) {
     final bool alreadySaved = MyApp.saved.contains(event);
     return ListTile(
       title: Text(
-        event.title,
+        event['name'],
         style: _biggerFont,
       ),
       trailing: IconButton(
@@ -58,13 +73,13 @@ class CalendarState extends State<Calendar>{
     );
   }
 
-  Widget _buildAboutDialog(BuildContext context, Event event) {
+  Widget _buildAboutDialog(BuildContext context, DocumentSnapshot event) {
     final bool alreadySaved = MyApp.saved.contains(event);
     var bottom = Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Text(event.speaker, textAlign: TextAlign.end,),
+        Text(event['speaker'], textAlign: TextAlign.end,),
         IconButton(
           icon: alreadySaved ? Icon(Icons.add_circle) : Icon(Icons.add_circle_outline),
           color: alreadySaved ? Colors.lightBlueAccent[100] : null,
@@ -82,13 +97,13 @@ class CalendarState extends State<Calendar>{
     );
 
     return new AlertDialog(
-      title: Text(event.title),
+      title: Text(event['name']),
       content: new Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          Text(event.description),
+          Text(event['description']),
           SizedBox(height: 30),
           bottom,
         ],

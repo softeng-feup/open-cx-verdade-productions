@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:conferly/main.dart';
@@ -29,11 +30,11 @@ class AgendaState extends State<Agenda> {
     );
   }
 
-  Widget _buildRow(Event event) {
+  Widget _buildRow(DocumentSnapshot event) {
     final bool alreadySaved = MyApp.saved.contains(event);
     return ListTile(
       title: Text(
-        event.title,
+        event['name'],
         style: _biggerFont,
       ),
       trailing: IconButton(
@@ -53,13 +54,13 @@ class AgendaState extends State<Agenda> {
     );
   }
 
-  Widget _buildAboutDialog(BuildContext context, Event event) {
+  Widget _buildAboutDialog(BuildContext context, DocumentSnapshot event) {
     final bool alreadySaved = MyApp.saved.contains(event);
     var bottom = Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Text(event.speaker, textAlign: TextAlign.end,),
+        Text(event['speaker'], textAlign: TextAlign.end,),
         IconButton(
           icon: Icon(Icons.remove_circle),
           color: Colors.lightBlueAccent[100],
@@ -73,13 +74,13 @@ class AgendaState extends State<Agenda> {
     );
 
     return new AlertDialog(
-      title: Text(event.title),
+      title: Text(event['name']),
       content: new Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          Text(event.description),
+          Text(event['description']),
           SizedBox(height: 30),
           bottom,
         ],

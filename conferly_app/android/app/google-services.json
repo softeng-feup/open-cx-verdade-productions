@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "495065220723",
+    "firebase_url": "https://conferly-8779b.firebaseio.com",
+    "project_id": "conferly-8779b",
+    "storage_bucket": "conferly-8779b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:495065220723:android:fe979321a1cd3276764c06",
+        "android_client_info": {
+          "package_name": "com.verdadeproductions.conferly"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "495065220723-jtp37ajf1caqcd79bcoclcntmp16oiad.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABp06GGEcQ-gn7JEzFsvopz9DOlxnldzc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "495065220723-jtp37ajf1caqcd79bcoclcntmp16oiad.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "495065220723-0ekuondnba8e1raei11a2tn2c89shfm7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.verdadeproductions.conferly"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

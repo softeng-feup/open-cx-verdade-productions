@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'screens/agenda.dart';
 import 'screens/calendar.dart';
@@ -9,23 +10,7 @@ void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
 
-  static final saved = <Event>[];
-
-  static final events = <Event>[
-    new Event('Workshop Latex', 'Estás farto do Word e de nunca conseguires pôr aquele índice manhoso direitinho? Queres ter 20 na estética do relatório? A dissertação está aí à porta? Então este Workshop é para ti!', 'Joao Varela'),
-    new Event('Workshop C++', 'Estás farto do Word? Queres fazer os teus relatórios e dissertação com um aspeto mais cuidado e sem dores de cabeça? Então anda aprender uma ferramenta de marcação de texto ("markup") bastante usado na área das Engenharias e Ciências para a escrita de documentos.', 'Joao Abelha'),
-    new Event('Industria 4.0', 'waecewafewaf', 'Vitor Barbosa'),
-    new Event('A decidir', 'waecewafewaf', 'Vitor Barbosa'),
-    new Event('A decidir', 'waecewafewaf', 'Vitor Barbosa'),
-    new Event('A decidir', 'waecewafewaf', 'Vitor Barbosa'),
-    new Event('A decidir', 'waecewafewaf', 'Vitor Barbosa'),
-    new Event('A decidir', 'waecewafewaf', 'Vitor Barbosa'),
-    new Event('A decidir', 'waecewafewaf', 'Vitor Barbosa'),
-    new Event('A decidir', 'waecewafewaf', 'Vitor Barbosa'),
-    new Event('A decidir', 'waecewafewaf', 'Vitor Barbosa'),
-    new Event('A decidir', 'waecewafewaf', 'Vitor Barbosa'),
-    new Event('Aqui em baixo', 'waecewafewaf', 'Vitor Barbosa'),
-  ];
+  static final saved = <DocumentSnapshot>[];
 
   static final messages = <Message>[
     new Message('ola tudo bem', true, 1573125889444),

@@ -1,6 +1,7 @@
 import 'package:conferly/screens/sign_in.dart';
 import 'package:conferly/screens/sign_up.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 /**
  *

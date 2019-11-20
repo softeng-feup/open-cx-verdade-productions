@@ -1,5 +1,6 @@
 import 'package:conferly/screens/welcomePage.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'screens/agenda.dart';
 import 'screens/calendar.dart';

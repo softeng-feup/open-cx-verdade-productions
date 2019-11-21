@@ -1,4 +1,5 @@
-import 'package:conferly/screens/welcomePage.dart';
+import 'package:conferly/screens/WelcomePage.dart';
+import 'package:conferly/utils/currentUser.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -6,7 +7,8 @@ import 'screens/agenda.dart';
 import 'screens/calendar.dart';
 import 'screens/chat.dart';
 import 'screens/profile.dart';
-import 'screens/welcomePage.dart';
+import 'screens/WelcomePage.dart';
+
 
 //void main() => runApp(MyApp());
 
@@ -20,7 +22,7 @@ class MyApp2 extends StatelessWidget {
       theme: new ThemeData(
         primarySwatch: Colors.orange,
       ),
-      home: welcomePage(),
+      home: new WelcomePage(auth: new Auth())
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:conferly/screens/sign_in.dart';
 import 'package:conferly/screens/sign_up.dart';
+import 'package:conferly/utils/currentUser.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -8,13 +9,16 @@ import 'package:firebase_auth/firebase_auth.dart';
  * This page is going to have signup and sign in
  */
 
-class welcomePage extends StatefulWidget {
+class WelcomePage extends StatefulWidget {
+  WelcomePage({this.auth});
+
+  final BaseAuth auth;
 
   @override
-  _welcomePageState createState() => _welcomePageState();
+  _WelcomePageState createState() => _WelcomePageState();
 }
 
-class _welcomePageState extends State<welcomePage> {
+class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,11 +43,11 @@ class _welcomePageState extends State<welcomePage> {
   }
 
   void navigateToSignIn() {
-    Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginPage(),fullscreenDialog: true));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> LoginPage(auth: widget.auth),fullscreenDialog: true));
   }
 
   void navigateToSignUP() {
-    Navigator.push(context, MaterialPageRoute(builder: (context)=> SignupPage(),fullscreenDialog: true));
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> SignupPage(),fullscreenDialog: true));
 
   }
 }

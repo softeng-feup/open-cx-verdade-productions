@@ -63,7 +63,8 @@ class _SignupPageState extends State<SignupPage> {
       _formKey.currentState.save();
 
      try {
-       FirebaseUser user = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password);
+       AuthResult user = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password);
+//       user.additionalUserInfo.providerId
        //user.sendEmailVerification();
        Navigator.of(context).pop();
        Navigator.pushReplacement(

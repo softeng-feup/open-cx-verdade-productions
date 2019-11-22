@@ -13,8 +13,9 @@ class Bubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var dateTime = DateTime.fromMillisecondsSinceEpoch(message.time, isUtc: true);
-    String dateString = dateTime.hour.toString().padLeft(2,'0') + ":" + dateTime.minute.toString().padLeft(2,'0');
+    print("Message: ");
+    print(message.time);
+    String dateString = message.time.toDate().hour.toString().padLeft(2,'0') + ":" + message.time.toDate().minute.toString().padLeft(2,'0');
     final bg = message.sentByProfile ? Colors.white : Colors.greenAccent.shade100;
     final align = message.sentByProfile ? CrossAxisAlignment.start : CrossAxisAlignment.end;
     final icon = delivered ? Icons.done_all : Icons.done;

@@ -9,32 +9,30 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DetailChat extends StatefulWidget {
-  final indexProfile;
+  DocumentSnapshot chat;
 
-  DetailChat(this.indexProfile);
+  DetailChat(this.chat);
 
   @override
   DetailChatState createState() {
-    return new DetailChatState(indexProfile);
+    return new DetailChatState(chat);
   }
 }
 
 class DetailChatState extends State<DetailChat> {
-  int indexProfile;
+  DocumentSnapshot chat;
 
-//  Firestore.instance.collection('Messages').snapshots();
+  DetailChatState(this.chat);
 
-  DetailChatState(this.indexProfile);
+  final ScrollController listScrollController = new ScrollController();
 
-  final TextEditingController _textEditingController =
-      new TextEditingController();
-  bool _isComposingMessage = false;
+  final TextEditingController _textEditingController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(MyApp.chatProfiles[indexProfile].name),
+          title: Text(chat['name']),
         ),
         body: Stack(
           children: <Widget>[
@@ -51,57 +49,15 @@ class DetailChatState extends State<DetailChat> {
             // Loading
           ],
         )
-
-//        new Column(
-//          children: <Widget>[
-//            new StreamBuilder<QuerySnapshot>(
-//                stream: Firestore.instance.collection('Messages').snapshots(),
-//                builder: (BuildContext context,
-//                    AsyncSnapshot<QuerySnapshot> snapshot) {
-//                  if (snapshot.hasError)
-//                    return new Text('Error: ${snapshot.error}');
-//                  switch (snapshot.connectionState) {
-//                    case ConnectionState.waiting:
-//                      return new Text('Loading...');
-//                    default:
-//                      return new ListView(
-//                        children: snapshot.data.documents
-//                            .map((DocumentSnapshot document) {
-//                          return new Bubble(message: Message(
-//                              document['message'], document['sender'], document['date']));
-//                        }).toList(),
-//                      );
-//                  }
-//
-//                }
-//            ),
-////            new Expanded(
-////                child: ListView.builder(
-////                    padding: const EdgeInsets.all(8),
-////                    itemCount: MyApp.chatProfiles[indexProfile].messages.length,
-////                    itemBuilder: (BuildContext context, int index) {
-////                      return Bubble(message: MyApp.chatProfiles[indexProfile].messages[index]);})
-////            ),
-//            new Divider(height: 1.0),
-//
-//            new Container(
-//              decoration:
-//              new BoxDecoration(color: Theme.of(context).cardColor),
-//              child: _buildTextComposer(),
-//            ),
-//
-//          ],
-//        )
-
-        );
+    );
   }
 
   Widget buildListMessage() {
     return Flexible(
       child: StreamBuilder(
         stream: Firestore.instance
-            .collection('Messages')
-            .document('7YVPXITbqJqzozTmXdpM')
+            .collection('Chats')
+            .document(chat.documentID)
             .collection('messages')
             .orderBy('time', descending: true)
             .limit(20)
@@ -114,10 +70,10 @@ class DetailChatState extends State<DetailChat> {
             return ListView.builder(
               padding: EdgeInsets.all(10.0),
               itemBuilder: (context, index) => Bubble(message: Message(
-                  snapshot.data.documents[index]['message'], snapshot.data.documents[index]['sender'], snapshot.data.documents[index]['time'])),
+                  snapshot.data.documents[index]['text'], snapshot.data.documents[index]['sender'] != MyApp.firebaseUser.uid, snapshot.data.documents[index]['time'])),
               itemCount: snapshot.data.documents.length,
               reverse: true,
-//              controller: listScrollController,
+              controller: listScrollController,
             );
           }
         },
@@ -128,9 +84,7 @@ class DetailChatState extends State<DetailChat> {
   Widget _buildTextComposer() {
     return new IconTheme(
         data: new IconThemeData(
-          color: _isComposingMessage
-              ? Theme.of(context).accentColor
-              : Theme.of(context).disabledColor,
+          color: Theme.of(context).accentColor
         ),
         child: new Container(
           margin: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -150,11 +104,6 @@ class DetailChatState extends State<DetailChat> {
               new Flexible(
                 child: new TextField(
                   controller: _textEditingController,
-                  onChanged: (String messageText) {
-                    setState(() {
-                      _isComposingMessage = messageText.length > 0;
-                    });
-                  },
                   onSubmitted: _textMessageSubmitted,
                   decoration:
                       new InputDecoration.collapsed(hintText: "Send a message"),
@@ -172,18 +121,12 @@ class DetailChatState extends State<DetailChat> {
   IconButton getDefaultSendButton() {
     return new IconButton(
       icon: new Icon(Icons.send),
-      onPressed: _isComposingMessage
-          ? () => _textMessageSubmitted(_textEditingController.text)
-          : null,
+      onPressed: () => _textMessageSubmitted(_textEditingController.text)
     );
   }
 
   Future<Null> _textMessageSubmitted(String text) async {
     _textEditingController.clear();
-
-    setState(() {
-      _isComposingMessage = false;
-    });
 
     _sendMessage(text);
   }
@@ -191,23 +134,29 @@ class DetailChatState extends State<DetailChat> {
 
   void _sendMessage(String messageText) {
 
+    if (messageText.trim() != '') {
       var documentReference = Firestore.instance
-          .collection('Messages')
-          .document('7YVPXITbqJqzozTmXdpM')
+          .collection('Chats')
+          .document(chat.documentID)
           .collection('messages')
-          .document(DateTime.now().millisecondsSinceEpoch.toString());
+          .document(DateTime
+          .now()
+          .millisecondsSinceEpoch
+          .toString());
 
       Firestore.instance.runTransaction((transaction) async {
         await transaction.set(
           documentReference,
           {
-            'sender' : true,
+            'sender': MyApp.firebaseUser.uid,
             'time': Timestamp.now(),
-            'message': messageText
+            'text': messageText
           },
         );
         print("Done writing message");
       });
-//      listScrollController.animateTo(0.0, duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+      listScrollController.animateTo(
+          0.0, duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+    }
   }
 }

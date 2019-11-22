@@ -50,6 +50,7 @@ class _LoginPageState extends State<LoginPage> {
         });
 
         if (userId.length > 0 && userId != null) {
+          MyApp.firebaseUser = user;
           Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> MyApp()));
         }
 

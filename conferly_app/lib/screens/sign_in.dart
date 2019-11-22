@@ -41,6 +41,10 @@ class _LoginPageState extends State<LoginPage> {
         print( widget);
         userId = await widget.auth.signIn(_email, _password);
         print('Signed in: $userId');
+
+        FirebaseUser user = await widget.auth.getCurrentUser();
+
+        print("User on: ${user.uid}");
         setState(() {
         _isLoading = false;
         });

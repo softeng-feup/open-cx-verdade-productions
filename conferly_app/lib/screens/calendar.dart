@@ -29,21 +29,6 @@ class CalendarState extends State<Calendar>{
       );
   }
 
-/*
-  Widget _showEvents() {
-    return ListView.separated(
-      padding: const EdgeInsets.all(16.0),
-      itemCount: MyApp.events.length,
-      itemBuilder: (BuildContext context, int index) {
-        return Container(
-          height: 50,
-          child: Center(child: _buildRow(MyApp.events[index])),
-        );
-      },
-      separatorBuilder: (BuildContext context, int index) => const Divider(),
-    );
-  }
-*/
 
   Widget _buildRow(DocumentSnapshot event) {
     final bool alreadySaved = MyApp.saved.contains(event);

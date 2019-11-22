@@ -1,11 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:conferly/utils/currentUser.dart';
 
 import 'package:conferly/main.dart';
+
 
 class AgendaState extends State<Agenda> {
 
   final _biggerFont = const TextStyle(fontSize: 18.0);
+
+  AgendaState();
 
   @override
   Widget build(BuildContext context) {
@@ -16,14 +21,24 @@ class AgendaState extends State<Agenda> {
     );
   }
 
+  void inputData() async {
+    //FirebaseUser user =  await auth.currentUser() ;
+    //var uid = user.uid;
+    //print(uid);
+    // here you write the codes to input the data into firestore
+  }
+
   Widget _showSaved() {
+
     return ListView.separated(
       padding: const EdgeInsets.all(16.0),
       itemCount: MyApp.saved.length,
       itemBuilder: (BuildContext context, int index) {
         return Container(
           height: 50,
-          child: Center(child: _buildRow(MyApp.saved[index])),
+          //child: Center(child: _buildRow(MyApp.saved[index])),
+          child: RaisedButton(onPressed: inputData,
+              )
         );
       },
       separatorBuilder: (BuildContext context, int index) => const Divider(),

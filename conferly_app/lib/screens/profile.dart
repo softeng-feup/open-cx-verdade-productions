@@ -137,6 +137,9 @@ class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     Size sizeScreen = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Profile'),
+      ),
       body: Stack(
         children: <Widget>[
           _coverImage(sizeScreen),

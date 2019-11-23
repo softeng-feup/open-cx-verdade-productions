@@ -10,6 +10,9 @@ class CalendarState extends State<Calendar>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Agenda'),
+      ),
       body: Center(
         child: _showEvents(),
       ),

@@ -136,9 +136,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(toolbarTitles[bottomSelectedIndex]),
-      ),
+//      appBar: AppBar(
+//        title: Text(toolbarTitles[bottomSelectedIndex]),
+//      ),
       body: buildPageView(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: bottomSelectedIndex,

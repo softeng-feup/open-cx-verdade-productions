@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:conferly/screens/createChat.dart';
 import 'package:flutter/material.dart';
 
 import 'package:conferly/main.dart';
@@ -10,38 +11,32 @@ class Chat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Chat'),
+      ),
         body: Column(
-      children: <Widget>[
-        Container(
-          child: Text(
-            "Messages",
-            style: TextStyle(fontSize: 24),
-          ),
-          margin: EdgeInsets.all(15),
-        ),
-        buildListChats()
-      ],
-    )
-
-//        ListView.builder(
-//            padding: const EdgeInsets.all(8),
-//            itemCount: MyApp.chatProfiles.length + 1,
-//            itemBuilder: (BuildContext context, int index) {
-//              if (index == 0) {
-//                return Container(
+              children: <Widget>[
+//                Container(
 //                  child: Text(
 //                    "Messages",
 //                    style: TextStyle(fontSize: 24),
 //                  ),
 //                  margin: EdgeInsets.all(15),
-//                );
-//              } else {
-//                return getProfileChat(context, index - 1);
-//
-//
-//              }
-//            })
-        );
+//                ),
+                buildListChats()
+              ],
+            ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CreateChat()),
+            );
+          },
+          child: Icon(Icons.add),
+          backgroundColor: Colors.blue,
+        ),
+    );
   }
 
   Widget getProfileChat(BuildContext context, DocumentSnapshot chat) {

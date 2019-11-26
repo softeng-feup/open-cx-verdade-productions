@@ -106,8 +106,8 @@ class _MyHomePageState extends State<MyHomePage> {
         pageChanged(index);
       },
       children: <Widget>[
-        Agenda(),
         Calendar(),
+        Agenda(),
         Chat(),
         Profile()
       ],

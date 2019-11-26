@@ -21,7 +21,9 @@ class CalendarState extends State<Calendar>{
 
   Widget _showEvents() {
     return StreamBuilder(
-        stream: Firestore.instance.collection('Events').snapshots(),
+        stream: Firestore.instance
+            .collection('Events')
+            .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) return const Text('Loading...');
           return ListView.separated(

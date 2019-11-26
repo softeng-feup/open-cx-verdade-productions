@@ -5,6 +5,8 @@ import 'package:conferly/utils/currentUser.dart';
 
 import 'package:conferly/main.dart';
 
+import 'detailEvent.dart';
+
 
 class AgendaState extends State<Agenda> {
 
@@ -32,19 +34,18 @@ class AgendaState extends State<Agenda> {
   }
 
   Widget _showSaved() {
-
-    return ListView.separated(
-      padding: const EdgeInsets.all(16.0),
-      itemCount: MyApp.saved.length,
-      itemBuilder: (BuildContext context, int index) {
-        return Container(
-          height: 50,
-          //child: Center(child: _buildRow(MyApp.saved[index])),
-          child: RaisedButton(onPressed: inputData,
-              )
-        );
-      },
-      separatorBuilder: (BuildContext context, int index) => const Divider(),
+    return StreamBuilder(
+        stream: Firestore.instance
+            .collection('Events')
+            .where("participants", arrayContains: MyApp.firebaseUser.uid)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) return const Text('Loading...');
+          return ListView.separated(
+              itemBuilder: (context, index) => _buildRow(snapshot.data.documents[index]),
+              separatorBuilder: (context, index) => const Divider(),
+              itemCount: snapshot.data.documents.length);
+        }
     );
   }
 
@@ -64,9 +65,9 @@ class AgendaState extends State<Agenda> {
           });},
       ),
       onTap: () {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) => _buildAboutDialog(context, event),
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => DetailEvent(event)),
         );
       },
     );

@@ -16,7 +16,7 @@ class Chat extends StatelessWidget {
               if (index == 0) {
                 return Container(
                   child: Text(
-                    "Messages",
+                    MyApp.firebaseUser.uid,
                     style: TextStyle(fontSize: 24),
                   ),
                   margin: EdgeInsets.all(15),

@@ -40,12 +40,13 @@ class _LoginPageState extends State<LoginPage> {
       try {
         print( widget);
         userId = await widget.auth.signIn(_email, _password);
-        print('Signed in: $userId');
+        MyApp.firebaseUser = await FirebaseAuth.instance.currentUser();
+        print('Signed in: ${MyApp.firebaseUser.uid}');
         setState(() {
         _isLoading = false;
         });
 
-        if (userId.length > 0 && userId != null) {
+        if (MyApp.firebaseUser.uid.length > 0 && MyApp.firebaseUser.uid != null) {
           Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> MyApp()));
         }
 
@@ -180,47 +181,47 @@ class _LoginPageState extends State<LoginPage> {
         ));
   }
 
-}
 
 
-    /*
-      body: Form(
-          key: _formKey,
-          child:Column(
-            children: <Widget>[
-              TextFormField(
-                validator: (input) {
-                  if(input.isEmpty) {
-                    return 'Email must not be empty!';
-                  }
-                },
-                onSaved: (input) => _email = input,
-                decoration: InputDecoration(
-                  labelText: 'Email'
-                ),
-              ),
-              TextFormField(
-                validator: (input) {
-                  if(input.length < 6) {
-                    return "Provide a password longer than 6!";
-                  }
-                },
-                onSaved: (input) => _password = input,
-                decoration: InputDecoration(
-                    labelText: 'Password'
-                ),
-                obscureText: true,
-              ),
-              RaisedButton(
-                onPressed: signIn,
-                child: Text('Sign in'),
-              )
-            ],
-          )
-      )
 
-    );
-  }
+
+//      body: Form(
+//          key: _formKey,
+//          child:Column(
+//            children: <Widget>[
+//              TextFormField(
+//                validator: (input) {
+//                  if(input.isEmpty) {
+//                    return 'Email must not be empty!';
+//                  }
+//                },
+//                onSaved: (input) => _email = input,
+//                decoration: InputDecoration(
+//                  labelText: 'Email'
+//                ),
+//              ),
+//              TextFormField(
+//                validator: (input) {
+//                  if(input.length < 6) {
+//                    return "Provide a password longer than 6!";
+//                  }
+//                },
+//                onSaved: (input) => _password = input,
+//                decoration: InputDecoration(
+//                    labelText: 'Password'
+//                ),
+//                obscureText: true,
+//              ),
+//              RaisedButton(
+//                onPressed: signIn,
+//                child: Text('Sign in'),
+//              )
+//            ],
+//          )
+//      )
+//
+//    );
+//  }
 
   Future<void> signIn() async{
     // validate fields
@@ -229,14 +230,17 @@ class _LoginPageState extends State<LoginPage> {
       try {
         FirebaseUser user = await FirebaseAuth.instance
             .signInWithEmailAndPassword(email: _email, password: _password);
-        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> MyApp()));
+
+//        MyApp.firebaseUser = await FirebaseAuth.instance.currentUser();
+//        Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> MyApp()));
       }
       catch(e) {
+        print("Not working login\n");
         print(e.message);
       }
     }
   }
-}*/
+}
 
 
 

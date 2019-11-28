@@ -1,5 +1,6 @@
 import 'package:conferly/screens/WelcomePage.dart';
 import 'package:conferly/utils/currentUser.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -28,6 +29,8 @@ class MyApp2 extends StatelessWidget {
 }
 
 class MyApp extends StatelessWidget {
+
+  static FirebaseUser firebaseUser;
 
   static final saved = <DocumentSnapshot>[];
 

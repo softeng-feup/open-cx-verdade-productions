@@ -45,7 +45,6 @@ class AgendaState extends State<Agenda> {
   }
 
   Widget _buildRow(DocumentSnapshot event) {
-    final bool alreadySaved = MyApp.saved.contains(event);
     return ListTile(
       title: Text(
         event['name'],
@@ -56,7 +55,11 @@ class AgendaState extends State<Agenda> {
         color: Colors.lightBlueAccent[100],
         onPressed: () {
           setState(() {
-            MyApp.saved.remove(event);
+            var newParticipants = new List<String>.from(event['participants']);
+            newParticipants.remove(MyApp.firebaseUser.uid);
+            event.reference.updateData({
+              'participants' : newParticipants,
+            });
           });},
       ),
       onTap: () {
@@ -69,7 +72,6 @@ class AgendaState extends State<Agenda> {
   }
 
   Widget _buildAboutDialog(BuildContext context, DocumentSnapshot event) {
-    final bool alreadySaved = MyApp.saved.contains(event);
     var bottom = Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -80,7 +82,11 @@ class AgendaState extends State<Agenda> {
           color: Colors.lightBlueAccent[100],
           onPressed: () {
             setState(() {
-              MyApp.saved.remove(event);
+              var newParticipants = new List<String>.from(event['participants']);
+              newParticipants.remove(MyApp.firebaseUser.uid);
+              event.reference.updateData({
+                'participants' : newParticipants,
+              });
             });
             Navigator.of(context).pop();},
         ),

@@ -36,7 +36,8 @@ class CalendarState extends State<Calendar>{
 
 
   Widget _buildRow(DocumentSnapshot event) {
-    final bool alreadySaved = MyApp.saved.contains(event);
+    var participants = new List<String>.from(event['participants']);
+    final bool alreadySaved = participants.contains(MyApp.firebaseUser.uid);
     return ListTile(
       title: Text(
         event['name'],
@@ -47,16 +48,15 @@ class CalendarState extends State<Calendar>{
         color: alreadySaved ?  Colors.lightBlueAccent[100] : null,
         onPressed: () {
           setState(() {
+            var newParticipants = new List<String>.from(event['participants']);
+              newParticipants.remove(MyApp.firebaseUser.uid);
             if (alreadySaved) {
-              MyApp.saved.remove(event);
             } else {
-              var newParticipants = new List<String>.from(event['participants']);
               newParticipants.add(MyApp.firebaseUser.uid);
-              event.reference.updateData({
-                'participants' : newParticipants,
-              });
-              MyApp.saved.add(event);
             }
+            event.reference.updateData({
+              'participants' : newParticipants,
+            });
           });},
       ),
       onTap: () {
@@ -69,7 +69,8 @@ class CalendarState extends State<Calendar>{
   }
 
   Widget _buildAboutDialog(BuildContext context, DocumentSnapshot event) {
-    final bool alreadySaved = MyApp.saved.contains(event);
+    var participants = new List<String>.from(event['participants']);
+    final bool alreadySaved = participants.contains(MyApp.firebaseUser.uid);
     var bottom = Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -80,11 +81,15 @@ class CalendarState extends State<Calendar>{
           color: alreadySaved ? Colors.lightBlueAccent[100] : null,
           onPressed: () {
             setState(() {
+              var newParticipants = new List<String>.from(event['participants']);
               if (alreadySaved) {
-                MyApp.saved.remove(event);
+                newParticipants.remove(MyApp.firebaseUser.uid);
               } else {
-                MyApp.saved.add(event);
+                newParticipants.add(MyApp.firebaseUser.uid);
               }
+              event.reference.updateData({
+                'participants' : newParticipants,
+              });
             });
             Navigator.of(context).pop();},
         )

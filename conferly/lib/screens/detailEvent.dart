@@ -23,6 +23,9 @@ class DetailEventState extends State<DetailEvent> {
 
   @override
   Widget build(BuildContext context) {
+    var participants = new List<String>.from(this.event['participants']);
+    final bool alreadySaved = participants.contains(MyApp.firebaseUser.uid);
+
     return Scaffold(
         appBar: AppBar(
           title: Text(event['name']),
@@ -87,10 +90,23 @@ class DetailEventState extends State<DetailEvent> {
               margin: EdgeInsets.fromLTRB(60, 4, 60, 16),
               child: RaisedButton(
                 onPressed: () {
-
+                  var newParticipants = new List<String>.from(event['participants']);
+                  if (alreadySaved) {
+                    newParticipants.remove(MyApp.firebaseUser.uid);
+                  }
+                  else {
+                    newParticipants.add(MyApp.firebaseUser.uid);
+                  }
+                  event.reference.updateData({
+                    'participants' : newParticipants,
+                  });
+                  Navigator.of(context).pop();
                 },
-                child: const Text(
-                    'Add to calendar',
+                child: alreadySaved ? const Text(
+                    'Remove from Agenda',
+                    style: TextStyle(fontSize: 20)
+                ) : const Text(
+                    'Add to Agenda',
                     style: TextStyle(fontSize: 20)
                 ),
               ),

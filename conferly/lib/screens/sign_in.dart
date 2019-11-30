@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conferly/main.dart';
 import 'package:conferly/utils/currentUser.dart';
 import 'package:flutter/material.dart';
@@ -10,15 +11,20 @@ class LoginPage extends StatefulWidget {
   final VoidCallback onLoggedIn;
 
   @override
-  State<StatefulWidget> createState() => new _LoginPageState();
+  State<StatefulWidget> createState() => new _LoginPageState(auth);
 }
 
 class _LoginPageState extends State<LoginPage> {
+  _LoginPageState(this.auth);
+
+  final BaseAuth auth;
+
   String _email, _password,_errorMessage;
   bool _isIos;
   bool _isLoading;
 
   final _formKey = new GlobalKey<FormState>();
+
 
   bool _validateAndSave() {
     final form = _formKey.currentState;
@@ -49,8 +55,18 @@ class _LoginPageState extends State<LoginPage> {
         _isLoading = false;
         });
 
+        Firestore.instance
+            .collection('Users')
+            .document(user.uid)
+            .get()
+            .then((DocumentSnapshot ds) {
+            print(ds['email']);
+        });
+
+
         if (user.uid.length > 0 && user.uid != null) {
           MyApp.firebaseUser = user;
+          MyApp.firebaseAuth = auth;
           Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=> MyApp()));
         }
 

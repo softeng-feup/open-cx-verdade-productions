@@ -31,6 +31,7 @@ class MyApp2 extends StatelessWidget {
 class MyApp extends StatelessWidget {
 
   static FirebaseUser firebaseUser;
+  static BaseAuth firebaseAuth;
 
   static final saved = <DocumentSnapshot>[];
 
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
     new MessageProfile("Rafa Varela", 12312321312, false, messages),
     new MessageProfile("Abelha", 12312321312, false, messages),
   ];
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {

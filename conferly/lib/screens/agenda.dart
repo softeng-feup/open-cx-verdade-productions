@@ -26,12 +26,7 @@ class AgendaState extends State<Agenda> {
     );
   }
 
-  void inputData() async {
-    //FirebaseUser user =  await auth.currentUser() ;
-    //var uid = user.uid;
-    //print(uid);
-    // here you write the codes to input the data into firestore
-  }
+
 
   Widget _showSaved() {
     return StreamBuilder(

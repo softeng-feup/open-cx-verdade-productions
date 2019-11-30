@@ -50,6 +50,11 @@ class CalendarState extends State<Calendar>{
             if (alreadySaved) {
               MyApp.saved.remove(event);
             } else {
+              var newParticipants = new List<String>.from(event['participants']);
+              newParticipants.add(MyApp.firebaseUser.uid);
+              event.reference.updateData({
+                'participants' : newParticipants,
+              });
               MyApp.saved.add(event);
             }
           });},

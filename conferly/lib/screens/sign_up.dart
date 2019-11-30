@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conferly/screens/sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -63,7 +64,20 @@ class _SignupPageState extends State<SignupPage> {
       _formKey.currentState.save();
 
      try {
-       AuthResult user = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password);
+       AuthResult auth = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password);
+       Firestore.instance
+           .collection('Users').document(auth.user.uid)
+              .setData({
+                  'email' : auth.user.email,
+                  'name' : auth.user.displayName,
+                  'uid' : auth.user.uid,
+                  'events' : [],
+                  'description' : '',
+                  'location' : '',
+                  'status' : '',
+                  'interests' : [],
+       });
+
 //       user.additionalUserInfo.providerId
        //user.sendEmailVerification();
        Navigator.of(context).pop();

@@ -3,6 +3,8 @@ import 'package:conferly/screens/sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../main.dart';
+
 class SignupPage extends StatefulWidget {
   @override
   _SignupPageState createState() => _SignupPageState();
@@ -78,11 +80,14 @@ class _SignupPageState extends State<SignupPage> {
                   'interests' : [],
        });
 
+       AuthResult login = await FirebaseAuth.instance
+           .signInWithEmailAndPassword(email: _email, password: _password);
+
 //       user.additionalUserInfo.providerId
        //user.sendEmailVerification();
        Navigator.of(context).pop();
        Navigator.pushReplacement(
-           context, MaterialPageRoute(builder: (context) => LoginPage()));
+           context, MaterialPageRoute(builder: (context) => MyApp()));
      } catch(e) {
 
      }

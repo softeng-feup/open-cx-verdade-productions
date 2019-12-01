@@ -1,6 +1,7 @@
 import 'package:conferly/notifier/auth_notifier.dart';
 import 'package:conferly/services/auth.dart';
 import 'package:conferly/utils/snack_bar.dart';
+import 'package:conferly/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -17,6 +18,7 @@ class LoginRegisterPage extends StatefulWidget {
 class _LoginRegisterPageState extends State<LoginRegisterPage> with SingleTickerProviderStateMixin {
   final AuthService _auth = AuthService();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  bool loading = false;
 
   final FocusNode myFocusNodeEmailLogin = FocusNode();
   final FocusNode myFocusNodePasswordLogin = FocusNode();
@@ -44,7 +46,7 @@ class _LoginRegisterPageState extends State<LoginRegisterPage> with SingleTicker
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    return loading ? Loading() : Scaffold(
       key: _scaffoldKey,
       body: NotificationListener<OverscrollIndicatorNotification>(
         onNotification: (overscroll) {
@@ -58,7 +60,7 @@ class _LoginRegisterPageState extends State<LoginRegisterPage> with SingleTicker
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(top: 20.0),
+                  padding: EdgeInsets.only(top: 50.0),
                 ),
                 RichText(
                   text: TextSpan(
@@ -141,8 +143,6 @@ class _LoginRegisterPageState extends State<LoginRegisterPage> with SingleTicker
     ]);
 
     _pageController = PageController();
-
-    AuthNotifier authNotifier = Provider.of<AuthNotifier>(context, listen: false);
   }
 
   Widget _buildMenuBar(BuildContext context) {
@@ -610,17 +610,18 @@ class _LoginRegisterPageState extends State<LoginRegisterPage> with SingleTicker
 
     if(loginEmailController.text.isEmpty) {
       showInSnackBar(_scaffoldKey, 'Enter an email');
-    } else if(loginPasswordController.text.length < 6) {
-      showInSnackBar(_scaffoldKey, 'Enter a password 6+ chars long');
+    } else if(loginPasswordController.text.isEmpty) {
+      showInSnackBar(_scaffoldKey, 'Enter a password');
     } else {
+      setState(() => loading = true);
       bool result = await _auth.signInWithEmailAndPassword(
           loginEmailController.text,
           loginPasswordController.text,
           authNotifier
       );
       if (!result) {
-        showInSnackBar(
-            _scaffoldKey, 'Could not sign in with those credentials');
+        setState(() => loading = false);
+        showInSnackBar(_scaffoldKey, 'Could not sign in with those credentials');
       }
     }
   }
@@ -641,11 +642,12 @@ class _LoginRegisterPageState extends State<LoginRegisterPage> with SingleTicker
       showInSnackBar(_scaffoldKey, 'Enter a name');
     } else if(signupEmailController.text.isEmpty) {
       showInSnackBar(_scaffoldKey, 'Enter an email');
-    } else if(signupPasswordController.text.length < 6) {
-      showInSnackBar(_scaffoldKey, 'Enter a password 6+ chars long');
+    } else if(signupPasswordController.text.isEmpty) {
+      showInSnackBar(_scaffoldKey, 'Enter a password');
     } else if(signupPasswordController.text != signupConfirmPasswordController.text) {
       showInSnackBar(_scaffoldKey, 'Your password and confirmation password do not match');
     } else {
+      setState(() => loading = true);
       bool result = await _auth.registerWithEmailAndPassword(
           signupEmailController.text,
           signupPasswordController.text,
@@ -653,6 +655,7 @@ class _LoginRegisterPageState extends State<LoginRegisterPage> with SingleTicker
           authNotifier
       );
       if (!result) {
+        setState(() => loading = false);
         showInSnackBar(_scaffoldKey, 'Please supply valid credentials');
       }
     }

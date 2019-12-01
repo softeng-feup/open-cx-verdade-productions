@@ -1,5 +1,6 @@
 import 'package:conferly/models/user.dart';
 import 'package:conferly/notifier/auth_notifier.dart';
+import 'package:conferly/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -9,7 +10,7 @@ class AuthService {
 
   // create user obj based on firebase user
   User _userFromFirebaseUser(FirebaseUser user) {
-    return user != null ? User(uid: user.uid) : null;
+    return user != null ? User(uid: user.uid, email: user.email) : null;
   }
 
   // auth change user stream
@@ -24,8 +25,8 @@ class AuthService {
         .catchError((error) => print(error.code));
 
     if(result != null) {
-      FirebaseUser user = result.user;
-      authNotifier.setUser(_userFromFirebaseUser(user));
+      FirebaseUser firebaseUser = result.user;
+      await DatabaseService().getUser(firebaseUser.uid,authNotifier);
       return true;
     }
 
@@ -61,8 +62,8 @@ class AuthService {
         .catchError((error) => print(error.code));
 
     if(result != null) {
-      FirebaseUser user = result.user;
-      authNotifier.setUser(_userFromFirebaseUser(user));
+      FirebaseUser firebaseUser = result.user;
+      await DatabaseService().introduceUserData(firebaseUser.uid, email, name, authNotifier);
       return true;
     }
 

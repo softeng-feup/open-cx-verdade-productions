@@ -1,20 +1,24 @@
+import 'package:conferly/notifier/event_notifier.dart';
 import 'package:conferly/screens/authenticate/login_register.dart';
-import 'package:conferly/screens/events/calendar.dart' as prefix0;
+import 'package:conferly/widgets/loading.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'notifier/auth_notifier.dart';
-import 'screens/events//calendar.dart';
 import 'screens/events/agenda.dart';
 import 'screens/chat.dart';
 import 'screens/profile.dart';
 import 'package:provider/provider.dart';
+import 'package:conferly/screens/events/calendar.dart';
 
 void main() => runApp(MultiProvider(
   providers: [
     ChangeNotifierProvider(
       create: (context) => AuthNotifier(),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => EventNotifier(),
     ),
   ],
   child: MyApp2(),

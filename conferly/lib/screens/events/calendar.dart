@@ -70,10 +70,6 @@ class CalendarState extends State<Calendar> {
           });},
       ),
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => DetailEvent(event)),
-        );
       },
     );
   }

@@ -1,29 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:conferly/models/event.dart';
+import 'package:conferly/notifier/event_notifier.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class DetailEvent extends StatefulWidget {
-
-  DocumentSnapshot event;
-
+  Event event;
   DetailEvent(this.event);
 
   @override
-  DetailEventState createState() {
-    return new DetailEventState(event);
-  }
+  DetailEventState createState() => DetailEventState();
 }
 
 class DetailEventState extends State<DetailEvent> {
 
-  DocumentSnapshot event;
-
-  DetailEventState(this.event);
-
   @override
   Widget build(BuildContext context) {
+    EventNotifier eventNotifier = Provider.of<EventNotifier>(context, listen: false);
+    Event event = eventNotifier.currentEvent;
+
     return Scaffold(
         appBar: AppBar(
-          title: Text(event['name']),
+          title: Text(event.title),
         ),
         body: ListView(
 
@@ -39,7 +37,7 @@ class DetailEventState extends State<DetailEvent> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      Text(event['speaker'], style: TextStyle(fontSize: 25),),
+                      Text(event.speaker, style: TextStyle(fontSize: 25),),
                       FlatButton(
                         onPressed: () {
 
@@ -67,7 +65,7 @@ class DetailEventState extends State<DetailEvent> {
             ),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 60, vertical: 4),
-              child: Text(event['description'], style: TextStyle(fontSize: 14)),
+              child: Text(event.description, style: TextStyle(fontSize: 14)),
             ),
             Container(
               margin: EdgeInsets.fromLTRB(60, 30, 60, 4),

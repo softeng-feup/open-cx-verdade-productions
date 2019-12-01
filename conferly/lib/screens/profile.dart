@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:conferly/main.dart';
 import 'package:flutter/material.dart';
 
 
 class InfoWrapper extends StatelessWidget {
 
   InfoWrapper({this.text, this.icon, this.bg});
+
   final String text;
   final Icon icon;
   final Color bg;
@@ -11,7 +14,7 @@ class InfoWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10.0),
+      padding: EdgeInsets.all(8.0),
       decoration: BoxDecoration(
         color: this.bg,
         borderRadius: BorderRadius.circular(10.0),
@@ -19,26 +22,68 @@ class InfoWrapper extends StatelessWidget {
       child: Row(
           children: <Widget>[
             this.icon, // icon
-            Text(this.text), // text
+            Expanded (
+                child: Container (
+                  margin: EdgeInsets.symmetric(horizontal: 8),
+                  child: Text(this.text),
+                )
+            )
           ]
       ),
-
-
     );
   }
 
 }
 
+class Profile extends StatefulWidget {
+
+  @override
+  ProfileState createState() {
+    return new ProfileState();
+  }
+}
 
 
+class ProfileState extends State<Profile> {
 
-class Profile extends StatelessWidget {
+  String _fullName = "Name";
+  String _status = "Status";
+  String _bio = "Bio";
+  String _local = "Location";
+  String _work = "Work";
+  List<String> _interests = [];
+  bool _loading = true;
 
-  final String _fullName = "Tiago Verdade";
-  final String _status = "Staff";
-  final String _bio = "'Sou o Tiago e Mi gusta los meninos' ";
-  final String _local = "Porto, Portugal";
-  final String _work = "Student";
+  getUserInfo() async {
+    Firestore.instance
+        .collection("Users")
+        .document(MyApp.firebaseUser.uid)
+        .get().then((document) {
+      if (document.exists) {
+        setState(() {
+          if (document.data['name'] != "" && document.data['name'] != null)
+            _fullName = document.data['name'];
+          if (document.data['description'] != "" &&
+              document.data['description'] != null)
+            _bio = document.data['description'];
+          if (document.data['location'] != "" &&
+              document.data['location'] != null)
+            _local = document.data['location'];
+          if (document.data['status'] != "" && document.data['status'] != null)
+            _status = document.data['status'];
+          if (document.data['work'] != "" && document.data['work'] != null)
+            _work = document.data['work'];
+          _interests.clear();
+          _interests = document.data['interests'].cast<String>();
+          _loading = false;
+        });
+      }
+    });
+  }
+
+  ProfileState() {
+    getUserInfo();
+  }
 
   Widget _coverImage(Size screen) {
     return Container(
@@ -51,32 +96,31 @@ class Profile extends StatelessWidget {
         ),
       ),
     );
-
   }
 
   Widget _profileImage() {
     return Center(
-      child: Container (
-        width: 140.0, height:140.0,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/profile.png'),
-            fit: BoxFit.cover,
+        child: Container(
+          width: 140.0, height: 140.0,
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/profile.png'),
+                fit: BoxFit.cover,
+              ),
+              borderRadius: BorderRadius.circular(100.0),
+              border: Border.all(
+                color: Colors.grey,
+                width: 5.0,
+              )
           ),
-          borderRadius: BorderRadius.circular(100.0),
-          border: Border.all(
-            color:Colors.grey,
-            width:5.0,
-          )
-        ),
-      )
+        )
     );
   }
 
   Widget _buildFullName() {
     TextStyle _nameStyle = TextStyle(
       fontFamily: 'Roboto',
-      color:Colors.black,
+      color: Colors.black,
       fontSize: 28.0,
       fontWeight: FontWeight.w700,
     );
@@ -88,21 +132,23 @@ class Profile extends StatelessWidget {
 
   Widget _buildStatus(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 4.0,horizontal: 50.0),
-      decoration: BoxDecoration(
-        color:Theme.of(context).scaffoldBackgroundColor,
-        borderRadius: BorderRadius.circular(4.0),
-      ),
-      child:Text(
-        _status,
-        style:TextStyle(
-          fontFamily: 'Spectral',
-          color: Colors.black,
-          fontSize: 20.0,
-          fontWeight: FontWeight.w300,
+        padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 50.0),
+        decoration: BoxDecoration(
+          color: Theme
+              .of(context)
+              .scaffoldBackgroundColor,
+          borderRadius: BorderRadius.circular(4.0),
+        ),
+        child: Text(
+            _status,
+            style: TextStyle(
+              fontFamily: 'Spectral',
+              color: Colors.black,
+              fontSize: 20.0,
+              fontWeight: FontWeight.w300,
 
+            )
         )
-      )
 
     );
   }
@@ -118,79 +164,95 @@ class Profile extends StatelessWidget {
     );
     return Text(
       _bio,
-      style:_style,
+      style: _style,
+      textAlign: TextAlign.center,
     );
   }
 
   Widget _buildSperator(Size screen) {
     return Container(
-      width: screen.width/1.6,
+      width: screen.width / 1.6,
       height: 2.0,
-      color:Colors.black54,
-      margin: EdgeInsets.only(top:15.0),
+      color: Colors.black54,
+      margin: EdgeInsets.only(top: 15.0, bottom: 8.0),
+    );
+  }
+
+  Widget _buildInterests() {
+    List <Widget> chipChildren = new List<Widget>();
+    for (int i = 0; i < _interests.length; i++) {
+      chipChildren.add(
+          Chip(
+            label: Text(_interests[i]),
+            avatar: Icon(Icons.adb),
+            labelPadding: EdgeInsets.all(5),
+            padding: EdgeInsets.all(5),
+          )
+      );
+    }
+
+    return Wrap(
+        spacing: 8.0,
+        runSpacing: 2.0,
+        alignment: WrapAlignment.center,
+        children: chipChildren
     );
   }
 
 
-
   @override
   Widget build(BuildContext context) {
-    Size sizeScreen = MediaQuery.of(context).size;
+    Size sizeScreen = MediaQuery
+        .of(context)
+        .size;
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Profile'),
-      ),
-      body: Stack(
-        children: <Widget>[
-          _coverImage(sizeScreen),
-          SafeArea(
-            child: SingleChildScrollView(
+        appBar: AppBar(
+          title: Text('Profile'),
+        ),
+        body: _loading ?
+        Center(
+            child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(
+                    Theme
+                        .of(context)
+                        .accentColor)))
+            : SingleChildScrollView(
+          child: Stack(
+          children: <Widget>[
+            _coverImage(sizeScreen),
+            Container(
+              margin:EdgeInsets.all(16),
               child: Column(
-                children: <Widget>[
-                  SizedBox(height: sizeScreen.height/6.4,),
-                  _profileImage(),
-                  _buildFullName(),
-                  _buildStatus(context),
-                  _buildBio(),
-                  _buildSperator(sizeScreen),
-                   InfoWrapper(
-                       text:_local,
-                       icon: Icon(Icons.place),
-                       bg: Theme.of(context).scaffoldBackgroundColor),
-                  InfoWrapper(
-                    text: _work,
-                    icon:Icon(Icons.work), bg: Theme.of(context).scaffoldBackgroundColor),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        InfoWrapper(
-                            text:"Robotics",
-                            icon:Icon(Icons.adb),
-                            bg: Colors.grey ),
-                        InfoWrapper(
-                            text:"AI",
-                            icon:Icon(Icons.brush),
-                            bg: Colors.grey ),
-                        InfoWrapper(
-                            text:"Web",
-                            icon:Icon(Icons.wifi),
-                            bg: Colors.grey ),
-                        InfoWrapper(
-                            text:"Android",
-                            icon:Icon(Icons.android),
-                            bg: Colors.grey ),
+                  children: <Widget>[
+                    SizedBox(height: sizeScreen.height / 6.4,),
+                    _profileImage(),
+                    _buildFullName(),
+                    _buildStatus(context),
+                    _buildBio(),
+                    _buildSperator(sizeScreen),
+                    InfoWrapper(
+                        text: _local,
+                        icon: Icon(Icons.place),
+                        bg: Theme
+                            .of(context)
+                            .scaffoldBackgroundColor),
+                    InfoWrapper(
+                        text: _work,
+                        icon: Icon(Icons.work), bg: Theme
+                        .of(context)
+                        .scaffoldBackgroundColor),
+                    _buildInterests()
+                  ],
+                ),
+              )
+          ]
 
-                    ]
-                  ),
-                ],
-              ),
             )
-            ,
-          )
 
-        ],
-      )
+
+        )
     );
+//    );
   }
 
 }

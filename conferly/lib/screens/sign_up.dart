@@ -79,6 +79,7 @@ class _SignupPageState extends State<SignupPage> {
                   'location' : '',
                   'status' : '',
                   'interests' : [],
+                  'work' : ''
        });
 
        AuthResult login = await FirebaseAuth.instance

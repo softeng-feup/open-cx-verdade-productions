@@ -1,24 +1,29 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:conferly/utils/snack_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:conferly/utils/currentUser.dart';
-
+import 'package:conferly/services/auth.dart';
 import 'package:conferly/main.dart';
-
 import 'detailEvent.dart';
 
+class Calendar extends StatefulWidget {
+  @override
+  CalendarState createState() => CalendarState();
+}
 
-class AgendaState extends State<Agenda> {
-
+class CalendarState extends State<Calendar> {
+  final _auth = AuthService();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final _biggerFont = const TextStyle(fontSize: 18.0);
-
-  AgendaState();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
         title: Text('Calendar'),
+          actions: <Widget>[
+            FlatButton.icon(onPressed: () {}, icon: Icon(Icons.person), label: Text('logout')),
+          ],
       ),
       body: Center(
         child: _showSaved(),
@@ -106,9 +111,4 @@ class AgendaState extends State<Agenda> {
       ),
     );
   }
-}
-
-class Agenda extends StatefulWidget {
-  @override
-  AgendaState createState() => AgendaState();
 }

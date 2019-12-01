@@ -29,9 +29,6 @@ class InfoWrapper extends StatelessWidget {
 
 }
 
-
-
-
 class Profile extends StatelessWidget {
 
   final String _fullName = "Tiago Verdade";

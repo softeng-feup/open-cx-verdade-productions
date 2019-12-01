@@ -1,18 +1,39 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:conferly/notifier/auth_notifier.dart';
+import 'package:conferly/services/auth.dart';
+import 'package:conferly/utils/snack_bar.dart';
 import 'package:flutter/material.dart';
 
 import 'package:conferly/main.dart';
+import 'package:provider/provider.dart';
 import 'detailEvent.dart';
 
-class CalendarState extends State<Calendar>{
+class Agenda extends StatefulWidget {
+  @override
+  AgendaState createState() => AgendaState();
+}
+
+class AgendaState extends State<Agenda>{
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  final _auth = AuthService();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   final _biggerFont = const TextStyle(fontSize: 18.0);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text('Agenda'),
-      ),
+          actions: <Widget>[
+            FlatButton.icon(onPressed: _signOut, icon: Icon(Icons.person), label: Text('logout'))
+          ],
+        ),
       body: Center(
         child: _showEvents(),
       ),
@@ -100,9 +121,9 @@ class CalendarState extends State<Calendar>{
       ),
     );
   }
-}
 
-class Calendar extends StatefulWidget {
-  @override
-  CalendarState createState() => CalendarState();
+  void _signOut() {
+    AuthNotifier authNotifier = Provider.of<AuthNotifier>(context, listen: false);
+    _auth.signOut(authNotifier);
+  }
 }

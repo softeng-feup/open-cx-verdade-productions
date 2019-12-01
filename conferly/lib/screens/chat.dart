@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:conferly/main.dart';
 import 'detailChat.dart';
 
-import 'detailEvent.dart';
+import 'events/detailEvent.dart';
 
 class Chat extends StatelessWidget {
   @override

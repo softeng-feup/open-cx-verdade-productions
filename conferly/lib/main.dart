@@ -1,29 +1,41 @@
-import 'package:conferly/screens/WelcomePage.dart';
-import 'package:conferly/utils/currentUser.dart';
+import 'package:conferly/screens/authenticate/login_register.dart';
+import 'package:conferly/screens/events/calendar.dart' as prefix0;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'screens/agenda.dart';
-import 'screens/calendar.dart';
+import 'notifier/auth_notifier.dart';
+import 'screens/events//calendar.dart';
+import 'screens/events/agenda.dart';
 import 'screens/chat.dart';
 import 'screens/profile.dart';
-import 'screens/WelcomePage.dart';
+import 'package:provider/provider.dart';
 
-
-//void main() => runApp(MyApp());
-
-void main() => runApp(MyApp2());
+void main() => runApp(MultiProvider(
+  providers: [
+    ChangeNotifierProvider(
+      create: (context) => AuthNotifier(),
+    ),
+  ],
+  child: MyApp2(),
+));
 
 class MyApp2 extends StatelessWidget {
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "form",
-      theme: new ThemeData(
-        primarySwatch: Colors.orange,
+      debugShowCheckedModeBanner: false,
+      title: 'Coding with Curry',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        accentColor: Colors.lightBlue,
       ),
-      home: new WelcomePage(auth: new Auth())
+      home: Consumer<AuthNotifier>(
+        builder: (context, notifier, child) {
+          return notifier.user != null ? Agenda() : LoginRegisterPage();
+        },
+      ),
     );
   }
 }
@@ -153,14 +165,6 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-}
-
-
-class Event {
-  final String title;
-  final String description;
-  final String speaker;
-  Event(this.title, this.description, this.speaker);
 }
 
 class Message {

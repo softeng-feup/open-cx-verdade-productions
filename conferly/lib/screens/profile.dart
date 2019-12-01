@@ -1,45 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conferly/main.dart';
+import 'package:conferly/widgets/InfoWrapper.dart';
 import 'package:flutter/material.dart';
-
-
-class InfoWrapper extends StatelessWidget {
-
-  InfoWrapper({this.text, this.icon, this.bg});
-
-  final String text;
-  final Icon icon;
-  final Color bg;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(8.0),
-      decoration: BoxDecoration(
-        color: this.bg,
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-      child: Row(
-          children: <Widget>[
-            this.icon, // icon
-            Expanded (
-                child: Container (
-                  margin: EdgeInsets.symmetric(horizontal: 8),
-                  child: Text(this.text),
-                )
-            )
-          ]
-      ),
-    );
-  }
-
-}
 
 class Profile extends StatefulWidget {
 
+  String user;
+
+  Profile({this.user});
+
   @override
   ProfileState createState() {
-    return new ProfileState();
+    return new ProfileState(user);
   }
 }
 
@@ -54,10 +26,12 @@ class ProfileState extends State<Profile> {
   List<String> _interests = [];
   bool _loading = true;
 
-  getUserInfo() async {
+  getUserInfo(user) async {
+    if (user == "" || user == null)
+      user = MyApp.firebaseUser.uid;
     Firestore.instance
         .collection("Users")
-        .document(MyApp.firebaseUser.uid)
+        .document(user)
         .get().then((document) {
       if (document.exists) {
         setState(() {
@@ -74,6 +48,7 @@ class ProfileState extends State<Profile> {
           if (document.data['work'] != "" && document.data['work'] != null)
             _work = document.data['work'];
           _interests.clear();
+          if (document.data['interests'] != null)
           _interests = document.data['interests'].cast<String>();
           _loading = false;
         });
@@ -81,8 +56,8 @@ class ProfileState extends State<Profile> {
     });
   }
 
-  ProfileState() {
-    getUserInfo();
+  ProfileState(user) {
+    getUserInfo(user);
   }
 
   Widget _coverImage(Size screen) {
@@ -241,6 +216,7 @@ class ProfileState extends State<Profile> {
                         icon: Icon(Icons.work), bg: Theme
                         .of(context)
                         .scaffoldBackgroundColor),
+                    Container(margin: EdgeInsets.all(4),),
                     _buildInterests()
                   ],
                 ),

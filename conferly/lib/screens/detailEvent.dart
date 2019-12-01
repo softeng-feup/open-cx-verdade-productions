@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:conferly/screens/profile.dart';
+import 'package:conferly/widgets/InfoWrapper.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'package:conferly/main.dart';
 
@@ -25,17 +28,27 @@ class DetailEventState extends State<DetailEvent> {
   Widget build(BuildContext context) {
     var participants = new List<String>.from(this.event['participants']);
     final bool alreadySaved = participants.contains(MyApp.firebaseUser.uid);
+    Timestamp ts = event['startDate'];
+    Timestamp te = event['endDate'];
+
+    final fDate = new DateFormat('EEE, d MMMM');
+    final fTime = new DateFormat('HH:mm');
+
+    String s_date = fDate.format(ts.toDate());
+    String s_time = fTime.format(ts.toDate()) + " - " + fTime.format(te.toDate());
+    String location = (event['location']);
 
     return Scaffold(
         appBar: AppBar(
           title: Text(event['name']),
         ),
         body: ListView(
+          padding: EdgeInsets.all(32),
 
 //          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Container(
-              margin: EdgeInsets.all(24),
+              margin: EdgeInsets.only(bottom: 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
@@ -45,12 +58,15 @@ class DetailEventState extends State<DetailEvent> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
                       Text(event['speaker'], style: TextStyle(fontSize: 25),),
-                      FlatButton(
-                        onPressed: () {
-
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Profile(user: event['speaker_uid'],)),
+                          );
                         },
-                        child: Text(
-                          "Go to profile >",
+                        child: Chip(
+                          label: Text("Go to profile >"),
                         ),
                       )
                     ],
@@ -61,21 +77,39 @@ class DetailEventState extends State<DetailEvent> {
               ),
             )
             ,
-            Container(
-            margin: EdgeInsets.symmetric(horizontal: 60, vertical: 0),
-            child: Text('16 Sep, 16h30-18h30', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
-            )
+//            Container(
+//            margin: EdgeInsets.symmetric(horizontal: 60, vertical: 0),
+//            child: Text('16 Sep, 16h30-18h30', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
+//            ),
+
+            InfoWrapper(
+                text: s_date,
+                icon: Icon(Icons.calendar_today), bg: Theme
+                .of(context)
+                .scaffoldBackgroundColor)
             ,
+            InfoWrapper(
+            text: s_time,
+            icon: Icon(Icons.access_time), bg: Theme
+                .of(context)
+                .scaffoldBackgroundColor)
+            ,
+            InfoWrapper(
+                text: location,
+                icon: Icon(Icons.place), bg: Theme
+                .of(context)
+                .scaffoldBackgroundColor)
+            ,
+//            Container(
+//            margin: EdgeInsets.symmetric(horizontal: 60, vertical: 4),
+//            child: Text(event['location'], style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+//            ),
             Container(
-            margin: EdgeInsets.symmetric(horizontal: 60, vertical: 4),
-            child: Text('Porto, Portugal', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+              child: Text(event['description'], style: TextStyle(fontSize: 16)),
             ),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 60, vertical: 4),
-              child: Text(event['description'], style: TextStyle(fontSize: 14)),
-            ),
-            Container(
-              margin: EdgeInsets.fromLTRB(60, 30, 60, 4),
+              margin: EdgeInsets.only(top: 16),
               child: RaisedButton(
                 onPressed: () {
 
@@ -87,7 +121,7 @@ class DetailEventState extends State<DetailEvent> {
               ),
             ),
             Container(
-              margin: EdgeInsets.fromLTRB(60, 4, 60, 16),
+//              margin: EdgeInsets.fromLTRB(60, 4, 60, 16),
               child: RaisedButton(
                 onPressed: () {
                   var newParticipants = new List<String>.from(event['participants']);

@@ -379,7 +379,7 @@ class _ImageCaptureState extends State<ImageCapture> {
             Uploader(file: _imageFile)
           ]
           else ...[
-            Image.network(profile.getImagePath())
+            profile.isImageSet() ? Image.network(profile.getImagePath()) : Image.asset('assets/images/profile.png')
           ],
         ],
       ),

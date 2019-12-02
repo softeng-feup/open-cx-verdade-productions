@@ -1,12 +1,14 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/services.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conferly/main.dart';
 import 'package:conferly/widgets/InfoWrapper.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 
 class Profile extends StatefulWidget {
 
@@ -34,15 +36,21 @@ class ProfileState extends State<Profile> {
   FirebaseStorage _storage =
   FirebaseStorage(storageBucket: 'gs://conferly-8779b.appspot.com/');
 
+  bool isImageSet(){
+    return imageFile != null;
+  }
+
   String getImagePath() {
+
     StorageReference photo = _storage.ref().child('images/${MyApp.firebaseUser.uid}.png');
     photo.getDownloadURL().then((data){
-      setState(() {
+      if (this.mounted) {
+        setState(() {
           imageFile = data;
-      });
+        });
+      }
     });
     if (imageFile != null) {
-      print(imageFile);
       return imageFile;
     }
     return 'assets/images/profile.png';
@@ -81,6 +89,7 @@ class ProfileState extends State<Profile> {
 
   ProfileState(user) {
     getUserInfo(user);
+    getImagePath();
   }
 
   Widget _coverImage(Size screen) {
@@ -103,14 +112,14 @@ class ProfileState extends State<Profile> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ImageCapture()),
+                MaterialPageRoute(builder: (context) => ImageCapture(profile: this,)),
               );
             },
           ),
           width: 140.0, height: 140.0,
           decoration: BoxDecoration(
               image: DecorationImage(
-                image: new NetworkImage(getImagePath()),
+                image: isImageSet() ? new NetworkImage(getImagePath()) : AssetImage('assets/images/profile.png'),
                 fit: BoxFit.cover,
               ),
               borderRadius: BorderRadius.circular(100.0),
@@ -266,12 +275,21 @@ class ProfileState extends State<Profile> {
 
 
 class ImageCapture extends StatefulWidget {
-  createState() => _ImageCaptureState();
+  final ProfileState profile;
+
+  const ImageCapture({this.profile});
+
+  createState() => _ImageCaptureState(profile: profile);
 }
 
 class _ImageCaptureState extends State<ImageCapture> {
+  final ProfileState profile;
 
   File _imageFile;
+
+  _ImageCaptureState({this.profile});
+
+
 
   Future<void> _pickImage(ImageSource source) async {
     File selected = await ImagePicker.pickImage(source: source);
@@ -295,9 +313,20 @@ class _ImageCaptureState extends State<ImageCapture> {
   }
 
   void _clear() {
-    setState(() {
-      _imageFile = null;
+    /*
+    setState(() async {
+      _imageFile = File('images/profile.png');
+
+      final FirebaseStorage _storage =
+      FirebaseStorage(storageBucket: 'gs://conferly-8779b.appspot.com/');
+      String filePath = 'images/${MyApp.firebaseUser.uid}.png';
+        print('oi');
+        setState(() {
+          _storage.ref().child(filePath).putFile(_imageFile);
+        });
+      print('bye');
     });
+    */
   }
 
   @override
@@ -305,6 +334,7 @@ class _ImageCaptureState extends State<ImageCapture> {
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             IconButton(
               icon: Icon(Icons.photo_camera),
@@ -314,25 +344,30 @@ class _ImageCaptureState extends State<ImageCapture> {
               icon: Icon(Icons.photo_library),
               onPressed: () => _pickImage(ImageSource.gallery),
             ),
+            IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () => _clear(),
+            ),
           ],
         ),
       ),
       body: ListView(
         children: <Widget>[
-          if (_imageFile != null) ...[
+          if (_imageFile != null)
+            ...[
             Image.file(_imageFile),
 
-            Row(
-              children: <Widget>[
-                FlatButton(
-                  child: Icon(Icons.crop),
-                  onPressed: _cropImage,
-                )
-              ],
+            FlatButton.icon(
+              label: Text('Crop Image'),
+              icon: Icon(Icons.crop),
+              onPressed: _cropImage,
             ),
 
             Uploader(file: _imageFile)
           ]
+          else ...[
+            Image.network(profile.getImagePath())
+          ],
         ],
       ),
     );
@@ -396,4 +431,14 @@ class _UploaderState extends State<Uploader>{
       );
     }
   }}
+
+Future<File> getImageFileFromAssets(String path) async {
+  final byteData = await rootBundle.load('assets/$path');
+
+  final file = File('${(await getTemporaryDirectory()).path}/$path');
+  await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+
+  return file;
+}
+
 

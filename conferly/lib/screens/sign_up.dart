@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conferly/screens/sign_in.dart';
 import 'package:conferly/utils/currentUser.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../main.dart';
 
@@ -88,6 +92,21 @@ class _SignupPageState extends State<SignupPage> {
        MyApp.firebaseAuth = new Auth();
        FirebaseUser user = await MyApp.firebaseAuth.getCurrentUser();
        MyApp.firebaseUser = user;
+
+/*
+       var _imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
+       print('what');
+       setState(() {
+         final FirebaseStorage _storage =
+         FirebaseStorage(storageBucket: 'gs://conferly-8779b.appspot.com/');
+         String filePath = 'images/${user.uid}.png';
+         print(_imageFile);
+         var oi = _storage.ref().child(filePath).putFile(_imageFile);
+         print('nice');
+       });
+
+ */
+
 
 //       user.additionalUserInfo.providerId
        //user.sendEmailVerification();

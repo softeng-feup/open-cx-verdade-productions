@@ -52,7 +52,7 @@ class AgendaState extends State<Agenda> {
       ),
       trailing: IconButton(
         icon: Icon(Icons.remove_circle),
-        color: Colors.lightBlueAccent[100],
+        color: Theme.of(context).accentColor,
         onPressed: () {
           setState(() {
             var newParticipants = new List<String>.from(event['participants']);
@@ -79,7 +79,7 @@ class AgendaState extends State<Agenda> {
         Text(event['speaker'], textAlign: TextAlign.end,),
         IconButton(
           icon: Icon(Icons.remove_circle),
-          color: Colors.lightBlueAccent[100],
+          color: Theme.of(context).accentColor,
           onPressed: () {
             setState(() {
               var newParticipants = new List<String>.from(event['participants']);

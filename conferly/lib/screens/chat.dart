@@ -34,7 +34,8 @@ class Chat extends StatelessWidget {
             );
           },
           child: Icon(Icons.add),
-          backgroundColor: Colors.blue,
+          backgroundColor: Theme.of(context).accentColor,
+          foregroundColor: Colors.white,
         ),
     );
   }

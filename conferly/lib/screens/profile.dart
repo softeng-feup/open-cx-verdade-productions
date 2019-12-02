@@ -8,6 +8,8 @@ import 'package:conferly/main.dart';
 import 'package:conferly/widgets/InfoWrapper.dart';
 import 'package:flutter/material.dart';
 
+import 'editProfile.dart';
+
 class Profile extends StatefulWidget {
 
   String user;
@@ -214,6 +216,14 @@ class ProfileState extends State<Profile> {
     return Scaffold(
         appBar: AppBar(
           title: Text('Profile'),
+          actions: <Widget>[
+            IconButton(icon: Icon(Icons.edit, color: Colors.white,), onPressed: _loading ? null : () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => EditProfile()),
+                );
+            })
+          ],
         ),
         body: _loading ?
         Center(

@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+
+import '../main.dart';
 
 class EditProfile extends StatefulWidget {
 
@@ -15,9 +18,6 @@ class EditProfileState extends State<EditProfile> {
   String _bio;
   String _location;
   String _work;
-  String _tags;
-
-//  bool begin = true;
 
   List<String> selectedInterestsList = List();
 
@@ -29,23 +29,81 @@ class EditProfileState extends State<EditProfile> {
     "Web"
   ];
 
+  bool _loading = true;
 
-//  void fu(var duration){
-//    setState(() {
-//      begin = false;
-//    });
-//  }
+  EditProfileState(){
+    getUserInfo();
+  }
+
+  getUserInfo() async {
+    Firestore.instance
+        .collection("Users")
+        .document(MyApp.firebaseUser.uid)
+        .get().then((document) {
+      if (document.exists) {
+        setState(() {
+//          if (document.data['name'] != "" && document.data['name'] != null)
+//            _fullName = document.data['name'];
+          if (document.data['description'] != "" &&
+              document.data['description'] != null)
+            _bio = document.data['description'];
+          if (document.data['location'] != "" &&
+              document.data['location'] != null)
+            _location = document.data['location'];
+//          if (document.data['status'] != "" && document.data['status'] != null)
+//            _status = document.data['status'];
+          if (document.data['work'] != "" && document.data['work'] != null)
+            _work = document.data['work'];
+          selectedInterestsList.clear();
+          if (document.data['interests'] != null)
+            selectedInterestsList = document.data['interests'].cast<String>();
+          _loading = false;
+        });
+      }
+    });
+  }
+
+  setUserInfo() async{
+    await Firestore.instance
+        .collection("Users")
+        .document(MyApp.firebaseUser.uid)
+        .setData({
+          "description": _bio,
+          "location": _location,
+          "work": _work,
+          "interests": selectedInterestsList,
+    }, merge: true);
+    print("RUNNIHG");
+    print("USER: " + MyApp.firebaseUser.uid);
+    print("description: " + _bio);
+    print("location: " + _location);
+    print("work: " + _work);
+    print("interests: " + selectedInterestsList.toString());
+  }
+
+
 
 
   @override
   Widget build(BuildContext context) {
-//    WidgetsBinding.instance
-//        .addPostFrameCallback(fu);
     return Scaffold(
         appBar: AppBar(
         title: Text("Edit profile"),
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.done, color: Colors.white,), onPressed: _loading ? null : () {
+            setUserInfo();
+            Navigator.pop(context);
+          })
+        ],
       ),
-      body: SingleChildScrollView(
+      body: _loading ?
+      Center(
+          child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(
+                  Theme
+                      .of(context)
+                      .accentColor)))
+          :SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.all(16),
             child: Column(
@@ -70,6 +128,8 @@ class EditProfileState extends State<EditProfile> {
         maxLines: 5,
         autofocus: false,
 
+        initialValue: _bio,
+
         decoration: new InputDecoration(
             labelText: 'Bio',
             icon: new Icon(
@@ -78,7 +138,8 @@ class EditProfileState extends State<EditProfile> {
             )
         ),
 
-        onSaved: (value) => _bio = value.trim(),
+        onChanged: (value) => _bio = value,
+//          onSaved: (value) => print('saved'),
       ),
     );
   }
@@ -90,6 +151,8 @@ class EditProfileState extends State<EditProfile> {
         maxLines: 1,
         autofocus: false,
 
+        initialValue: _location,
+
         decoration: new InputDecoration(
             labelText: 'Location',
             icon: new Icon(
@@ -97,7 +160,7 @@ class EditProfileState extends State<EditProfile> {
               color: Colors.grey,
             )),
 
-        onSaved: (value) => _location = value.trim(),
+        onChanged: (value) => _location = value,
       ),
     );
   }
@@ -110,6 +173,8 @@ class EditProfileState extends State<EditProfile> {
         maxLines: 1,
         autofocus: false,
 
+        initialValue: _work,
+
         decoration: new InputDecoration(
             labelText: 'Work',
             icon: new Icon(
@@ -117,7 +182,7 @@ class EditProfileState extends State<EditProfile> {
               color: Colors.grey,
             )),
 
-        onSaved: (value) => _work = value.trim(),
+        onChanged: (value) => _work = value,
       ),
     );
   }

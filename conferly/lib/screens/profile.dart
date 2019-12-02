@@ -74,7 +74,7 @@ class ProfileState extends State<Profile> {
             _work = document.data['work'];
           _interests.clear();
           if (document.data['interests'] != null)
-          _interests = document.data['interests'].cast<String>();
+          _interests = new List<String>.from(document.data['interests'].cast<String>());
           _loading = false;
         });
       }
@@ -221,7 +221,10 @@ class ProfileState extends State<Profile> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => EditProfile()),
-                );
+                ).then((value){
+                  getUserInfo(null);
+                  print("UPDATING");
+                });
             })
           ],
         ),

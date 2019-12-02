@@ -45,7 +45,7 @@ class CalendarState extends State<Calendar>{
       ),
       trailing: IconButton(
         icon: alreadySaved ? Icon(Icons.add_circle) : Icon(Icons.add_circle_outline),
-        color: alreadySaved ?  Colors.lightBlueAccent[100] : null,
+        color: alreadySaved ?  Theme.of(context).accentColor : null,
         onPressed: () {
           setState(() {
             var newParticipants = new List<String>.from(event['participants']);
@@ -78,7 +78,7 @@ class CalendarState extends State<Calendar>{
         Text(event['speaker'], textAlign: TextAlign.end,),
         IconButton(
           icon: alreadySaved ? Icon(Icons.add_circle) : Icon(Icons.add_circle_outline),
-          color: alreadySaved ? Colors.lightBlueAccent[100] : null,
+          color: alreadySaved ? Theme.of(context).accentColor : null,
           onPressed: () {
             setState(() {
               var newParticipants = new List<String>.from(event['participants']);

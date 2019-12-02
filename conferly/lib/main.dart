@@ -59,7 +59,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.green,
+        accentColor: Colors.orangeAccent[400]
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -154,7 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
         },
         type: BottomNavigationBarType.fixed,
         items: buildBottomNavBarItems(),
-        selectedItemColor: Colors.blue,
+        selectedItemColor: Theme.of(context).accentColor,
         unselectedItemColor: Colors.black,
         showUnselectedLabels: true,
       ),

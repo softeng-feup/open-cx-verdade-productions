@@ -10,6 +10,8 @@ import 'package:conferly/widgets/InfoWrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
+import 'editProfile.dart';
+
 class Profile extends StatefulWidget {
 
   String user;
@@ -80,7 +82,7 @@ class ProfileState extends State<Profile> {
             _work = document.data['work'];
           _interests.clear();
           if (document.data['interests'] != null)
-          _interests = document.data['interests'].cast<String>();
+          _interests = new List<String>.from(document.data['interests'].cast<String>());
           _loading = false;
         });
       }
@@ -223,6 +225,17 @@ class ProfileState extends State<Profile> {
     return Scaffold(
         appBar: AppBar(
           title: Text('Profile'),
+          actions: <Widget>[
+            IconButton(icon: Icon(Icons.edit, color: Colors.white,), onPressed: _loading ? null : () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => EditProfile()),
+                ).then((value){
+                  getUserInfo(null);
+                  print("UPDATING");
+                });
+            })
+          ],
         ),
         body: _loading ?
         Center(

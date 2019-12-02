@@ -1,3 +1,8 @@
+import 'dart:io';
+import 'dart:typed_data';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conferly/main.dart';
 import 'package:conferly/widgets/InfoWrapper.dart';
@@ -25,6 +30,24 @@ class ProfileState extends State<Profile> {
   String _work = "Work";
   List<String> _interests = [];
   bool _loading = true;
+  String imageFile;
+  FirebaseStorage _storage =
+  FirebaseStorage(storageBucket: 'gs://conferly-8779b.appspot.com/');
+
+  String getImagePath() {
+    StorageReference photo = _storage.ref().child('images/${MyApp.firebaseUser.uid}.png');
+    photo.getDownloadURL().then((data){
+      setState(() {
+          imageFile = data;
+      });
+    });
+    if (imageFile != null) {
+      print(imageFile);
+      return imageFile;
+    }
+    return 'assets/images/profile.png';
+  }
+
 
   getUserInfo(user) async {
     if (user == "" || user == null)
@@ -76,10 +99,18 @@ class ProfileState extends State<Profile> {
   Widget _profileImage() {
     return Center(
         child: Container(
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ImageCapture()),
+              );
+            },
+          ),
           width: 140.0, height: 140.0,
           decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/images/profile.png'),
+                image: new NetworkImage(getImagePath()),
                 fit: BoxFit.cover,
               ),
               borderRadius: BorderRadius.circular(100.0),
@@ -232,4 +263,137 @@ class ProfileState extends State<Profile> {
   }
 
 }
+
+
+class ImageCapture extends StatefulWidget {
+  createState() => _ImageCaptureState();
+}
+
+class _ImageCaptureState extends State<ImageCapture> {
+
+  File _imageFile;
+
+  Future<void> _pickImage(ImageSource source) async {
+    File selected = await ImagePicker.pickImage(source: source);
+
+    setState(() {
+      _imageFile = selected;
+    });
+  }
+
+  Future<void> _cropImage() async{
+    File cropped = await ImageCropper.cropImage(
+        sourcePath: _imageFile.path,
+        toolbarColor: Colors.greenAccent.shade100,
+        toolbarWidgetColor: Colors.white,
+        toolbarTitle: 'Crop Image'
+    );
+
+    setState(() {
+      _imageFile = cropped ?? _imageFile;
+    });
+  }
+
+  void _clear() {
+    setState(() {
+      _imageFile = null;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.photo_camera),
+              onPressed: () => _pickImage(ImageSource.camera),
+            ),
+            IconButton(
+              icon: Icon(Icons.photo_library),
+              onPressed: () => _pickImage(ImageSource.gallery),
+            ),
+          ],
+        ),
+      ),
+      body: ListView(
+        children: <Widget>[
+          if (_imageFile != null) ...[
+            Image.file(_imageFile),
+
+            Row(
+              children: <Widget>[
+                FlatButton(
+                  child: Icon(Icons.crop),
+                  onPressed: _cropImage,
+                )
+              ],
+            ),
+
+            Uploader(file: _imageFile)
+          ]
+        ],
+      ),
+    );
+  }
+}
+
+class Uploader extends StatefulWidget {
+  final File file;
+
+  Uploader({Key key, this.file}) : super(key: key);
+
+  createState() => _UploaderState();
+}
+
+class _UploaderState extends State<Uploader>{
+  final FirebaseStorage _storage =
+      FirebaseStorage(storageBucket: 'gs://conferly-8779b.appspot.com/');
+
+  StorageUploadTask _uploadTask;
+
+  void _startUpload() {
+    String filePath = 'images/${MyApp.firebaseUser.uid}.png';
+
+    setState(() {
+      _uploadTask = _storage.ref().child(filePath).putFile(widget.file);
+
+    });
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    if (_uploadTask != null) {
+      return StreamBuilder<StorageTaskEvent>(
+        stream: _uploadTask.events,
+        builder: (context, snapshot) {
+          var event = snapshot?.data?.snapshot;
+
+          double progressPercent = event != null
+          ? event.bytesTransferred / event.totalByteCount
+              : 0;
+
+          return Column(
+            children: <Widget>[
+              if (_uploadTask.isComplete)
+                Text('Done'),
+
+              LinearProgressIndicator(value: progressPercent),
+              Text(
+                '${(progressPercent * 100)} %'
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      return FlatButton.icon (
+        label: Text('Upload Image'),
+        icon: Icon(Icons.cloud_upload),
+        onPressed: _startUpload,
+      );
+    }
+  }}
 

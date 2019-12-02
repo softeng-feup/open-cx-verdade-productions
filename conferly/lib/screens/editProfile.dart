@@ -45,23 +45,20 @@ class EditProfileState extends State<EditProfile> {
         appBar: AppBar(
         title: Text("Edit profile"),
       ),
-      body:
-      Container(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          children: <Widget>[
-            _showBioInput(),
-            _showLocationInput(),
-            _showWorkInput(),
-            RaisedButton(
-              child: Text("Choose interests"),
-              onPressed: () => _showReportDialog(),
+      body: SingleChildScrollView(
+          child: Container(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              children: <Widget>[
+                _showBioInput(),
+                _showLocationInput(),
+                _showWorkInput(),
+                _showInterestsInput(),
+                _buildInterests()
+              ],
             ),
-//            Text(selectedInterestsList.join(" , ")),
-            _buildInterests()
-          ],
-        ),
-      )
+          )
+        )
     );
   }
 
@@ -71,18 +68,16 @@ class EditProfileState extends State<EditProfile> {
       child: new TextFormField(
         keyboardType: TextInputType.multiline,
         maxLines: 5,
-//        obscureText: true,
         autofocus: false,
-
 
         decoration: new InputDecoration(
             labelText: 'Bio',
-//            ),
             icon: new Icon(
-        Icons.assignment,
-        color: Colors.grey,
-      )),
-//        validator: (value) => value.isEmpty ? 'Password can\'t be empty' : null,
+              Icons.assignment,
+              color: Colors.grey,
+            )
+        ),
+
         onSaved: (value) => _bio = value.trim(),
       ),
     );
@@ -92,20 +87,16 @@ class EditProfileState extends State<EditProfile> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
       child: new TextFormField(
-//        keyboardType: TextInputType.multiline,
         maxLines: 1,
-//        obscureText: true,
         autofocus: false,
-
 
         decoration: new InputDecoration(
             labelText: 'Location',
-//            ),
             icon: new Icon(
               Icons.place,
               color: Colors.grey,
             )),
-//        validator: (value) => value.isEmpty ? 'Password can\'t be empty' : null,
+
         onSaved: (value) => _location = value.trim(),
       ),
     );
@@ -116,26 +107,41 @@ class EditProfileState extends State<EditProfile> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
       child: new TextFormField(
-//        keyboardType: TextInputType.multiline,
         maxLines: 1,
-//        obscureText: true,
         autofocus: false,
-
 
         decoration: new InputDecoration(
             labelText: 'Work',
-//            ),
             icon: new Icon(
               Icons.work,
               color: Colors.grey,
             )),
-//        validator: (value) => value.isEmpty ? 'Password can\'t be empty' : null,
+
         onSaved: (value) => _work = value.trim(),
       ),
     );
   }
 
+  Widget _showInterestsInput(){
+    return Container(
+      margin: EdgeInsets.only(top: 24, bottom: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Container(width: 50.0, height: 0.0),
+          //                Text("Interests", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          Text("Interests", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+          IconButton(icon: Icon(Icons.edit, size: 24.0), onPressed: () => _showReportDialog()),
+        ],
+      ),
+    );
+  }
+
   _showReportDialog() {
+    List<String> listCur = new List<String>.from(selectedInterestsList);
+
+    const String CONFIRM = "CONFIRM";
+
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -144,21 +150,29 @@ class EditProfileState extends State<EditProfile> {
             title: Text("Choose Interests"),
             content: MultiSelectChip(
               reportList,
-              previousSelected: selectedInterestsList,
+              previousSelected: listCur,
               onSelectionChanged: (selectedList) {
-                setState(() {
-                  selectedInterestsList = selectedList;
-                });
+//                setState(() {
+                  listCur = selectedList;
+//                });
               },
             ),
             actions: <Widget>[
               FlatButton(
                 child: Text("Submit"),
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: () => Navigator.of(context).pop(CONFIRM),
               )
             ],
           );
-        });
+        }).then((onValue){
+          if (onValue == CONFIRM){
+            setState(() {
+              selectedInterestsList = new List<String>.from(listCur);
+            });
+          } else {
+            listCur = new List<String>.from(selectedInterestsList);
+          }
+    });
   }
 
 
@@ -172,6 +186,13 @@ class EditProfileState extends State<EditProfile> {
             labelPadding: EdgeInsets.all(5),
             padding: EdgeInsets.all(5),
           )
+      );
+    }
+
+    if (chipChildren.length == 0){
+      return Container(
+        margin: EdgeInsets.all(8),
+        child: Text("No choosen interests"),
       );
     }
 

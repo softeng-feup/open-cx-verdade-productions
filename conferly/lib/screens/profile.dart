@@ -37,20 +37,27 @@ class ProfileState extends State<Profile> {
   String imageFile;
   FirebaseStorage _storage =
   FirebaseStorage(storageBucket: 'gs://conferly-8779b.appspot.com/');
+  bool isMe = true;
+  String _user;
 
   bool isImageSet(){
     return imageFile != null;
   }
 
   String getImagePath() {
-
-    StorageReference photo = _storage.ref().child('images/${MyApp.firebaseUser.uid}.png');
+    StorageReference photo;
+    if (isMe)
+      photo = _storage.ref().child('images/${MyApp.firebaseUser.uid}.png');
+    else
+      photo = _storage.ref().child('images/$_user.png');
     photo.getDownloadURL().then((data){
       if (this.mounted) {
         setState(() {
           imageFile = data;
         });
       }
+    }).catchError((error){
+
     });
     if (imageFile != null) {
       return imageFile;
@@ -59,12 +66,12 @@ class ProfileState extends State<Profile> {
   }
 
 
-  getUserInfo(user) async {
-    if (user == "" || user == null)
-      user = MyApp.firebaseUser.uid;
+  getUserInfo() async {
+//    if (user == "" || user == null)
+//      user = MyApp.firebaseUser.uid;
     Firestore.instance
         .collection("Users")
-        .document(user)
+        .document(_user)
         .get().then((document) {
       if (document.exists) {
         setState(() {
@@ -90,7 +97,14 @@ class ProfileState extends State<Profile> {
   }
 
   ProfileState(user) {
-    getUserInfo(user);
+    if (user != null) {
+      isMe = false;
+      _user = user;
+    } else {
+      _user = MyApp.firebaseUser.uid;
+      isMe = true;
+    }
+    getUserInfo();
     getImagePath();
   }
 
@@ -112,10 +126,11 @@ class ProfileState extends State<Profile> {
         child: Container(
           child: GestureDetector(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ImageCapture(profile: this,)),
-              );
+              if (isMe)
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ImageCapture(profile: this,)),
+                );
             },
           ),
           width: 140.0, height: 140.0,
@@ -226,15 +241,15 @@ class ProfileState extends State<Profile> {
         appBar: AppBar(
           title: Text('Profile'),
           actions: <Widget>[
-            IconButton(icon: Icon(Icons.edit, color: Colors.white,), onPressed: _loading ? null : () {
+            isMe ? IconButton(icon: Icon(Icons.edit, color: Colors.white,), onPressed: _loading ? null : () {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => EditProfile()),
                 ).then((value){
-                  getUserInfo(null);
+                  getUserInfo();
                   print("UPDATING");
                 });
-            })
+            }) : Container()
           ],
         ),
         body: _loading ?

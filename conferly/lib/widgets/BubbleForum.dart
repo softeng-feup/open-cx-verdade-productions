@@ -76,12 +76,12 @@ class BubbleForum extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 GestureDetector(
-                  child: Container( padding: EdgeInsets.all(8),child: Icon(Icons.thumb_up, size: 20, color: liked ? Theme.of(context).primaryColor : null,)),
+                  child: Container( color: bg, padding: EdgeInsets.all(8),child: Icon(Icons.thumb_up, size: 20, color: liked ? Theme.of(context).primaryColor : null,)),
                   onTap: () => clickUpvote(),
                 ),
                 Text((likes-dislikes).toString(), style: TextStyle(fontSize: 11)),
                 GestureDetector(
-                  child: Container( padding: EdgeInsets.all(8),child: Icon(Icons.thumb_down, size: 20, color: disliked ? Theme.of(context).accentColor : null, )),
+                  child: Container( color: bg, padding: EdgeInsets.all(8),child: Icon(Icons.thumb_down, size: 20, color: disliked ? Theme.of(context).accentColor : null, )),
                   onTap: () => clickDownvote(),
                 ),
               ],

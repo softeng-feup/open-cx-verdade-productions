@@ -1,3 +1,4 @@
+import 'package:conferly/notifier/auth_notifier.dart';
 import 'package:conferly/notifier/event_notifier.dart';
 import 'package:conferly/screens/events/agenda.dart';
 import 'package:conferly/widgets/separator.dart';
@@ -11,13 +12,13 @@ import 'detailEvent.dart';
 class EventSummary extends StatelessWidget {
   final Event event;
   final int index;
-  bool add;
 
-  EventSummary(this.event, this.index, this.add);
+  EventSummary(this.event, this.index);
 
   @override
   Widget build(BuildContext context) {
     EventNotifier eventNotifier = Provider.of<EventNotifier>(context);
+    AuthNotifier authNotifier = Provider.of<AuthNotifier>(context);
 
     final eventThumbnail = new Container(
       margin: new EdgeInsets.symmetric(
@@ -122,7 +123,7 @@ class EventSummary extends StatelessWidget {
                           '${event.endDate.toDate().hour.toString().padLeft(2, '0')}'
                           ':'
                           '${event.endDate.toDate().minute.toString().padLeft(2, '0')}h',
-                      icon: FontAwesomeIcons.clock)
+                      icon: FontAwesomeIcons.solidClock)
 
               ),
               new Container(
@@ -165,7 +166,7 @@ class EventSummary extends StatelessWidget {
           eventNotifier.currentEvent = eventNotifier.eventList[index];
           Navigator.of(context).push(
             new PageRouteBuilder(
-              pageBuilder: (_, __, ___) => new DetailEvent(eventNotifier.currentEvent, add),
+              pageBuilder: (_, __, ___) => new DetailEvent(eventNotifier.currentEvent, !event.participants.contains(authNotifier.user.uid)),
               transitionsBuilder: (context, animation, secondaryAnimation, child) =>
               new SlideTransition(position: Tween<Offset>(
                 begin: const Offset(1, 0),

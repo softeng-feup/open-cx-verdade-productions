@@ -182,7 +182,7 @@ class AgendaState extends State<Agenda> {
               padding: const EdgeInsets.symmetric(vertical: 1.0),
               sliver: new SliverList(
                 delegate: new SliverChildBuilderDelegate(
-                      (context, index) => new EventSummary(events[index], index, false),
+                      (context, index) => new EventSummary(events[index], index),
                   childCount: events.length,
                 ),
               ),

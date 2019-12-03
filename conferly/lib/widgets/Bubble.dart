@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:conferly/main.dart';
 
@@ -5,7 +6,7 @@ import 'package:conferly/main.dart';
 class Bubble extends StatelessWidget {
   Bubble({this.message});
 
-  final Message message;
+  final DocumentSnapshot message;
   final delivered = true;
 
 //  var format = new DateFormat("yMd");
@@ -13,13 +14,16 @@ class Bubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("Message: ");
-    print(message.time);
-    String dateString = message.time.toDate().hour.toString().padLeft(2,'0') + ":" + message.time.toDate().minute.toString().padLeft(2,'0');
-    final bg = message.sentByProfile ? Colors.white : Colors.greenAccent.shade100;
-    final align = message.sentByProfile ? CrossAxisAlignment.start : CrossAxisAlignment.end;
+//    print("Message: ");
+//    print(message.time);
+
+    final bool sentByMe = message["sender"] == MyApp.firebaseUser.uid;
+
+    String dateString = message["time"].toDate().hour.toString().padLeft(2,'0') + ":" + message["time"].toDate().minute.toString().padLeft(2,'0');
+    final bg = sentByMe ? Colors.white : Colors.greenAccent.shade100;
+    final align = sentByMe ? CrossAxisAlignment.start : CrossAxisAlignment.end;
     final icon = delivered ? Icons.done_all : Icons.done;
-    final radius = message.sentByProfile
+    final radius = sentByMe
         ? BorderRadius.only(
       topRight: Radius.circular(5.0),
       bottomLeft: Radius.circular(10.0),
@@ -50,7 +54,7 @@ class Bubble extends StatelessWidget {
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.only(right: 48.0),
-                child: Text(message.text),
+                child: Text(message["text"]),
               ),
               Positioned(
                 bottom: 0.0,

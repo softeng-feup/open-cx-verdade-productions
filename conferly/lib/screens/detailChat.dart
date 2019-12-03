@@ -1,3 +1,4 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 import 'package:conferly/main.dart';
@@ -26,7 +27,10 @@ class DetailChatState extends State<DetailChat> {
 
   final ScrollController listScrollController = new ScrollController();
 
-  final TextEditingController _textEditingController = new TextEditingController();
+  final TextEditingController _textEditingController =
+      new TextEditingController();
+
+  var listMessages;
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +52,7 @@ class DetailChatState extends State<DetailChat> {
 
             // Loading
           ],
-        )
-    );
+        ));
   }
 
   Widget buildListMessage() {
@@ -65,12 +68,15 @@ class DetailChatState extends State<DetailChat> {
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(
-                child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).accentColor)));
+                child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                        Theme.of(context).accentColor)));
           } else {
+            listMessages = snapshot.data.documents;
             return ListView.builder(
               padding: EdgeInsets.all(10.0),
-              itemBuilder: (context, index) => Bubble(message: Message(
-                  snapshot.data.documents[index]['text'], snapshot.data.documents[index]['sender'] != MyApp.firebaseUser.uid, snapshot.data.documents[index]['time'])),
+              itemBuilder: (context, index) =>
+                  buildMessage(index, snapshot.data.documents[index]),
               itemCount: snapshot.data.documents.length,
               reverse: true,
               controller: listScrollController,
@@ -81,11 +87,189 @@ class DetailChatState extends State<DetailChat> {
     );
   }
 
+  Widget buildMessage(int index, DocumentSnapshot message) {
+    bool sentByMe = message["sender"] == MyApp.firebaseUser.uid;
+
+    String dateString =
+        message["time"].toDate().hour.toString().padLeft(2, '0') +
+            ":" +
+            message["time"].toDate().minute.toString().padLeft(2, '0');
+    var bg = sentByMe ? Colors.greenAccent.shade100 : Colors.white;
+    var align = sentByMe ? CrossAxisAlignment.end : CrossAxisAlignment.start;
+    var radius = !sentByMe
+        ? BorderRadius.only(
+            topRight: Radius.circular(5.0),
+            bottomLeft: Radius.circular(10.0),
+            bottomRight: Radius.circular(5.0),
+          )
+        : BorderRadius.only(
+            topLeft: Radius.circular(5.0),
+            bottomLeft: Radius.circular(5.0),
+            bottomRight: Radius.circular(10.0),
+          );
+
+    if (sentByMe) {
+      return Column(crossAxisAlignment: align, children: <Widget>[
+        Container(
+            margin: isLastMessageRight(index)
+                ? EdgeInsets.fromLTRB(100, 3, 16, 8)
+                : EdgeInsets.fromLTRB(100, 3, 16, 3),
+            padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                    blurRadius: .5,
+                    spreadRadius: 1.0,
+                    color: Colors.black.withOpacity(.12))
+              ],
+              color: bg,
+              borderRadius: radius,
+            ),
+            child: Stack(children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(right: 0.0),
+                child: Text(message["text"]),
+              )
+            ])),
+      ]);
+    } else {
+
+      return Container(
+          margin:
+              EdgeInsets.fromLTRB(0, 0, 0, isLastMessageLeft(index) ? 5 : 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              isLastMessageLeft(index)
+                  ? Container(
+                      margin: EdgeInsets.fromLTRB(0, 0, 0, 4),
+                      child: _profileImage(message["sender"]))
+                  : Container(
+                      width: 30,
+                    ),
+              Expanded(
+                  child: Column(crossAxisAlignment: align, children: <Widget>[
+                  isFirstMessageLeft(index)
+                    ? Container(
+                        child: Text(
+                          "MODIFY THIS",
+                          style: TextStyle(fontSize: 12),
+                        ),
+                        margin: EdgeInsets.fromLTRB(8, 0, 0, 0),
+                      )
+                    : Container(),
+                Container(
+                    margin: EdgeInsets.fromLTRB(8, 3, 90, 3),
+                    padding: EdgeInsets.fromLTRB(8, 8, 8, 8),
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                            blurRadius: .5,
+                            spreadRadius: 1.0,
+                            color: Colors.black.withOpacity(.12))
+                      ],
+                      color: bg,
+                      borderRadius: radius,
+                    ),
+                    child: Stack(children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(right: 0.0),
+                        child: Text(message["text"]),
+                      )
+                    ]))
+              ]))
+            ],
+          ));
+    }
+//    return Column(
+//      crossAxisAlignment: align,
+//      children: <Widget>[
+//        Container(
+//          margin: const EdgeInsets.all(3.0),
+//          padding: const EdgeInsets.all(8.0),
+//          decoration: BoxDecoration(
+//            boxShadow: [
+//              BoxShadow(
+//                  blurRadius: .5,
+//                  spreadRadius: 1.0,
+//                  color: Colors.black.withOpacity(.12))
+//            ],
+//            color: bg,
+//            borderRadius: radius,
+//          ),
+//          child: Stack(
+//            children: <Widget>[
+//              Padding(
+//                padding: EdgeInsets.only(right: 0.0),
+//                child: Text(message["text"]),
+//              ),
+//              Positioned(
+//                bottom: 0.0,
+//                right: 0.0,
+//                child: Row(
+//                  children: <Widget>[
+//                    Text(dateString,
+//                        style: TextStyle(
+//                          color: Colors.black38,
+//                          fontSize: 10.0,
+//                        )),
+//                    SizedBox(width: 3.0),
+//                    Icon(
+//                      icon,
+//                      size: 12.0,
+//                      color: Colors.black38,
+//                    )
+//            ],
+//          ),
+//        )
+//      ],
+//    )
+//    ,
+//    )
+//    ]
+//    ,
+//    );
+  }
+
+  bool isFirstMessageLeft(int index) {
+    if (listMessages != null &&
+        ((index < listMessages.length - 1 &&
+                listMessages[index + 1]['sender'] !=
+                    listMessages[index]['sender']) ||
+            index == listMessages.length - 1)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool isLastMessageLeft(int index) {
+    if ((index > 0 &&
+            listMessages != null &&
+            listMessages[index - 1]['sender'] !=
+                listMessages[index]['sender']) ||
+        index == 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool isLastMessageRight(int index) {
+    if ((index > 0 &&
+            listMessages != null &&
+            listMessages[index - 1]['sender'] != MyApp.firebaseUser.uid) ||
+        index == 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   Widget _buildTextComposer() {
     return new IconTheme(
-        data: new IconThemeData(
-          color: Theme.of(context).accentColor
-        ),
+        data: new IconThemeData(color: Theme.of(context).accentColor),
         child: new Container(
           margin: const EdgeInsets.symmetric(horizontal: 8.0),
           child: new Row(
@@ -120,9 +304,8 @@ class DetailChatState extends State<DetailChat> {
 
   IconButton getDefaultSendButton() {
     return new IconButton(
-      icon: new Icon(Icons.send),
-      onPressed: () => _textMessageSubmitted(_textEditingController.text)
-    );
+        icon: new Icon(Icons.send),
+        onPressed: () => _textMessageSubmitted(_textEditingController.text));
   }
 
   Future<Null> _textMessageSubmitted(String text) async {
@@ -131,18 +314,13 @@ class DetailChatState extends State<DetailChat> {
     _sendMessage(text);
   }
 
-
   void _sendMessage(String messageText) {
-
     if (messageText.trim() != '') {
       var documentReference = Firestore.instance
           .collection('Chats')
           .document(chat.documentID)
           .collection('messages')
-          .document(DateTime
-          .now()
-          .millisecondsSinceEpoch
-          .toString());
+          .document(DateTime.now().millisecondsSinceEpoch.toString());
 
       Firestore.instance.runTransaction((transaction) async {
         await transaction.set(
@@ -155,8 +333,62 @@ class DetailChatState extends State<DetailChat> {
         );
         print("Done writing message");
       });
-      listScrollController.animateTo(
-          0.0, duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+      listScrollController.animateTo(0.0,
+          duration: Duration(milliseconds: 300), curve: Curves.easeOut);
     }
+  }
+}
+
+class _profileImage extends StatefulWidget {
+  String _profileUid;
+
+  _profileImage(String uid) {
+    this._profileUid = uid;
+  }
+
+  @override
+  _profileImageState createState() => _profileImageState();
+}
+
+class _profileImageState extends State<_profileImage> {
+  String imageFile;
+
+  getImagePath() async {
+    StorageReference photo =
+        FirebaseStorage(storageBucket: 'gs://conferly-8779b.appspot.com/')
+            .ref()
+            .child('images/${widget._profileUid}.png');
+    photo.getDownloadURL().then((data) {
+      setState(() {
+        imageFile = data;
+      });
+    }).catchError((error) {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getImagePath();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: Container(
+      width: 30.0,
+      height: 30.0,
+      decoration: BoxDecoration(
+          image: DecorationImage(
+            image: (imageFile != null)
+                ? new NetworkImage(imageFile)
+                : (AssetImage('assets/images/profile.png')),
+            fit: BoxFit.cover,
+          ),
+          borderRadius: BorderRadius.circular(100.0),
+          border: Border.all(
+            color: Colors.grey,
+            width: 1.0,
+          )),
+    ));
   }
 }

@@ -1,16 +1,17 @@
 import 'package:conferly/notifier/event_notifier.dart';
 import 'package:conferly/screens/authenticate/login_register.dart';
-import 'package:conferly/widgets/loading.dart';
+import 'package:conferly/services/auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'models/user.dart';
 import 'notifier/auth_notifier.dart';
-import 'screens/events/agenda.dart';
+import 'screens/events/calendar.dart';
 import 'screens/chat.dart';
 import 'screens/profile.dart';
 import 'package:provider/provider.dart';
-import 'package:conferly/screens/events/calendar.dart';
+import 'package:conferly/screens/events/agenda.dart';
 
 void main() => runApp(MultiProvider(
   providers: [
@@ -24,10 +25,18 @@ void main() => runApp(MultiProvider(
   child: MyApp2(),
 ));
 
+getCurrentUser(AuthNotifier notifier) async {
+  User user = await AuthService().currentUser();
+  notifier.setUser(user);
+}
+
 class MyApp2 extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    AuthNotifier authNotifier = Provider.of<AuthNotifier>(context, listen: false);
+    getCurrentUser(authNotifier);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Coding with Curry',

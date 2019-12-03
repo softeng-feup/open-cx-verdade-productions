@@ -6,11 +6,11 @@ class EventNotifier with ChangeNotifier {
   List<Event> _eventList = [];
   Event _currentEvent;
 
-  UnmodifiableListView<Event> get eventList => UnmodifiableListView(_eventList);
+  List<Event> get eventList => _eventList;
 
   Event get currentEvent => _currentEvent;
 
-  set eventList(List<Event> eventList) {
+  setEvents(List<Event> eventList) {
     _eventList = eventList;
     notifyListeners();
   }

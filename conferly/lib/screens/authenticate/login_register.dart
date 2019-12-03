@@ -1,9 +1,10 @@
+import 'package:conferly/models/user.dart';
 import 'package:conferly/notifier/auth_notifier.dart';
 import 'package:conferly/services/auth.dart';
 import 'package:conferly/utils/snack_bar.dart';
-import 'package:conferly/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:conferly/utils/bubble_indication_painter.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,7 @@ class LoginRegisterPage extends StatefulWidget {
 
 class _LoginRegisterPageState extends State<LoginRegisterPage> with SingleTickerProviderStateMixin {
   final AuthService _auth = AuthService();
+  AuthNotifier authNotifier;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool loading = false;
 
@@ -45,8 +47,26 @@ class _LoginRegisterPageState extends State<LoginRegisterPage> with SingleTicker
   Color right = Colors.white;
 
   @override
+  void initState() {
+    super.initState();
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+
+    authNotifier = Provider.of<AuthNotifier>(context, listen: false);
+    _pageController = PageController();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return loading ? Loading() : Scaffold(
+    return loading ?  Scaffold(
+      key: _scaffoldKey,
+      body: Center(
+        child: SpinKitWave(color: Colors.green, type: SpinKitWaveType.start),
+      ),
+    ) : Scaffold(
       key: _scaffoldKey,
       body: NotificationListener<OverscrollIndicatorNotification>(
         onNotification: (overscroll) {
@@ -131,18 +151,6 @@ class _LoginRegisterPageState extends State<LoginRegisterPage> with SingleTicker
     myFocusNodeName.dispose();
     _pageController?.dispose();
     super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
-
-    _pageController = PageController();
   }
 
   Widget _buildMenuBar(BuildContext context) {
@@ -605,58 +613,67 @@ class _LoginRegisterPageState extends State<LoginRegisterPage> with SingleTicker
     });
   }
 
-  void _signIn() async {
-    AuthNotifier authNotifier = Provider.of<AuthNotifier>(context, listen: false);
-
+  bool _validSignInInput() {
     if(loginEmailController.text.isEmpty) {
       showInSnackBar(_scaffoldKey, 'Enter an email');
+      return false;
     } else if(loginPasswordController.text.isEmpty) {
       showInSnackBar(_scaffoldKey, 'Enter a password');
-    } else {
+      return false;
+    }
+
+    return true;
+  }
+
+  void _signIn() async {
+    if(_validSignInInput()) {
       setState(() => loading = true);
-      bool result = await _auth.signInWithEmailAndPassword(
-          loginEmailController.text,
-          loginPasswordController.text,
-          authNotifier
-      );
-      if (!result) {
+      User user = await _auth.signInWithEmailAndPassword(loginEmailController.text, loginPasswordController.text);
+      if (user == null) {
         setState(() => loading = false);
         showInSnackBar(_scaffoldKey, 'Could not sign in with those credentials');
+      } else {
+        authNotifier.setUser(user);
       }
     }
   }
 
   void _signInGoogle() async {
-    AuthNotifier authNotifier = Provider.of<AuthNotifier>(context, listen: false);
-
-    dynamic result = await _auth.signInWithGoogle(authNotifier);
-    if(result == null) {
+    User user = await _auth.signInWithGoogle();
+    if(user == null) {
       showInSnackBar(_scaffoldKey, 'Could not sign in with Google');
+    } else {
+      authNotifier.setUser(user);
     }
   }
 
-  void _signUp() async {
-    AuthNotifier authNotifier = Provider.of<AuthNotifier>(context, listen: false);
-
+  bool _validSignUpInput() {
     if(signupNameController.text.isEmpty) {
       showInSnackBar(_scaffoldKey, 'Enter a name');
+      return false;
     } else if(signupEmailController.text.isEmpty) {
       showInSnackBar(_scaffoldKey, 'Enter an email');
+      return false;
     } else if(signupPasswordController.text.isEmpty) {
       showInSnackBar(_scaffoldKey, 'Enter a password');
+      return false;
     } else if(signupPasswordController.text != signupConfirmPasswordController.text) {
       showInSnackBar(_scaffoldKey, 'Your password and confirmation password do not match');
-    } else {
+      return false;
+    }
+
+    return true;
+  }
+
+  void _signUp() async {
+    if(_validSignUpInput()) {
       setState(() => loading = true);
-      bool result = await _auth.registerWithEmailAndPassword(
-          signupEmailController.text,
-          signupPasswordController.text,
-          signupNameController.text,
-          authNotifier
-      );
-      if (!result) {
+      User user = await _auth.registerWithEmailAndPassword(signupEmailController.text, signupPasswordController.text, signupNameController.text);
+      if (user == null) {
         setState(() => loading = false);
         showInSnackBar(_scaffoldKey, 'Please supply valid credentials');
+      } else {
+        authNotifier.setUser(user);
       }
     }
   }

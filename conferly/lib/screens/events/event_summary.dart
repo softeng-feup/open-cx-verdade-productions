@@ -1,18 +1,19 @@
 import 'package:conferly/notifier/event_notifier.dart';
-import 'package:conferly/screens/events/calendar.dart';
+import 'package:conferly/screens/events/agenda.dart';
 import 'package:conferly/widgets/separator.dart';
 import 'package:flutter/material.dart';
 import 'package:conferly/models/event.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-
+import 'package:intl/intl.dart';
 import 'detailEvent.dart';
 
 class EventSummary extends StatelessWidget {
   final Event event;
   final int index;
+  bool add;
 
-  EventSummary(this.event, this.index);
+  EventSummary(this.event, this.index, this.add);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class EventSummary extends StatelessWidget {
 
     final eventThumbnail = new Container(
       margin: new EdgeInsets.symmetric(
-          vertical: 16.0
+          vertical: 1.0
       ),
       alignment: FractionalOffset.centerLeft,
       child: new Hero(
@@ -39,7 +40,7 @@ class EventSummary extends StatelessWidget {
           decoration: new BoxDecoration(
             shape: BoxShape.circle,
             border: new Border.all(
-              color: Colors.greenAccent,
+              color: Colors.green,
               width: 2.0,
             ),
           ),
@@ -54,16 +55,16 @@ class EventSummary extends StatelessWidget {
             children: <Widget>[
               new Icon(
                 icon,
-                size: 20.0,
-                color: Colors.white30,
+                size: 15.0,
+                color: Colors.black54,
               ),
-              new Container(width: 8.0),
+              new Container(width: 1.5),
               new Text(
                 value,
                 style: TextStyle(
                     fontFamily: "WorkSansSemiBold",
                     fontSize: 12.0,
-                    color: Colors.white70
+                    color: Colors.black54
                 ),
               ),
             ]
@@ -73,23 +74,37 @@ class EventSummary extends StatelessWidget {
 
 
     final eventCardContent = new Container(
-      margin: new EdgeInsets.fromLTRB(76.0,16.0, 16.0, 16.0),
+      margin: new EdgeInsets.fromLTRB(76.0,16.0, 16.0, 1.0),
       constraints: new BoxConstraints.expand(),
       child: new Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          new Container(height: 4.0),
-          new Text(event.title, style: TextStyle(
-              fontFamily: "WorkSansSemiBold",
-              fontSize: 18.0,
-              color: Colors.white
-            ),
+          new Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              new Expanded(
+                  flex: 5,
+                  child: new Text(event.title, style: TextStyle(
+                      fontFamily: "WorkSansSemiBold",
+                      fontSize: 18.0,
+                      color: Colors.black
+                    ),
+                  ),
+              ),
+              new Expanded(
+                  flex: 1,
+                  child: Icon(
+                    FontAwesomeIcons.arrowCircleRight,
+                    color: Colors.black,
+                    size: 22.0,
+                  ),
+              )
+            ],
           ),
-          new Container(height: 10.0),
           new Text(event.location, style: TextStyle(
               fontFamily: "WorkSansSemiBold",
               fontSize: 14.0,
-              color: Colors.white70
+              color: Colors.black54
             ),
           ),
           new Separator(),
@@ -99,18 +114,25 @@ class EventSummary extends StatelessWidget {
               new Expanded(
                   flex: 1,
                   child: _eventValue(
-                      value: '${event.startDate.toDate().hour.toString()}:${event.startDate.toDate().minute.toString()}h',
+                      value: ' '
+                          '${event.startDate.toDate().hour.toString().padLeft(2, '0')}'
+                          ':'
+                          '${event.startDate.toDate().minute.toString().padLeft(2, '0')}h'
+                          '-'
+                          '${event.endDate.toDate().hour.toString().padLeft(2, '0')}'
+                          ':'
+                          '${event.endDate.toDate().minute.toString().padLeft(2, '0')}h',
                       icon: FontAwesomeIcons.clock)
 
               ),
               new Container(
-                width: 8.0,
+                width: 1.0,
               ),
               new Expanded(
                   flex: 1,
                   child: _eventValue(
-                      value: '${event.endDate.toDate().hour.toString()}:${event.endDate.toDate().minute.toString()}h',
-                      icon: FontAwesomeIcons.clock)
+                      value: ' ${new DateFormat("dd MMMM").format(event.startDate.toDate())}',
+                      icon: FontAwesomeIcons.calendarDay)
               )
             ],
           ),
@@ -121,10 +143,10 @@ class EventSummary extends StatelessWidget {
 
     final eventCard = new Container(
       child: eventCardContent,
-      height: 124.0,
+      height: 100.0,
       margin: new EdgeInsets.only(left: 46.0),
       decoration: new BoxDecoration(
-        color: Colors.green,
+        color: Colors.white,
         shape: BoxShape.rectangle,
         borderRadius: new BorderRadius.circular(8.0),
         boxShadow: <BoxShadow>[
@@ -143,16 +165,19 @@ class EventSummary extends StatelessWidget {
           eventNotifier.currentEvent = eventNotifier.eventList[index];
           Navigator.of(context).push(
             new PageRouteBuilder(
-              pageBuilder: (_, __, ___) => new DetailEvent(eventNotifier.currentEvent),
+              pageBuilder: (_, __, ___) => new DetailEvent(eventNotifier.currentEvent, add),
               transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-              new FadeTransition(opacity: animation, child: child),
+              new SlideTransition(position: Tween<Offset>(
+                begin: const Offset(1, 0),
+                end: Offset.zero,
+              ).animate(animation), child: child),
             ) ,
           );
         },
         child: new Container(
           margin: const EdgeInsets.symmetric(
             vertical: 5.0,
-            horizontal: 20.0,
+            horizontal: 13.0,
           ),
           child: new Stack(
             children: <Widget>[

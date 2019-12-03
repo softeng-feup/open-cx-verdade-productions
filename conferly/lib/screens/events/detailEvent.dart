@@ -1,23 +1,29 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conferly/models/event.dart';
+import 'package:conferly/notifier/auth_notifier.dart';
 import 'package:conferly/notifier/event_notifier.dart';
+import 'package:conferly/services/database.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class DetailEvent extends StatefulWidget {
   Event event;
-  DetailEvent(this.event);
+  bool add;
+  DetailEvent(this.event, this.add);
 
   @override
-  DetailEventState createState() => DetailEventState();
+  DetailEventState createState() => DetailEventState(event, add);
 }
 
 class DetailEventState extends State<DetailEvent> {
+  Event event;
+  bool add;
+
+  DetailEventState(this.event, this.add);
 
   @override
   Widget build(BuildContext context) {
-    EventNotifier eventNotifier = Provider.of<EventNotifier>(context, listen: false);
-    Event event = eventNotifier.currentEvent;
 
     return Scaffold(
         appBar: AppBar(
@@ -56,12 +62,22 @@ class DetailEventState extends State<DetailEvent> {
             ,
             Container(
             margin: EdgeInsets.symmetric(horizontal: 60, vertical: 0),
-            child: Text('16 Sep, 16h30-18h30', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
+            child: Text(
+                  '${new DateFormat("dd MMMM").format(event.startDate.toDate())}, '
+                  '${event.startDate.toDate().hour.toString().padLeft(2, '0')}'
+                  ':'
+                  '${event.startDate.toDate().minute.toString().padLeft(2, '0')}h'
+                  '-'
+                  '${event.endDate.toDate().hour.toString().padLeft(2, '0')}'
+                  ':'
+                  '${event.endDate.toDate().minute.toString().padLeft(2, '0')}h',
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+              ),
             )
             ,
             Container(
             margin: EdgeInsets.symmetric(horizontal: 60, vertical: 4),
-            child: Text('Porto, Portugal', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+            child: Text(event.location, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
             ),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 60, vertical: 4),
@@ -70,9 +86,7 @@ class DetailEventState extends State<DetailEvent> {
             Container(
               margin: EdgeInsets.fromLTRB(60, 30, 60, 4),
               child: RaisedButton(
-                onPressed: () {
-
-                },
+                onPressed: () {},
                 child: const Text(
                 'Go to forum',
                 style: TextStyle(fontSize: 20)
@@ -82,13 +96,8 @@ class DetailEventState extends State<DetailEvent> {
             Container(
               margin: EdgeInsets.fromLTRB(60, 4, 60, 16),
               child: RaisedButton(
-                onPressed: () {
-
-                },
-                child: const Text(
-                    'Add to calendar',
-                    style: TextStyle(fontSize: 20)
-                ),
+                onPressed: _changeEvents,
+                child: _buildChild()
               ),
             ),
 
@@ -97,6 +106,34 @@ class DetailEventState extends State<DetailEvent> {
 
 
     );
+  }
+
+  Widget _buildChild() {
+    if (add) {
+      return Text('Add to agenda',
+          style: TextStyle(fontSize: 20)
+      );
+    }
+
+    return Text('Remove from agenda',
+        style: TextStyle(fontSize: 20)
+    );
+  }
+
+  _changeEvents() async {
+    AuthNotifier authNotifier = Provider.of<AuthNotifier>(context, listen: false);
+    event.participants.remove(authNotifier.user.uid);
+
+    if(add) {
+      event.participants.add(authNotifier.user.uid);
+    } else {
+      event.participants.remove(authNotifier.user.uid);
+    }
+
+    await DatabaseService().setEventToUser(event);
+    setState(() {
+      add = !add;
+    });
   }
 
   Widget _profileImage() {

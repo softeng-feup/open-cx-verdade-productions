@@ -19,62 +19,53 @@ class AuthService {
   }
 
   // sign in with email and password
-  Future<bool> signInWithEmailAndPassword(String email, String password, AuthNotifier authNotifier) async {
-    AuthResult result = await _auth
-        .signInWithEmailAndPassword(email: email, password: password)
-        .catchError((error) => print(error.code));
+  Future<User> signInWithEmailAndPassword(String email, String password) async {
+    AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: password).catchError((error) => print(error.code));
 
     if(result != null) {
       FirebaseUser firebaseUser = result.user;
-      await DatabaseService().getUser(firebaseUser.uid,authNotifier);
-      return true;
+      return DatabaseService().getUser(firebaseUser.uid);
     }
 
-    return false;
+    return null;
   }
 
   // sign in with google
-  Future<bool> signInWithGoogle(AuthNotifier authNotifier) async {
-    final GoogleSignInAccount googleUser = await _googleSignIn
-        .signIn()
-        .catchError((error) => print(error.code));
-    final GoogleSignInAuthentication googleAuth = await googleUser
-        .authentication.catchError((error) => print(error.code));
-    final AuthResult result = await _auth
-        .signInWithCredential(GoogleAuthProvider.getCredential(
-          idToken: googleAuth.idToken,
-          accessToken: googleAuth.accessToken))
-        .catchError((error) => print(error.code));
+  Future<User> signInWithGoogle() async {
+    final GoogleSignInAccount googleUser = await _googleSignIn.signIn().catchError((error) => print(error.code));
+    final GoogleSignInAuthentication googleAuth = await googleUser.authentication.catchError((error) => print(error.code));
+    final AuthResult result = await _auth.signInWithCredential(GoogleAuthProvider.getCredential(idToken: googleAuth.idToken, accessToken: googleAuth.accessToken)).catchError((error) => print(error.code));
 
     if(result != null) {
       FirebaseUser user = result.user;
-      authNotifier.setUser(_userFromFirebaseUser(user));
-      return true;
+      return DatabaseService().getUser(user.uid);
     }
 
-    return false;
+    return null;
   }
 
   // register with email and password
-  Future<bool> registerWithEmailAndPassword(String email, String password, String name, AuthNotifier authNotifier) async {
-    AuthResult result = await _auth
-        .createUserWithEmailAndPassword(email: email, password: password)
-        .catchError((error) => print(error.code));
+  Future<User> registerWithEmailAndPassword(String email, String password, String name) async {
+    AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password).catchError((error) => print(error.code));
 
     if(result != null) {
       FirebaseUser firebaseUser = result.user;
-      await DatabaseService().introduceUserData(firebaseUser.uid, email, name, authNotifier);
-      return true;
+      await DatabaseService().introduceUserData(firebaseUser.uid, email, name);
+      return DatabaseService().getUser(firebaseUser.uid);
     }
 
-    return false;
+    return null;
+  }
+
+  Future<User> currentUser() async {
+    final FirebaseUser user = await _auth.currentUser();
+    return _userFromFirebaseUser(user);
   }
 
   // sign out
-  void signOut(AuthNotifier authNotifier) async {
+  void signOut() async {
     await _auth.signOut().catchError((error) => print(error.code));
     await _googleSignIn.signOut().catchError((error) => print(error.code));
-    authNotifier.setUser(null);
   }
 
 }

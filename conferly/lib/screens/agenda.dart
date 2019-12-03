@@ -18,7 +18,7 @@ class AgendaState extends State<Agenda> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-        title: Text('Calendar'),
+        title: Text('Agenda'),
       ),
       body: Center(
         child: _showSaved(),

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:conferly/screens/forum.dart';
 import 'package:conferly/screens/profile.dart';
 import 'package:conferly/widgets/InfoWrapper.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -113,7 +114,10 @@ class DetailEventState extends State<DetailEvent> {
               margin: EdgeInsets.only(top: 16),
               child: RaisedButton(
                 onPressed: () {
-
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Forum(event.documentID)),
+                  );
                 },
                 child: const Text(
                 'Go to forum',

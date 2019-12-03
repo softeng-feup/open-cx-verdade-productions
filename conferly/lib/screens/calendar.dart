@@ -11,7 +11,7 @@ class CalendarState extends State<Calendar>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Agenda'),
+        title: Text('Calendar'),
       ),
       body: Center(
         child: _showEvents(),

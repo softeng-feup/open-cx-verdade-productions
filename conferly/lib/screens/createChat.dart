@@ -141,7 +141,6 @@ class _profileImage extends StatefulWidget {
 class _profileImageState extends State<_profileImage>{
 
   String imageFile;
-  StorageReference photo = FirebaseStorage(storageBucket: 'gs://conferly-8779b.appspot.com/').ref().child('images');
 
   getImagePath() async {
     StorageReference photo = FirebaseStorage(storageBucket: 'gs://conferly-8779b.appspot.com/').ref().child('images/${widget._profileUid}.png');

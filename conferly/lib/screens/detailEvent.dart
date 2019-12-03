@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conferly/screens/profile.dart';
 import 'package:conferly/widgets/InfoWrapper.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -52,7 +53,7 @@ class DetailEventState extends State<DetailEvent> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  _profileImage(),
+                  _profileImage(event['speaker_uid']),
 
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -152,25 +153,62 @@ class DetailEventState extends State<DetailEvent> {
 
     );
   }
+}
 
-  Widget _profileImage() {
+class _profileImage extends StatefulWidget {
+
+
+  String _profileUid;
+
+  _profileImage(String uid) {
+    this._profileUid = uid;
+  }
+
+
+  @override
+  _profileImageState createState() => _profileImageState();
+}
+
+class _profileImageState extends State<_profileImage> {
+
+  String imageFile;
+
+  getImagePath() async {
+    StorageReference photo = FirebaseStorage(
+        storageBucket: 'gs://conferly-8779b.appspot.com/').ref().child(
+        'images/${widget._profileUid}.png');
+    photo.getDownloadURL().then((data) {
+      setState(() {
+        imageFile = data;
+      });
+    }).catchError((error) {
+
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getImagePath();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Center(
-        child: Container (
-          width: 120.0, height:120.0,
+        child: Container(
+          width: 120.0, height: 120.0,
           decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/images/profile.png'),
+                image: (imageFile != null) ? new NetworkImage(imageFile) : (AssetImage('assets/images/profile.png')),
                 fit: BoxFit.cover,
               ),
               borderRadius: BorderRadius.circular(100.0),
               border: Border.all(
-                color:Colors.grey,
-                width:5.0,
+                color: Colors.grey,
+                width: 5.0,
               )
           ),
         )
     );
   }
-
 }
-

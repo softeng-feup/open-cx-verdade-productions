@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conferly/main.dart';
+import 'package:conferly/screens/profile.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -8,6 +9,8 @@ import 'package:intl/intl.dart';
 class BubbleForum extends StatelessWidget {
 
   final DocumentSnapshot message;
+//  final Function onLike;
+//  final Function onDislike;
   final delivered = true;
 
 
@@ -29,108 +32,106 @@ class BubbleForum extends StatelessWidget {
     final Timestamp ts = message['time'];
     final String text = message['text'];
 
+    final bool liked = message['likes'].contains(MyApp.firebaseUser.uid);
+    final bool disliked = message['dislikes'].contains(MyApp.firebaseUser.uid);
+
 //    print("Message: ");
 //    print(message.time);
     String dateString = fTime.format(ts.toDate());
-    final bg = true ? Colors.white : Colors.greenAccent.shade100;
-    final align = true ? CrossAxisAlignment.start : CrossAxisAlignment.end;
-    final icon = delivered ? Icons.done_all : Icons.done;
-    final radius = true
-        ? BorderRadius.only(
-      topRight: Radius.circular(5.0),
-      bottomLeft: Radius.circular(10.0),
-      bottomRight: Radius.circular(5.0),
-    )
-        : BorderRadius.only(
-      topLeft: Radius.circular(5.0),
-      bottomLeft: Radius.circular(5.0),
-      bottomRight: Radius.circular(10.0),
-    );
+    final bg = senderUID != MyApp.firebaseUser.uid ? Colors.white : Colors.green[100];
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(right: 16),
-          child: _profileImage(senderUID),
-        ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(senderName, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),),
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 4),
-                child: Text(text)
-              )
-            ],
-          ),
-        ),
-//          Expanded(
-        Column(
+    return Container(
+        color: bg,
+        padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+        child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             GestureDetector(
-              child: Container( padding: EdgeInsets.all(8),child: Icon(Icons.thumb_up, size: 20)),
-              onTap: () => null,
+              child: Container(
+                padding: EdgeInsets.only(right: 16),
+                child: _profileImage(senderUID),
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Profile(user: senderUID,)),
+                );
+              },
             ),
-            GestureDetector(
-              child: Container( padding: EdgeInsets.all(8),child: Icon(Icons.thumb_down, size: 20)),
-              onTap: () => null,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(senderName, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),),
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 4),
+                    child: Text(text)
+                  )
+                ],
+              ),
             ),
+    //          Expanded(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                GestureDetector(
+                  child: Container( padding: EdgeInsets.all(8),child: Icon(Icons.thumb_up, size: 20, color: liked ? Theme.of(context).primaryColor : null,)),
+                  onTap: () => clickUpvote(),
+                ),
+                Text((likes-dislikes).toString(), style: TextStyle(fontSize: 11)),
+                GestureDetector(
+                  child: Container( padding: EdgeInsets.all(8),child: Icon(Icons.thumb_down, size: 20, color: disliked ? Theme.of(context).accentColor : null, )),
+                  onTap: () => clickDownvote(),
+                ),
+              ],
+            )
+    //          )
           ],
-        )
-//          )
-      ],
+      )
     );
+  }
 
-//    return Column(
-//      crossAxisAlignment: align,
-//      children: <Widget>[
-//        Container(
-//          margin: const EdgeInsets.all(3.0),
-//          padding: const EdgeInsets.all(8.0),
-//          decoration: BoxDecoration(
-//            boxShadow: [
-//              BoxShadow(
-//                  blurRadius: .5,
-//                  spreadRadius: 1.0,
-//                  color: Colors.black.withOpacity(.12))
-//            ],
-//            color: bg,
-//            borderRadius: radius,
-//          ),
-//          child: Stack(
-//            children: <Widget>[
-//              Padding(
-//                padding: EdgeInsets.only(right: 48.0),
-//                child: Text(text),
-//              ),
-//              Positioned(
-//                bottom: 0.0,
-//                right: 0.0,
-//                child: Row(
-//                  children: <Widget>[
-//                    Text(dateString,
-//                        style: TextStyle(
-//                          color: Colors.black38,
-//                          fontSize: 10.0,
-//                        )),
-//                    SizedBox(width: 3.0),
-//                    Icon(
-//                      icon,
-//                      size: 12.0,
-//                      color: Colors.black38,
-//                    )
-//                  ],
-//                ),
-//              )
-//            ],
-//          ),
-//        )
-//      ],
-//    );
+  clickUpvote(){
+    Firestore.instance.runTransaction((transaction) async {
+
+      if (message['likes'].contains(MyApp.firebaseUser.uid)) {
+        await transaction.update(message.reference, <String, dynamic>{
+          'likes': FieldValue.arrayRemove([MyApp.firebaseUser.uid])
+        });
+      } else {
+        if (message['dislikes'].contains(MyApp.firebaseUser.uid)){
+          await transaction.update(message.reference, <String, dynamic>{
+            'dislikes': FieldValue.arrayRemove([MyApp.firebaseUser.uid])
+          });
+        }
+        await transaction.update(message.reference, <String, dynamic>{
+          'likes': FieldValue.arrayUnion([MyApp.firebaseUser.uid])
+        });
+      }
+
+    });
+  }
+
+  clickDownvote(){
+    Firestore.instance.runTransaction((transaction) async {
+
+      if (message['dislikes'].contains(MyApp.firebaseUser.uid)) {
+        await transaction.update(message.reference, <String, dynamic>{
+          'dislikes': FieldValue.arrayRemove([MyApp.firebaseUser.uid])
+        });
+      } else {
+        if (message['likes'].contains(MyApp.firebaseUser.uid)){
+          await transaction.update(message.reference, <String, dynamic>{
+            'likes': FieldValue.arrayRemove([MyApp.firebaseUser.uid])
+          });
+        }
+        await transaction.update(message.reference, <String, dynamic>{
+          'dislikes': FieldValue.arrayUnion([MyApp.firebaseUser.uid])
+        });
+      }
+
+    });
   }
 }
 

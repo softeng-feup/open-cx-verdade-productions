@@ -64,8 +64,9 @@ class ForumState extends State<Forum> {
             return ListView.separated(
               separatorBuilder: (context, index) => Divider(
                 color: Colors.black,
+                height: 1,
               ),
-              padding: EdgeInsets.all(16.0),
+//              padding: EdgeInsets.all(16.0),
               itemBuilder: (context, index) => BubbleForum(snapshot.data.documents[index]),
               itemCount: snapshot.data.documents.length,
               reverse: true,
@@ -137,7 +138,7 @@ class ForumState extends State<Forum> {
           documentReference,
           {
             'uid_sender': MyApp.firebaseUser.uid,
-            'name_sender': MyApp.firebaseUser.displayName,
+            'name_sender': "PUT NAME HERE",
             'time': Timestamp.now(),
             'text': messageText,
             'dislikes': [],

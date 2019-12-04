@@ -46,7 +46,7 @@ class MyApp2 extends StatelessWidget {
       ),
       home: Consumer<AuthNotifier>(
         builder: (context, notifier, child) {
-          return notifier.user != null ? Calendar() : LoginRegisterPage();
+          return notifier.user != null ? Agenda() : LoginRegisterPage();
         },
       ),
     );

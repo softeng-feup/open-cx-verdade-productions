@@ -1,7 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conferly/models/event.dart';
 import 'package:conferly/notifier/auth_notifier.dart';
-import 'package:conferly/notifier/event_notifier.dart';
 import 'package:conferly/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -48,7 +46,6 @@ class DetailEventState extends State<DetailEvent> {
         ),
       ),
       body: Center(
-
 //          crossAxisAlignment: CrossAxisAlignment.stretch,
           child: Column(
             children: <Widget>[
@@ -159,7 +156,7 @@ class DetailEventState extends State<DetailEvent> {
                     minWidth: _width / 1.3,
                     highlightColor: Colors.transparent,
                     splashColor: Colors.white,
-                    //shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5.0))),
                     child: Text(
                       "GO TO FORUM",
                       style: TextStyle(
@@ -238,6 +235,7 @@ class DetailEventState extends State<DetailEvent> {
   _changeEvents() async {
     AuthNotifier authNotifier = Provider.of<AuthNotifier>(
         context, listen: false);
+
     event.participants.remove(authNotifier.user.uid);
 
     if (add) {

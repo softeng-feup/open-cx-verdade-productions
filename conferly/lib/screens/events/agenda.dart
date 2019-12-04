@@ -66,6 +66,8 @@ class AgendaState extends State<Agenda> {
   @override
   Widget build(BuildContext context) {
     _eventsList(authNotifier.user.uid);
+    _filterSearchResults(editingController.text);
+    _filterDateResults(dates[_date]);
 
     return new Scaffold(
       key: _scaffoldKey,
@@ -199,7 +201,8 @@ class AgendaState extends State<Agenda> {
     if (query.isNotEmpty) {
       List<Event> dummyListData = List<Event>();
       dummySearchList.forEach((item) {
-        if (item.title.contains(query)) {
+        String title = item.title.toLowerCase();
+        if (title.contains(query.toLowerCase())) {
           dummyListData.add(item);
         }
       });

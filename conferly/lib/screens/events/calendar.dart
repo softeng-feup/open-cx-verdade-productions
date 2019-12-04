@@ -66,6 +66,21 @@ class CalendarState extends State<Calendar> {
 
     return new Scaffold(
       key: _scaffoldKey,
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.green,
+        actions: <Widget>[
+          MaterialButton(
+              child: Text(
+                "logout",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                    fontFamily: "WorkSansBold"),
+              ),
+              onPressed: _signOut
+          ),        ],
+      ),
       body: new RefreshIndicator(
         onRefresh: _eventsList,
         child: Column(

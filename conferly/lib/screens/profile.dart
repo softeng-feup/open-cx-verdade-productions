@@ -40,7 +40,7 @@ class ProfileState extends State<Profile> {
   bool isMe = true;
   String _user;
 
-  bool isImageSet(){
+ bool isImageSet(){
     return imageFile != null;
   }
 
@@ -64,7 +64,6 @@ class ProfileState extends State<Profile> {
     }
     return 'assets/images/profile.png';
   }
-
 
   getUserInfo() async {
 //    if (user == "" || user == null)

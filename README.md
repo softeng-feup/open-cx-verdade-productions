@@ -188,6 +188,8 @@ We can decompose the structure of the code in the following packages:
 * **Screens** - provides an interface for the user.
 * **Services** - enables the app to get information from the back-end.
 
+When we got the hang of Flutter and tackled the most important aspects of the project the group started working towards a more well defined structure namely the **MVC** (Model View Controller) which would allow a faster development of the application and easier scalability and maintainability.
+
 ### Physical architecture
 The goal of this subsection is to document the high-level physical structure of the software system (machines, connections, software components installed, and their dependencies) using UML deployment diagrams or component diagrams (separate or integrated), showing the physical structure of the system.
 

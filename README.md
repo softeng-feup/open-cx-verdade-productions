@@ -165,9 +165,6 @@ As a user I want to be part of discussions of the events I am attending, so that
 
 	Value: Should Have
 	Effort: L
-***
-*As a user I would like to get recommendations (users and events) based on my interests, so that I can find what I am interested in effortlessly.*
-***
 
 ### Domain model
 

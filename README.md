@@ -36,7 +36,7 @@ Thank you!
 ---
 
 ## Product Vision
-We are developing an app that will hold information about the event, and for each one there will be a forum/chat where people can comment or chat about the event. Users will be able to create profiles and define their interests getting the opportunity to connect with other people with similar ones. They will also be able to trade user data with their microbit badge.
+We are developing an app that will hold information about the event, and for each one there will be a forum/chat where people can comment or chat about the event. Users will be able to create profiles and define their interests getting the opportunity to connect with other people with similar ones.
 
 
 ---
@@ -66,7 +66,7 @@ The **functional requirements** are exposed on the [Use case diagram](#Use-case-
 
 <img src="https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/forum.png" width="160" height="350" />
 
-As a user I want to be part of discussions of the events I am attending, so that I can find people with similar interests and clearify any doubs I might be having.
+As a user I want to be part of discussions of the events I am attending, so that I can find people with similar interests and clarify any doubs I might be having.
 
 **Feature**: Forum
 

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conferly/models/event.dart';
 import 'package:conferly/notifier/auth_notifier.dart';
 import 'package:conferly/notifier/event_notifier.dart';
@@ -28,6 +29,34 @@ class AgendaState extends State<Agenda> {
   List<Event> events = List<Event>();
   List<String> dates = List<String>();
   int _date;
+
+//  StreamBuilder(
+//  stream: Firestore.instance
+//      .collection('Chats')
+//      .document(chat.documentID)
+//      .collection('messages')
+//      .orderBy('time', descending: true)
+//      .limit(20)
+//      .snapshots(),
+//  builder: (context, snapshot) {
+//  if (!snapshot.hasData) {
+//  return Center(
+//  child: CircularProgressIndicator(
+//  valueColor: AlwaysStoppedAnimation<Color>(
+//  Theme.of(context).accentColor)));
+//  } else {
+//  listMessages = snapshot.data.documents;
+//  return ListView.builder(
+//  padding: EdgeInsets.all(10.0),
+//  itemBuilder: (context, index) =>
+//  buildMessage(index, snapshot.data.documents[index]),
+//  itemCount: snapshot.data.documents.length,
+//  reverse: true,
+//  controller: listScrollController,
+//  );
+//  }
+//  },
+//  ),
 
   Future<void> _eventsList(String uid) async {
     List<Event> e = await DatabaseService().getEventsFromUser(uid);
@@ -66,10 +95,13 @@ class AgendaState extends State<Agenda> {
   @override
   Widget build(BuildContext context) {
     _eventsList(authNotifier.user.uid);
-    _filterSearchResults(editingController.text);
-    _filterDateResults(dates[_date]);
+//    _filterSearchResults(editingController.text);
+//    _filterDateResults(dates[_date]);
 
     return new Scaffold(
+      appBar: AppBar(
+        title: Text('Agenda'),
+      ),
       key: _scaffoldKey,
       body: Column(
         children: <Widget>[
@@ -175,22 +207,36 @@ class AgendaState extends State<Agenda> {
 
   Widget _showEvents() {
     return Expanded(
-      child: new Container(
-        child: new CustomScrollView(
-          scrollDirection: Axis.vertical,
-          shrinkWrap: false,
-          slivers: <Widget>[
-            new SliverPadding(
-              padding: const EdgeInsets.symmetric(vertical: 1.0),
-              sliver: new SliverList(
-                delegate: new SliverChildBuilderDelegate(
-                      (context, index) => new EventSummary(events[index], index),
-                  childCount: events.length,
-                ),
-              ),
-            ),
-          ],
-        ),
+      child: new StreamBuilder(
+        stream: Firestore.instance
+            .collection('Events')
+            .where("participants", arrayContains: authNotifier.user.uid)
+            .orderBy('startDate')
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+                child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                        Theme.of(context).accentColor)));
+          } else {
+//            listMessages = snapshot.data.documents;
+
+            List<DocumentSnapshot> listEvents;
+
+
+
+
+            return ListView.builder(
+              padding: EdgeInsets.all(10.0),
+              itemBuilder: (context, index) =>
+                  EventSummary(DatabaseService().eventDataFromSnapshot(snapshot.data.documents[index]), index),
+              itemCount: snapshot.data.documents.length,
+//              reverse: true,
+//              controller: listScrollController,
+            );
+          }
+        },
       ),
     );
   }

@@ -85,7 +85,7 @@ class Chat extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(100.0),
           border: Border.all(
-            color: Colors.grey,
+            color: Colors.green,
             width: 1.0,
           )),
     ));

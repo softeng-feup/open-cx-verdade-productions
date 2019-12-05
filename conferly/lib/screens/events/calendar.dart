@@ -42,10 +42,13 @@ class CalendarState extends State<Calendar> {
   void _datesList() {
     var d = Set<String>();
     for (int i = 0; i < events.length; i++) {
-      d.add('${new DateFormat("dd MMMM").format(events[i].startDate.toDate())}');
+      d.add(
+          '${new DateFormat("dd MMMM").format(events[i].startDate.toDate())}');
     }
     List<String> _dates = d.toList();
-    _dates.sort((a, b) {return a.toLowerCase().compareTo(b.toLowerCase());});
+    _dates.sort((a, b) {
+      return a.toLowerCase().compareTo(b.toLowerCase());
+    });
     setState(() {
       dates.clear();
       dates.addAll(_dates);
@@ -63,23 +66,32 @@ class CalendarState extends State<Calendar> {
 
   @override
   Widget build(BuildContext context) {
-
     return new Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
+        title: Text("Calendar"),
         centerTitle: true,
         backgroundColor: Colors.green,
         actions: <Widget>[
-          MaterialButton(
-              child: Text(
-                "logout",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
-                    fontFamily: "WorkSansBold"),
+          IconButton(
+              icon: Icon(
+                FontAwesomeIcons.signOutAlt,
+                color: Colors.white,
               ),
               onPressed: _signOut
-          ),        ],
+          )
+        ],
+
+//          MaterialButton(
+//              child: Text(
+//                "logout",
+//                style: TextStyle(
+//                    color: Colors.white,
+//                    fontSize: 20.0,
+//                    fontFamily: "WorkSansBold"),
+//              ),
+//              onPressed: _signOut
+//          ),        ],
       ),
       body: new RefreshIndicator(
         onRefresh: _eventsList,
@@ -87,14 +99,16 @@ class CalendarState extends State<Calendar> {
           children: <Widget>[
             Padding(
               padding: EdgeInsets.only(
-                top: 30.0,),
+                top: 30.0,
+              ),
             ),
             Container(
               margin: const EdgeInsets.symmetric(
                 vertical: 5.0,
                 horizontal: 9.0,
               ),
-              child: Row(mainAxisAlignment: MainAxisAlignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   new Expanded(
                     flex: 2,
@@ -197,7 +211,7 @@ class CalendarState extends State<Calendar> {
               padding: const EdgeInsets.symmetric(vertical: 1.0),
               sliver: new SliverList(
                 delegate: new SliverChildBuilderDelegate(
-                      (context, index) => new EventSummary(events[index], index),
+                  (context, index) => new EventSummary(events[index], index),
                   childCount: events.length,
                 ),
               ),
@@ -243,7 +257,8 @@ class CalendarState extends State<Calendar> {
     if (_date != dates.length - 1) {
       List<Event> dummyListData = List<Event>();
       dummySearchList.forEach((item) {
-        if ('${new DateFormat("dd MMMM").format(item.startDate.toDate())}' == date) {
+        if ('${new DateFormat("dd MMMM").format(item.startDate.toDate())}' ==
+            date) {
           dummyListData.add(item);
         }
       });
@@ -256,7 +271,8 @@ class CalendarState extends State<Calendar> {
   }
 
   void _signOut() {
-    AuthNotifier authNotifier = Provider.of<AuthNotifier>(context, listen: false);
+    AuthNotifier authNotifier =
+        Provider.of<AuthNotifier>(context, listen: false);
     print(authNotifier.user.name);
     _auth.signOut();
     authNotifier.setUser(null);

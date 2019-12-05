@@ -172,7 +172,7 @@ class _profileImageState extends State<_profileImage>{
               ),
               borderRadius: BorderRadius.circular(100.0),
               border: Border.all(
-                color: Colors.grey,
+                color: Colors.green,
                 width: 1.0,
               )),
         ));

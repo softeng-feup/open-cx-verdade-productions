@@ -175,7 +175,7 @@ class DetailChatState extends State<DetailChat> {
                     child: Stack(children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(right: 0.0),
-                        child: Text(message["text"]),
+                        child: Text(message["text"], style: TextStyle(fontStyle: FontStyle.normal)),
                       )
                     ]))
               ]))
@@ -386,7 +386,7 @@ class _profileImageState extends State<_profileImage> {
           ),
           borderRadius: BorderRadius.circular(100.0),
           border: Border.all(
-            color: Colors.grey,
+            color: Colors.green,
             width: 1.0,
           )),
     ));

@@ -70,3 +70,7 @@ flutter:
     - family: WorkSansMedium
       fonts:
         - asset: assets/Work_Sans/WorkSans-Medium.ttf
+
+    - family: WorkSansRegular
+      fonts:
+        - asset: assets/Work_Sans/WorkSans-Regular.ttf

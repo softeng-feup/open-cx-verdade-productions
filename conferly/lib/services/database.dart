@@ -23,7 +23,7 @@ class DatabaseService {
     );
   }
 
-  Event _eventDataFromSnapshot(DocumentSnapshot snapshot) {
+  Event eventDataFromSnapshot(DocumentSnapshot snapshot) {
     return Event(
       id: snapshot.documentID,
       title: snapshot.data['name'],
@@ -48,7 +48,7 @@ class DatabaseService {
     DateTime now = DateTime.now();
 
     snapshot.documents.forEach((document) {
-      Event event = _eventDataFromSnapshot(document);
+      Event event = eventDataFromSnapshot(document);
       if(now.isBefore(event.startDate.toDate()))
         _eventList.add(event);
     });
@@ -62,7 +62,7 @@ class DatabaseService {
     DateTime now = DateTime.now();
 
     snapshot.documents.forEach((document) {
-      Event event = _eventDataFromSnapshot(document);
+      Event event = eventDataFromSnapshot(document);
       if(event.participants.contains(uid) && now.isBefore(event.startDate.toDate()))
         _eventList.add(event);
     });

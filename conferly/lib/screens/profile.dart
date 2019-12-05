@@ -140,8 +140,8 @@ class ProfileState extends State<Profile> {
               ),
               borderRadius: BorderRadius.circular(100.0),
               border: Border.all(
-                color: Colors.grey,
-                width: 5.0,
+                color: Colors.green,
+                width: 2.0,
               )
           ),
         )

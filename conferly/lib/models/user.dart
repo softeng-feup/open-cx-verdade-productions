@@ -3,7 +3,7 @@ class User {
   String email;
   String name;
   String description;
-  int status;
+  String status;
   List<String> interests;
   User({this.uid, this.email, this.name, this.description, this.status, this.interests});
 }

@@ -1,6 +1,8 @@
 import 'package:conferly/models/event.dart';
 import 'package:conferly/notifier/auth_notifier.dart';
+import 'package:conferly/screens/forum.dart';
 import 'package:conferly/services/database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -164,7 +166,12 @@ class DetailEventState extends State<DetailEvent> {
                           fontSize: 20.0,
                           fontFamily: "WorkSansBold"),
                     ),
-                    onPressed: () {}
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Forum(event.id)),
+                      );
+                    }
                 ),
               ),
               new SizedBox(height: _height / 30,),
@@ -251,23 +258,67 @@ class DetailEventState extends State<DetailEvent> {
   }
 
   Widget _profileImage() {
+    print(event.speaker_uid);
+    return profileImage(event.speaker_uid);
+  }
+
+}
+
+class profileImage extends StatefulWidget {
+
+
+  String _profileUid;
+
+  profileImage(String uid) {
+    this._profileUid = uid;
+  }
+
+
+  @override
+  profileImageState createState() => profileImageState();
+}
+
+class profileImageState extends State<profileImage>{
+
+  String imageFile;
+
+  getImagePath() async {
+    print(widget._profileUid);
+    StorageReference photo = FirebaseStorage(storageBucket: 'gs://conferly-8779b.appspot.com/').ref().child('images/${widget._profileUid}.png');
+    await photo.getDownloadURL().then((data){
+      print('here');
+      setState(() {
+        imageFile = data;
+        print("TESt");
+      });
+    }).catchError((error) {
+
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getImagePath();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Center(
         child: Container(
-          width: 120.0, height: 120.0,
+          width: 40.0,
+          height: 40.0,
           decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/images/profile.png'),
+                image: (imageFile != null) ? new NetworkImage(imageFile) : (AssetImage('assets/images/profile.png')),
                 fit: BoxFit.cover,
               ),
               borderRadius: BorderRadius.circular(100.0),
               border: Border.all(
-                color: Colors.green,
-                width: 2.0,
-              )
-          ),
-        )
-    );
+                color: Colors.grey,
+                width: 1.0,
+              )),
+        ));
   }
-
 }
 

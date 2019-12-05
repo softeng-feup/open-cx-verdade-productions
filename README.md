@@ -204,9 +204,9 @@ One of the hardest decisions was deciding which framework to use when developing
 Flutter has also been trending a lot in the recent past which means the opportunity for us to learn a new technology that might get the throne in the cross-platform apps development world.
 
 ### Prototype
-To help on validating all the architectural, design and technological decisions made, we usually implement a vertical prototype, a thin vertical slice of the system.
+We experimented the technology we were going to use throughout the semester, namely flutter. To give us confidence, since we already have made the mock ups, we made a prototype of the pages with hardcoded information just to create the structure of the app. The user stories that were implemented were the agenda, personal agenda, profile and event page.
 
-In this subsection please describe in more detail which, and how, user(s) story(ies) were implemented.
+
 
 ---
 

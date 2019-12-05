@@ -176,13 +176,9 @@ To better understand the context of the software system, it is very useful to ha
 ---
 
 ## Architecture and Design
-The architecture of a software system encompasses the set of key decisions about its overall organization. 
+In this section we will be talking about the overall software system organization, describing the components of the project and their interrelations and detailing the decomposition of the system in their parts (high-lever components) and the key behaviors and collaborations between them.
 
-A well written architecture document is brief but reduces the amount of time it takes new programmers to a project to understand the code to feel able to make modifications and enhancements.
-
-To document the architecture requires describing the decomposition of the system in their parts (high-level components) and the key behaviors and collaborations between them. 
-
-In this section you should start by briefly describing the overall components of the project and their interrelations. You should also describe how you solved typical problems you may have encountered, pointing to well-known architectural and design patterns, if applicable.
+We'll be first explaining the high-level logical structure of the code (**Logical Architecture**) and then the high.level physical structure of the software system (**Physical Architecture**).
 
 ### Logical architecture
 The purpose of this subsection is to document the high-level logical structure of the code, using a UML diagram with logical packages, without the worry of allocating to components, processes or machines.

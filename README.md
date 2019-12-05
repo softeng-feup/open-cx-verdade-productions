@@ -193,7 +193,7 @@ When we got the hang of Flutter and tackled the most important aspects of the pr
 ### Physical architecture
 The high-level physical software system is very straightforward since the user only needs to install our mobile application. This application uses [Firebase](https://firebase.google.com) as it's backend service meaning that every bit of information about the conference, it's events and it's users are maintained on Firebase services such as [Cloud Firestore](https://firebase.google.com/docs/firestore),  [Firebase Authentication](https://firebase.google.com/docs/auth) and [Cloud Storage](https://firebase.google.com/docs/storage).
 
-UML que representa a informação descrita em cima.
+![Physycal Architecture Diagram](https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/firebase.jpg)
 
 We opted to use **Firebase** as our backend service since it allows our developers to focus on giving the user an amazing experience without having to worry about about managing data and servers. Firebase is our server, our API and our datastore, all at the same time!
 This service provides a **Real Time Database** which uses WebSockets instead of HTTP connections, resulting in a much faster connection since this database does not require an HTTP request but instead the app receives the data as soon as it's updated on the database.

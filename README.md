@@ -36,7 +36,7 @@ Thank you!
 ---
 
 ## Product Vision
-We are developing an app that will hold information about the event, and for each one there will be a forum/chat where people can comment or chat about the event. Users will be able to create profiles and define their interests getting the opportunity to connect with other people with similar ones. They will also be able to trade user data with their microbit badge.
+We are developing an app that will hold information about the event, and for each one there will be a forum/chat where people can comment or chat about the event. Users will be able to create profiles and define their interests getting the opportunity to connect with other people with similar ones.
 
 
 ---
@@ -66,7 +66,7 @@ The **functional requirements** are exposed on the [Use case diagram](#Use-case-
 
 <img src="https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/forum.png" width="160" height="350" />
 
-As a user I want to be part of discussions of the events I am attending, so that I can find people with similar interests and clearify any doubs I might be having.
+As a user I want to be part of discussions of the events I am attending, so that I can find people with similar interests and clarify any doubs I might be having.
 
 **Feature**: Forum
 
@@ -176,20 +176,19 @@ To better understand the context of the software system, it is very useful to ha
 ---
 
 ## Architecture and Design
-The architecture of a software system encompasses the set of key decisions about its overall organization. 
+In this section we will be talking about the overall software system organization, describing the components of the project and their interrelations and detailing the decomposition of the system in their parts (high-lever components) and the key behaviors and collaborations between them.
 
-A well written architecture document is brief but reduces the amount of time it takes new programmers to a project to understand the code to feel able to make modifications and enhancements.
-
-To document the architecture requires describing the decomposition of the system in their parts (high-level components) and the key behaviors and collaborations between them. 
-
-In this section you should start by briefly describing the overall components of the project and their interrelations. You should also describe how you solved typical problems you may have encountered, pointing to well-known architectural and design patterns, if applicable.
+We'll be first explaining the high-level logical structure of the code (**Logical Architecture**) and then the high.level physical structure of the software system (**Physical Architecture**).
 
 ### Logical architecture
-The purpose of this subsection is to document the high-level logical structure of the code, using a UML diagram with logical packages, without the worry of allocating to components, processes or machines.
+From the very beginning, the group opted to keep a very simple logical architecture since learning Flutter and the basics off mobile applications development would be the most important obstacles do tackle.
 
-It can be beneficial to present the system both in a horizontal or vertical decomposition:
-* horizontal decomposition may define layers and implementation concepts, such as the user interface, business logic and concepts; 
-* vertical decomposition can define a hierarchy of subsystems that cover all layers of implementation.
+We can decompose the structure of the code in the following packages:
+* **Widgets** - holds the most important widgets of the application, focusing mostly on the application's logic.
+* **Screens** - provides an interface for the user.
+* **Services** - enables the app to get information from the back-end.
+
+When we got the hang of Flutter and tackled the most important aspects of the project the group started working towards a more well defined structure namely the **MVC** (Model View Controller) which would allow a faster development of the application and easier scalability and maintainability.
 
 ### Physical architecture
 The goal of this subsection is to document the high-level physical structure of the software system (machines, connections, software components installed, and their dependencies) using UML deployment diagrams or component diagrams (separate or integrated), showing the physical structure of the system.

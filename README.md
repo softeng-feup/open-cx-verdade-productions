@@ -200,7 +200,8 @@ This service provides a **Real Time Database** which uses WebSockets instead of 
 Firebase also provides their clients a simple way to store binary files, such as images, in the [Google Cloud Storage](https://cloud.google.com/storage/).
 The Firebase Authentication also comes in really handy, since it has a built in email/password authentication system and also supports other types of authentications such as Google, Facebook, Twitter and Github. It is a pretty reliable service and lifts us the weight of having to build our own custom authentication system.
 
-It should describe also the technologies considered and justify the selections made. Examples of technologies relevant for openCX are, for example, frameworks for mobile applications (Flutter vs ReactNative vs ...), languages to program with microbit, and communication with things (beacons, sensors, etc.).
+One of the hardest decisions was deciding which framework to use when developing the app. It was mainly about choosing between [Flutter](https://flutter.dev/) and [React Native](https://facebook.github.io/react-native/) since both of them allows the development of native apps in both IOS and Android. While both frameworks can be quite comparable, Flutter exceeds React Native in terms of performance, since it uses Dart as a language whose code is compiled to machine language (the same does not happen with Javascript).
+Flutter has also been trending a lot in the recent past which means the opportunity for us to learn a new technology that might get the throne in the cross-platform apps development world.
 
 ### Prototype
 To help on validating all the architectural, design and technological decisions made, we usually implement a vertical prototype, a thin vertical slice of the system.

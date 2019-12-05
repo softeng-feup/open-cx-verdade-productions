@@ -191,7 +191,14 @@ We can decompose the structure of the code in the following packages:
 When we got the hang of Flutter and tackled the most important aspects of the project the group started working towards a more well defined structure namely the **MVC** (Model View Controller) which would allow a faster development of the application and easier scalability and maintainability.
 
 ### Physical architecture
-The goal of this subsection is to document the high-level physical structure of the software system (machines, connections, software components installed, and their dependencies) using UML deployment diagrams or component diagrams (separate or integrated), showing the physical structure of the system.
+The high-level physical software system is very straightforward since the user only needs to install our mobile application. This application uses [Firebase](https://firebase.google.com) as it's backend service meaning that every bit of information about the conference, it's events and it's users are maintained on Firebase services such as [Cloud Firestore](https://firebase.google.com/docs/firestore),  [Firebase Authentication](https://firebase.google.com/docs/auth) and [Cloud Storage](https://firebase.google.com/docs/storage).
+
+UML que representa a informação descrita em cima.
+
+We opted to use **Firebase** as our backend service since it allows our developers to focus on giving the user an amazing experience without having to worry about about managing data and servers. Firebase is our server, our API and our datastore, all at the same time!
+This service provides a **Real Time Database** which uses WebSockets instead of HTTP connections, resulting in a much faster connection since this database does not require an HTTP request but instead the app receives the data as soon as it's updated on the database.
+Firebase also provides their clients a simple way to store binary files, such as images, in the [Google Cloud Storage](https://cloud.google.com/storage/).
+The Firebase Authentication also comes in really handy, since it has a built in email/password authentication system and also supports other types of authentications such as Google, Facebook, Twitter and Github. It is a pretty reliable service and lifts us the weight of having to build our own custom authentication system.
 
 It should describe also the technologies considered and justify the selections made. Examples of technologies relevant for openCX are, for example, frameworks for mobile applications (Flutter vs ReactNative vs ...), languages to program with microbit, and communication with things (beacons, sensors, etc.).
 

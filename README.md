@@ -36,16 +36,12 @@ Thank you!
 ---
 
 ## Product Vision
-We are developing an app that will hold information about the event, and for each one there will be a forum/chat where people can comment or chat about the event. Users will be able to create profiles and define their interests getting the opportunity to connect with other people with similar ones.
+This app will not only give our consumers the opportunity to easily talk with others and discuss each other's ideas regarding various events through chats and forums, but also facilitate the connection with various users who share similar preferred themes, by allowing people to create their own personalized profiles, containing their favorite interests.
 
 
 ---
 ## Elevator Pitch
-Conference attendees are often frustrated with the lack of time to communicate and network with others, not experiencing the conference at its best.
-Our product enables the attendees to enjoy their time spent at the conference while not having to worry about trivial things, making you feel part of the environment that surrounds you. 
-Being people that also love to attend at conferences, it strikes us that conferences with good content result in a poor experience. Hence, we understand how the attendees feel and how that can be changed.
-With our app, dead time will be turned into productivity and personal value.
-Here's the link for the app. I'll hope to get your feedback, so that your experiences can keep improving! 
+Conference attendees are often frustrated with the lack of time they have to communicate and network with others, being unable to experience conferences at their fullest. Our product provides the users the possibility to enjoy the time they spend during conferences, while not having to worry about trivial things, making them feel as though they are in tune with their surroundings. We understand how the attendees feel and how that feeling can be changed. With our app, wasted time will easily be turned into something productive and with personal value.
 
 ---
 ## Requirements

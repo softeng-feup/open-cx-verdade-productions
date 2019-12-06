@@ -138,7 +138,7 @@ class ForumState extends State<Forum> {
           documentReference,
           {
             'uid_sender': MyApp.firebaseUser.uid,
-            'name_sender': "PUT NAME HERE",
+            'name_sender': MyApp.firebaseUser.name,
             'time': Timestamp.now(),
             'text': messageText,
             'dislikes': [],

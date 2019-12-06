@@ -25,8 +25,11 @@ class AuthService {
 
     if(result != null) {
       FirebaseUser firebaseUser = result.user;
-      MyApp.firebaseUser = firebaseUser;
-      return DatabaseService().getUser(firebaseUser.uid);
+//      MyApp.firebaseUser = firebaseUser;
+//      return DatabaseService().getUser(firebaseUser.uid);
+      User user =  await DatabaseService().getUser(firebaseUser.uid);
+      MyApp.firebaseUser = user;
+      return user;
     }
 
     return null;
@@ -39,9 +42,12 @@ class AuthService {
     final AuthResult result = await _auth.signInWithCredential(GoogleAuthProvider.getCredential(idToken: googleAuth.idToken, accessToken: googleAuth.accessToken)).catchError((error) => print(error.code));
 
     if(result != null) {
-      FirebaseUser user = result.user;
+      FirebaseUser Fuser = result.user;
+//      MyApp.firebaseUser = Fuser;
+//      return DatabaseService().getUser(Fuser.uid);
+      User user =  await DatabaseService().getUser(Fuser.uid);
       MyApp.firebaseUser = user;
-      return DatabaseService().getUser(user.uid);
+      return user;
     }
 
     return null;
@@ -53,9 +59,11 @@ class AuthService {
 
     if(result != null) {
       FirebaseUser firebaseUser = result.user;
-      MyApp.firebaseUser = firebaseUser;
+//      MyApp.firebaseUser = firebaseUser;
       await DatabaseService().introduceUserData(firebaseUser.uid, email, name);
-      return DatabaseService().getUser(firebaseUser.uid);
+      User user =  await DatabaseService().getUser(firebaseUser.uid);
+      MyApp.firebaseUser = user;
+      return user;
     }
 
     return null;

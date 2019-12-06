@@ -56,7 +56,7 @@ class MyApp2 extends StatelessWidget {
 }
 
 class MyApp extends StatelessWidget {
-  static FirebaseUser firebaseUser;
+  static User firebaseUser;
 
   static final saved = <DocumentSnapshot>[];
 

@@ -153,7 +153,8 @@ class DetailChatState extends State<DetailChat> {
                   isFirstMessageLeft(index)
                     ? Container(
                         child: Text(
-                          "MODIFY THIS",
+                          message["sender_name"] == null || message["sender_name"] == "" ?
+                          "Name" : message["sender_name"],
                           style: TextStyle(fontSize: 12),
                         ),
                         margin: EdgeInsets.fromLTRB(8, 0, 0, 0),
@@ -182,54 +183,6 @@ class DetailChatState extends State<DetailChat> {
             ],
           ));
     }
-//    return Column(
-//      crossAxisAlignment: align,
-//      children: <Widget>[
-//        Container(
-//          margin: const EdgeInsets.all(3.0),
-//          padding: const EdgeInsets.all(8.0),
-//          decoration: BoxDecoration(
-//            boxShadow: [
-//              BoxShadow(
-//                  blurRadius: .5,
-//                  spreadRadius: 1.0,
-//                  color: Colors.black.withOpacity(.12))
-//            ],
-//            color: bg,
-//            borderRadius: radius,
-//          ),
-//          child: Stack(
-//            children: <Widget>[
-//              Padding(
-//                padding: EdgeInsets.only(right: 0.0),
-//                child: Text(message["text"]),
-//              ),
-//              Positioned(
-//                bottom: 0.0,
-//                right: 0.0,
-//                child: Row(
-//                  children: <Widget>[
-//                    Text(dateString,
-//                        style: TextStyle(
-//                          color: Colors.black38,
-//                          fontSize: 10.0,
-//                        )),
-//                    SizedBox(width: 3.0),
-//                    Icon(
-//                      icon,
-//                      size: 12.0,
-//                      color: Colors.black38,
-//                    )
-//            ],
-//          ),
-//        )
-//      ],
-//    )
-//    ,
-//    )
-//    ]
-//    ,
-//    );
   }
 
   bool isFirstMessageLeft(int index) {
@@ -327,6 +280,7 @@ class DetailChatState extends State<DetailChat> {
           documentReference,
           {
             'sender': MyApp.firebaseUser.uid,
+            'sender_name': MyApp.firebaseUser.name,
             'time': Timestamp.now(),
             'text': messageText
           },

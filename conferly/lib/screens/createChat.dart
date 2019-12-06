@@ -4,6 +4,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 import 'package:conferly/main.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+import 'detailChat.dart';
 
 class CreateChat extends StatefulWidget {
   String profileUid;
@@ -21,6 +24,8 @@ class CreateChat extends StatefulWidget {
 class CreateChatState extends State<CreateChat> {
   TextEditingController textEditingController = new TextEditingController();
   String textQuery = "";
+
+  bool alreadyClick = false;
 
   @override
   void dispose() {
@@ -48,10 +53,64 @@ class CreateChatState extends State<CreateChat> {
       ),
       body: Column(
         children: <Widget>[
-          TextField(
-            controller: textEditingController
+              Card(
+              elevation: 2.0,
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: Container(
+                height: 50.0,
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(
+                          top: 3.0, left: 25.0, right: 25.0),
+                      child: TextField(
+                        autofocus: true,
+                        controller: textEditingController,
+                        style: TextStyle(
+                            fontFamily: "WorkSansSemiBold",
+                            fontSize: 16.0,
+                            color: Colors.black),
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          icon: Icon(
+                            FontAwesomeIcons.search,
+                            color: Colors.black,
+                            size: 22.0,
+                          ),
+                          hintText: "Search",
+                          hintStyle: TextStyle(
+                              fontFamily: "WorkSansSemiBold",
+                              fontSize: 17.0),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
           ),
-          Text("Text $textQuery"),
+//          TextField(
+//            controller: textEditingController,
+//            style: TextStyle(
+//                fontFamily: "WorkSansSemiBold",
+//                fontSize: 16.0,
+//                color: Colors.black),
+//            decoration: InputDecoration(
+//              border: InputBorder.none,
+//              icon: Icon(
+//                FontAwesomeIcons.search,
+//                color: Colors.black,
+//                size: 22.0,
+//              ),
+//              hintText: "Search",
+//              hintStyle: TextStyle(
+//                  fontFamily: "WorkSansSemiBold",
+//                  fontSize: 17.0),
+//            ),
+//          ),
           buildListUsers()
         ],
       ),
@@ -87,35 +146,49 @@ class CreateChatState extends State<CreateChat> {
   }
 
   Widget getProfileChat(BuildContext context, DocumentSnapshot profile) {
-//    MessageProfile profile = MyApp.chatProfiles[indexProfile];
 
     String imageFile;
 
+    if (profile['name'] == null || profile['name'] == "")
+      return Container();
+
     return GestureDetector(
         onTap: () async {
-//          Navigator.push(
-//            context,
-//            MaterialPageRoute(builder: (context) => DetailChat(chat)),
-//          );
-//                    print("Container pressed");
 
-          createChatWithTwoUsers(MyApp.firebaseUser.uid, profile['uid']);
+          if (alreadyClick)
+            return;
+
+          alreadyClick = true;
+
+          String uidChat =  await createChatWithTwoUsers(MyApp.firebaseUser.uid, profile['uid']);
+          DocumentSnapshot chat = await Firestore.instance
+              .collection('Chats')
+              .document(uidChat)
+              .get();
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => DetailChat(chat)),
+          );
 
         },
         child: Container(
+          color: Colors.transparent,
           padding: EdgeInsets.all(4),
+          margin: EdgeInsets.symmetric(horizontal: 16),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               _profileImage(profile['uid']),
+              Container(width: 32,),
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
                     profile['name'],
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   Text(profile['email']),
-                  Text(profile['uid'])
                 ],
               ),
             ],

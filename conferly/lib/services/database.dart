@@ -8,8 +8,10 @@ class DatabaseService {
     await usersCollenction.document(uid).setData({
       'email' : email,
       'name' : name,
+      'uid' : uid,
+      'name_search' : name.toLowerCase(),
       'description' : '',
-      'status' : 0,
+      'status' : 'Attendee',
       'interests' : [],
     });
   }

@@ -160,7 +160,7 @@ class CreateChatState extends State<CreateChat> {
 
           alreadyClick = true;
 
-          String uidChat =  await createChatWithTwoUsers(MyApp.firebaseUser.uid, profile['uid']);
+          String uidChat =  await createChatWithTwoUsers(MyApp.firebaseUser.uid, profile['uid'], MyApp.firebaseUser.name, profile['name']);
           DocumentSnapshot chat = await Firestore.instance
               .collection('Chats')
               .document(uidChat)

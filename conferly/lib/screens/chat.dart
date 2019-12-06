@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conferly/screens/createChat.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 import 'package:conferly/main.dart';
@@ -44,6 +45,18 @@ class Chat extends StatelessWidget {
 //    MessageProfile profile = MyApp.chatProfiles[indexProfile];
     String dateString = chat['lastMessage'].toDate().hour.toString().padLeft(2,'0') + ":" + chat['lastMessage'].toDate().minute.toString().padLeft(2,'0');
 
+    String chatName = chat['name'];
+    if (chat['chatName'] != null && chat['chatName'][MyApp.firebaseUser.uid] != null && chat['chatName'][MyApp.firebaseUser.uid] != "")
+      chatName = chat['chatName'][MyApp.firebaseUser.uid];
+
+    String chatImage = "";
+    if (chat['chatImage'] != null && chat['chatImage'][MyApp.firebaseUser.uid] != null && chat['chatImage'][MyApp.firebaseUser.uid] != "")
+      chatImage = chat['chatImage'][MyApp.firebaseUser.uid];
+
+    String lastText = "No text message";
+    if (chat['lastText'] != null && chat['lastText'] != "")
+        lastText = chat['lastText'];
+
     return GestureDetector(
         onTap: () {
           Navigator.push(
@@ -54,41 +67,31 @@ class Chat extends StatelessWidget {
         },
         child: Container(
           padding: EdgeInsets.all(4),
+          color: Colors.transparent,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              _profileImage(),
-              Column(
-                children: <Widget>[
-                  Text(
-                    chat['name'],
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text("Ola tudo bem"),
-                ],
+              _profileImage(chatImage),
+              Container(width: 16,),
+              Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      chatName,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Container(height: 4,),
+                    Text(lastText,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,),
+                  ],
+                ),
               ),
               Text(dateString)
             ],
           ),
         ));
-  }
-
-  Widget _profileImage() {
-    return Center(
-        child: Container(
-      width: 40.0,
-      height: 40.0,
-      decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/profile.png'),
-            fit: BoxFit.cover,
-          ),
-          borderRadius: BorderRadius.circular(100.0),
-          border: Border.all(
-            color: Colors.green,
-            width: 1.0,
-          )),
-    ));
   }
 
   Widget buildListChats() {
@@ -115,5 +118,59 @@ class Chat extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+class _profileImage extends StatefulWidget {
+String _profileUid;
+
+_profileImage(String uid) {
+  this._profileUid = uid;
+}
+
+@override
+_profileImageState createState() => _profileImageState();
+}
+
+class _profileImageState extends State<_profileImage> {
+  String imageFile;
+
+  getImagePath() async {
+    StorageReference photo =
+    FirebaseStorage(storageBucket: 'gs://conferly-8779b.appspot.com/')
+        .ref()
+        .child('images/${widget._profileUid}.png');
+    photo.getDownloadURL().then((data) {
+      setState(() {
+        imageFile = data;
+      });
+    }).catchError((error) {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getImagePath();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: Container(
+          width: 40.0,
+          height: 40.0,
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                image: (imageFile != null)
+                    ? new NetworkImage(imageFile)
+                    : (AssetImage('assets/images/profile.png')),
+                fit: BoxFit.cover,
+              ),
+              borderRadius: BorderRadius.circular(100.0),
+              border: Border.all(
+                color: Colors.green,
+                width: 1.0,
+              )),
+        ));
   }
 }

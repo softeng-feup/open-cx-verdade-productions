@@ -34,9 +34,12 @@ class DetailChatState extends State<DetailChat> {
 
   @override
   Widget build(BuildContext context) {
+    String chatName = chat['name'];
+    if (chat['chatName'] != null && chat['chatName'][MyApp.firebaseUser.uid] != null && chat['chatName'][MyApp.firebaseUser.uid] != "")
+      chatName = chat['chatName'][MyApp.firebaseUser.uid];
     return Scaffold(
         appBar: AppBar(
-          title: Text(chat['name']),
+          title: Text(chatName),
         ),
         body: Stack(
           children: <Widget>[
@@ -275,6 +278,10 @@ class DetailChatState extends State<DetailChat> {
           .collection('messages')
           .document(DateTime.now().millisecondsSinceEpoch.toString());
 
+      var chatReference = Firestore.instance
+          .collection('Chats')
+          .document(chat.documentID);
+
       Firestore.instance.runTransaction((transaction) async {
         await transaction.set(
           documentReference,
@@ -285,6 +292,15 @@ class DetailChatState extends State<DetailChat> {
             'text': messageText
           },
         );
+
+        await transaction.update(
+          chatReference,
+          {
+            'lastMessage': Timestamp.now(),
+            'lastText': messageText
+          },
+        );
+
         print("Done writing message");
       });
       listScrollController.animateTo(0.0,

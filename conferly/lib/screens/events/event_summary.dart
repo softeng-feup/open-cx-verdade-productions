@@ -2,6 +2,7 @@ import 'package:conferly/notifier/auth_notifier.dart';
 import 'package:conferly/notifier/event_notifier.dart';
 import 'package:conferly/screens/events/agenda.dart';
 import 'package:conferly/widgets/separator.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:conferly/models/event.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -32,11 +33,8 @@ class EventSummary extends StatelessWidget {
           width: 100.0,
           child: Padding(
             padding: EdgeInsets.all(0),
-            child: CircleAvatar(
-              backgroundImage: ExactAssetImage('assets/images/profile.png'),
-              minRadius: 50,
-              maxRadius: 60,
-            ),
+            child:
+            _profileImage(),
           ),
           decoration: new BoxDecoration(
             shape: BoxShape.circle,
@@ -187,6 +185,57 @@ class EventSummary extends StatelessWidget {
             ],
           ),
         )
+    );
+  }
+
+  Widget _profileImage() {
+    print(event.speaker_uid);
+    return profileImage(event.speaker_uid);
+  }
+}
+
+class profileImage extends StatefulWidget {
+
+
+  String _profileUid;
+
+  profileImage(String uid) {
+    this._profileUid = uid;
+  }
+
+
+  @override
+  profileImageState createState() => profileImageState();
+}
+
+class profileImageState extends State<profileImage>{
+
+  String imageFile;
+
+  getImagePath() {
+    print(widget._profileUid);
+    StorageReference photo = FirebaseStorage(storageBucket: 'gs://conferly-8779b.appspot.com/').ref().child('images/${widget._profileUid}.png');
+    photo.getDownloadURL().then((data){
+      setState(() {
+        imageFile = data;
+      });
+    }).catchError((error) {
+
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getImagePath();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+        backgroundImage: (imageFile != null) ? new NetworkImage(imageFile) : (AssetImage('assets/images/profile.png')),
+    minRadius: 50,
+    maxRadius: 60,
     );
   }
 }

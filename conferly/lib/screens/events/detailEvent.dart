@@ -282,14 +282,12 @@ class profileImageState extends State<profileImage>{
 
   String imageFile;
 
-  getImagePath() async {
+  getImagePath() {
     print(widget._profileUid);
     StorageReference photo = FirebaseStorage(storageBucket: 'gs://conferly-8779b.appspot.com/').ref().child('images/${widget._profileUid}.png');
-    await photo.getDownloadURL().then((data){
-      print('here');
+    photo.getDownloadURL().then((data){
       setState(() {
         imageFile = data;
-        print("TESt");
       });
     }).catchError((error) {
 

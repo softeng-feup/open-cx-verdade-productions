@@ -135,7 +135,7 @@ _profileImageState createState() => _profileImageState();
 class _profileImageState extends State<_profileImage> {
   String imageFile;
 
-  getImagePath() async {
+  getImagePath() {
     StorageReference photo =
     FirebaseStorage(storageBucket: 'gs://conferly-8779b.appspot.com/')
         .ref()

@@ -128,14 +128,12 @@ class ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
         child: Container(
       child: GestureDetector(
         onTap: () {
-          if (isMe)
+          if (isMe) {
             Navigator.push(
               context,
-              MaterialPageRoute(
-                  builder: (context) => ImageCapture(
-                        profile: this,
-                      )),
+              MaterialPageRoute( builder: (context) => ImageCapture( profile: this)),
             );
+          }
         },
       ),
       width: 140.0,
@@ -383,6 +381,9 @@ class _ImageCaptureState extends State<ImageCapture> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+          title: Text('Profile Image'),
+      ),
       bottomNavigationBar: BottomAppBar(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -395,10 +396,10 @@ class _ImageCaptureState extends State<ImageCapture> {
               icon: Icon(Icons.photo_library),
               onPressed: () => _pickImage(ImageSource.gallery),
             ),
-            IconButton(
-              icon: Icon(Icons.delete),
-              onPressed: () => _clear(),
-            ),
+//            IconButton(
+//              icon: Icon(Icons.delete),
+//              onPressed: () => _clear(),
+//            ),
           ],
         ),
       ),

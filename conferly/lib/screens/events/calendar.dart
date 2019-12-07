@@ -99,7 +99,7 @@ class CalendarState extends State<Calendar> {
           children: <Widget>[
             Padding(
               padding: EdgeInsets.only(
-                top: 30.0,
+                top: 8.0,
               ),
             ),
             Container(

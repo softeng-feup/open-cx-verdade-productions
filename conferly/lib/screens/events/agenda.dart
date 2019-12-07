@@ -107,7 +107,7 @@ class AgendaState extends State<Agenda> {
         children: <Widget>[
           Padding(
             padding: EdgeInsets.only(
-              top: 30.0,),
+              top: 8.0,),
           ),
           Container(
             margin: const EdgeInsets.symmetric(
@@ -211,7 +211,7 @@ class AgendaState extends State<Agenda> {
         stream: Firestore.instance
             .collection('Events')
             .where("participants", arrayContains: authNotifier.user.uid)
-            .orderBy('startDate')
+//            .orderBy('startDate')
             .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {

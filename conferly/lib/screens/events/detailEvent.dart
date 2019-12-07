@@ -8,6 +8,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../profile.dart';
+
 class DetailEvent extends StatefulWidget {
   Event event;
   bool add;
@@ -52,7 +54,16 @@ class DetailEventState extends State<DetailEvent> {
           child: Column(
             children: <Widget>[
               new SizedBox(height: _height / 20,),
-              _profileImage(),
+              GestureDetector (
+                child: _profileImage(),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Profile(user: event.speaker_uid,)),
+                  );
+                },
+              ),
+
               new SizedBox(height: _height / 30,),
               Card(
                 elevation: 2.0,
@@ -304,8 +315,8 @@ class profileImageState extends State<profileImage>{
   Widget build(BuildContext context) {
     return Center(
         child: Container(
-          width: 40.0,
-          height: 40.0,
+          width: 140.0,
+          height: 140.0,
           decoration: BoxDecoration(
               image: DecorationImage(
                 image: (imageFile != null) ? new NetworkImage(imageFile) : (AssetImage('assets/images/profile.png')),

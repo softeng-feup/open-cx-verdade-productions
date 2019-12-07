@@ -10,10 +10,11 @@ import 'package:conferly/widgets/InfoWrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../utils/chat.dart';
+import 'detailChat.dart';
 import 'editProfile.dart';
 
 class Profile extends StatefulWidget {
-
   String user;
 
   Profile({this.user});
@@ -24,9 +25,8 @@ class Profile extends StatefulWidget {
   }
 }
 
-
-class ProfileState extends State<Profile> {
-
+class ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
+  String _uid = "UID";
   String _fullName = "Name";
   String _status = "Status";
   String _bio = "Bio";
@@ -36,11 +36,13 @@ class ProfileState extends State<Profile> {
   bool _loading = true;
   String imageFile;
   FirebaseStorage _storage =
-  FirebaseStorage(storageBucket: 'gs://conferly-8779b.appspot.com/');
+      FirebaseStorage(storageBucket: 'gs://conferly-8779b.appspot.com/');
   bool isMe = true;
   String _user;
 
- bool isImageSet(){
+  bool clickMessage = false;
+
+  bool isImageSet() {
     return imageFile != null;
   }
 
@@ -50,15 +52,13 @@ class ProfileState extends State<Profile> {
       photo = _storage.ref().child('images/${MyApp.firebaseUser.uid}.png');
     else
       photo = _storage.ref().child('images/$_user.png');
-    photo.getDownloadURL().then((data){
+    photo.getDownloadURL().then((data) {
       if (this.mounted) {
         setState(() {
           imageFile = data;
         });
       }
-    }).catchError((error){
-
-    });
+    }).catchError((error) {});
     if (imageFile != null) {
       return imageFile;
     }
@@ -71,9 +71,12 @@ class ProfileState extends State<Profile> {
     Firestore.instance
         .collection("Users")
         .document(_user)
-        .get().then((document) {
+        .get()
+        .then((document) {
       if (document.exists) {
         setState(() {
+          if (document.data['uid'] != "" && document.data['uid'] != null)
+            _uid = document.data['uid'];
           if (document.data['name'] != "" && document.data['name'] != null)
             _fullName = document.data['name'];
           if (document.data['description'] != "" &&
@@ -88,7 +91,8 @@ class ProfileState extends State<Profile> {
             _work = document.data['work'];
           _interests.clear();
           if (document.data['interests'] != null)
-          _interests = new List<String>.from(document.data['interests'].cast<String>());
+            _interests = new List<String>.from(
+                document.data['interests'].cast<String>());
           _loading = false;
         });
       }
@@ -114,7 +118,6 @@ class ProfileState extends State<Profile> {
         image: DecorationImage(
           image: AssetImage('assets/images/feup.jpeg'),
           fit: BoxFit.cover,
-
         ),
       ),
     );
@@ -123,29 +126,33 @@ class ProfileState extends State<Profile> {
   Widget _profileImage() {
     return Center(
         child: Container(
-          child: GestureDetector(
-            onTap: () {
-              if (isMe)
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ImageCapture(profile: this,)),
-                );
-            },
+      child: GestureDetector(
+        onTap: () {
+          if (isMe)
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ImageCapture(
+                        profile: this,
+                      )),
+            );
+        },
+      ),
+      width: 140.0,
+      height: 140.0,
+      decoration: BoxDecoration(
+          image: DecorationImage(
+            image: isImageSet()
+                ? new NetworkImage(getImagePath())
+                : AssetImage('assets/images/profile.png'),
+            fit: BoxFit.cover,
           ),
-          width: 140.0, height: 140.0,
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                image: isImageSet() ? new NetworkImage(getImagePath()) : AssetImage('assets/images/profile.png'),
-                fit: BoxFit.cover,
-              ),
-              borderRadius: BorderRadius.circular(100.0),
-              border: Border.all(
-                color: Colors.green,
-                width: 2.0,
-              )
-          ),
-        )
-    );
+          borderRadius: BorderRadius.circular(100.0),
+          border: Border.all(
+            color: Colors.green,
+            width: 2.0,
+          )),
+    ));
   }
 
   Widget _buildFullName() {
@@ -165,25 +172,17 @@ class ProfileState extends State<Profile> {
     return Container(
         padding: EdgeInsets.symmetric(vertical: 4.0, horizontal: 50.0),
         decoration: BoxDecoration(
-          color: Theme
-              .of(context)
-              .scaffoldBackgroundColor,
+          color: Theme.of(context).scaffoldBackgroundColor,
           borderRadius: BorderRadius.circular(4.0),
         ),
-        child: Text(
-            _status,
+        child: Text(_status,
             style: TextStyle(
               fontFamily: 'Spectral',
               color: Colors.black,
               fontSize: 20.0,
               fontWeight: FontWeight.w300,
-
-            )
-        )
-
-    );
+            )));
   }
-
 
   Widget _buildBio() {
     TextStyle _style = TextStyle(
@@ -210,96 +209,124 @@ class ProfileState extends State<Profile> {
   }
 
   Widget _buildInterests() {
-    List <Widget> chipChildren = new List<Widget>();
+    List<Widget> chipChildren = new List<Widget>();
     for (int i = 0; i < _interests.length; i++) {
-      chipChildren.add(
-          Chip(
-            label: Text(_interests[i]),
-            avatar: Icon(Icons.adb),
-            labelPadding: EdgeInsets.all(5),
-            padding: EdgeInsets.all(5),
-          )
-      );
+      chipChildren.add(Chip(
+        label: Text(_interests[i]),
+        avatar: Icon(Icons.adb),
+        labelPadding: EdgeInsets.all(5),
+        padding: EdgeInsets.all(5),
+      ));
     }
 
     return Wrap(
         spacing: 8.0,
         runSpacing: 2.0,
         alignment: WrapAlignment.center,
-        children: chipChildren
-    );
+        children: chipChildren);
   }
-
 
   @override
   Widget build(BuildContext context) {
-    Size sizeScreen = MediaQuery
-        .of(context)
-        .size;
+    Size sizeScreen = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
           title: Text('Profile'),
           actions: <Widget>[
-            isMe ? IconButton(icon: Icon(Icons.edit, color: Colors.white,), onPressed: _loading ? null : () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => EditProfile()),
-                ).then((value){
-                  getUserInfo();
-                  print("UPDATING");
-                });
-            }) : Container()
+            isMe
+                ? IconButton(
+                    icon: Icon(
+                      Icons.edit,
+                      color: Colors.white,
+                    ),
+                    onPressed: _loading
+                        ? null
+                        : () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditProfile()),
+                            ).then((value) {
+                              getUserInfo();
+                              print("UPDATING");
+                            });
+                          })
+                : IconButton(
+                icon: Icon(
+                  Icons.message,
+                  color: Colors.white,
+                ),
+                onPressed: _loading
+                    ? null
+                    : () async {
+
+                  if (clickMessage)
+                    return;
+
+                  clickMessage = true;
+
+
+                  String uidChat =  await createChatWithTwoUsers(MyApp.firebaseUser.uid, _uid, MyApp.firebaseUser.name, _fullName);
+                  DocumentSnapshot chat = await Firestore.instance
+                      .collection('Chats')
+                      .document(uidChat)
+                      .get();
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DetailChat(chat)),
+                  );
+
+                  clickMessage = false;
+
+                },)
           ],
         ),
-        body: _loading ?
-        Center(
-            child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(
-                    Theme
-                        .of(context)
-                        .accentColor)))
+        body: _loading
+            ? Center(
+                child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                        Theme.of(context).accentColor)))
             : SingleChildScrollView(
-          child: Stack(
-          children: <Widget>[
-            _coverImage(sizeScreen),
-            Container(
-              margin:EdgeInsets.all(16),
-              child: Column(
-                  children: <Widget>[
-                    SizedBox(height: sizeScreen.height / 6.4,),
-                    _profileImage(),
-                    _buildFullName(),
-                    _buildStatus(context),
-                    _buildBio(),
-                    _buildSperator(sizeScreen),
-                    InfoWrapper(
-                        text: _local,
-                        icon: Icon(Icons.place),
-                        bg: Theme
-                            .of(context)
-                            .scaffoldBackgroundColor),
-                    InfoWrapper(
-                        text: _work,
-                        icon: Icon(Icons.work), bg: Theme
-                        .of(context)
-                        .scaffoldBackgroundColor),
-                    Container(margin: EdgeInsets.all(4),),
-                    _buildInterests()
-                  ],
+                child: Stack(
+//                  fit: StackFit.expand,
+                    children: <Widget>[
+//                      Expanded(),
+                _coverImage(sizeScreen),
+                Container(
+                  margin: EdgeInsets.all(16),
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: sizeScreen.height / 6.4,
+                      ),
+                      _profileImage(),
+                      _buildFullName(),
+                      _buildStatus(context),
+                      _buildBio(),
+                      _buildSperator(sizeScreen),
+                      InfoWrapper(
+                          text: _local,
+                          icon: Icon(Icons.place),
+                          bg: Theme.of(context).scaffoldBackgroundColor),
+                      InfoWrapper(
+                          text: _work,
+                          icon: Icon(Icons.work),
+                          bg: Theme.of(context).scaffoldBackgroundColor),
+                      Container(
+                        margin: EdgeInsets.all(4),
+                      ),
+                      _buildInterests()
+                    ],
+                  ),
                 ),
-              )
-          ]
-
-            )
-
-
+              ]
+                )
         )
     );
 //    );
   }
-
 }
-
 
 class ImageCapture extends StatefulWidget {
   final ProfileState profile;
@@ -316,8 +343,6 @@ class _ImageCaptureState extends State<ImageCapture> {
 
   _ImageCaptureState({this.profile});
 
-
-
   Future<void> _pickImage(ImageSource source) async {
     File selected = await ImagePicker.pickImage(source: source);
 
@@ -326,13 +351,12 @@ class _ImageCaptureState extends State<ImageCapture> {
     });
   }
 
-  Future<void> _cropImage() async{
+  Future<void> _cropImage() async {
     File cropped = await ImageCropper.cropImage(
         sourcePath: _imageFile.path,
         toolbarColor: Colors.greenAccent.shade100,
         toolbarWidgetColor: Colors.white,
-        toolbarTitle: 'Crop Image'
-    );
+        toolbarTitle: 'Crop Image');
 
     setState(() {
       _imageFile = cropped ?? _imageFile;
@@ -380,20 +404,18 @@ class _ImageCaptureState extends State<ImageCapture> {
       ),
       body: ListView(
         children: <Widget>[
-          if (_imageFile != null)
-            ...[
+          if (_imageFile != null) ...[
             Image.file(_imageFile),
-
             FlatButton.icon(
               label: Text('Crop Image'),
               icon: Icon(Icons.crop),
               onPressed: _cropImage,
             ),
-
             Uploader(file: _imageFile)
-          ]
-          else ...[
-            profile.isImageSet() ? Image.network(profile.getImagePath()) : Image.asset('assets/images/profile.png')
+          ] else ...[
+            profile.isImageSet()
+                ? Image.network(profile.getImagePath())
+                : Image.asset('assets/images/profile.png')
           ],
         ],
       ),
@@ -409,7 +431,7 @@ class Uploader extends StatefulWidget {
   createState() => _UploaderState();
 }
 
-class _UploaderState extends State<Uploader>{
+class _UploaderState extends State<Uploader> {
   final FirebaseStorage _storage =
       FirebaseStorage(storageBucket: 'gs://conferly-8779b.appspot.com/');
 
@@ -420,10 +442,8 @@ class _UploaderState extends State<Uploader>{
 
     setState(() {
       _uploadTask = _storage.ref().child(filePath).putFile(widget.file);
-
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -433,39 +453,34 @@ class _UploaderState extends State<Uploader>{
         builder: (context, snapshot) {
           var event = snapshot?.data?.snapshot;
 
-          double progressPercent = event != null
-          ? event.bytesTransferred / event.totalByteCount
-              : 0;
+          double progressPercent =
+              event != null ? event.bytesTransferred / event.totalByteCount : 0;
 
           return Column(
             children: <Widget>[
-              if (_uploadTask.isComplete)
-                Text('Done'),
-
+              if (_uploadTask.isComplete) Text('Done'),
               LinearProgressIndicator(value: progressPercent),
-              Text(
-                '${(progressPercent * 100)} %'
-              ),
+              Text('${(progressPercent * 100)} %'),
             ],
           );
         },
       );
     } else {
-      return FlatButton.icon (
+      return FlatButton.icon(
         label: Text('Upload Image'),
         icon: Icon(Icons.cloud_upload),
         onPressed: _startUpload,
       );
     }
-  }}
+  }
+}
 
 Future<File> getImageFileFromAssets(String path) async {
   final byteData = await rootBundle.load('assets/$path');
 
   final file = File('${(await getTemporaryDirectory()).path}/$path');
-  await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+  await file.writeAsBytes(byteData.buffer
+      .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
 
   return file;
 }
-
-

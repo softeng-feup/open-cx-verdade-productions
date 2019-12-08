@@ -42,10 +42,15 @@ class AuthService {
     final AuthResult result = await _auth.signInWithCredential(GoogleAuthProvider.getCredential(idToken: googleAuth.idToken, accessToken: googleAuth.accessToken)).catchError((error) => print(error.code));
 
     if(result != null) {
-      FirebaseUser Fuser = result.user;
-//      MyApp.firebaseUser = Fuser;
-//      return DatabaseService().getUser(Fuser.uid);
-      User user =  await DatabaseService().getUser(Fuser.uid);
+      FirebaseUser firebaseuser = result.user;
+      DatabaseService db = DatabaseService();
+      User user;
+      if(await db.userExists(firebaseuser.uid)) {
+        user = await db.getUser(firebaseuser.uid);
+      } else {
+        db.introduceUserData(firebaseuser.uid, firebaseuser.email, firebaseuser.displayName);
+        user = User.defaultUser(firebaseuser.uid, firebaseuser.email, firebaseuser.displayName);
+      }
       MyApp.firebaseUser = user;
       return user;
     }
@@ -71,7 +76,9 @@ class AuthService {
 
   Future<User> currentUser() async {
     final FirebaseUser user = await _auth.currentUser();
-    return _userFromFirebaseUser(user);
+    User u = _userFromFirebaseUser(user);
+    MyApp.firebaseUser = u;
+    return u;
   }
 
   // sign out
@@ -79,5 +86,4 @@ class AuthService {
     await _auth.signOut().catchError((error) => print(error.code));
     await _googleSignIn.signOut().catchError((error) => print(error.code));
   }
-
 }

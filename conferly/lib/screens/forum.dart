@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conferly/main.dart';
 import 'package:conferly/widgets/BubbleForum.dart';
+import 'package:conferly/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -57,9 +58,7 @@ class ForumState extends State<Forum> {
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(
-                child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                        Theme.of(context).accentColor)));
+                child: Loading());
           } else {
             return ListView.separated(
               separatorBuilder: (context, index) => Divider(

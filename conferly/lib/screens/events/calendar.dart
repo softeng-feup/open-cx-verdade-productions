@@ -3,10 +3,12 @@ import 'package:conferly/notifier/auth_notifier.dart';
 import 'package:conferly/notifier/event_notifier.dart';
 import 'package:conferly/services/auth.dart';
 import 'package:conferly/services/database.dart';
+import 'package:conferly/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'detailEvent.dart';
 import 'event_summary.dart';
 import 'dart:core';
 
@@ -18,7 +20,9 @@ class Calendar extends StatefulWidget {
 class CalendarState extends State<Calendar> {
   final _auth = AuthService();
   EventNotifier eventNotifier;
+  AuthNotifier authNotifier;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  bool loading;
 
   //search bar
   TextEditingController editingController = TextEditingController();
@@ -30,6 +34,9 @@ class CalendarState extends State<Calendar> {
   int _date;
 
   Future<void> _eventsList() async {
+    setState(() {
+      loading = true;
+    });
     List<Event> e = await DatabaseService().getEvents();
     eventNotifier.setEvents(e);
     setState(() {
@@ -37,6 +44,9 @@ class CalendarState extends State<Calendar> {
       events.addAll(eventNotifier.eventList);
     });
     _datesList();
+    setState(() {
+      loading = false;
+    });
   }
 
   void _datesList() {
@@ -60,6 +70,7 @@ class CalendarState extends State<Calendar> {
   @override
   void initState() {
     eventNotifier = Provider.of<EventNotifier>(context, listen: false);
+    authNotifier = Provider.of<AuthNotifier>(context, listen: false);
     _eventsList();
     super.initState();
   }
@@ -81,19 +92,8 @@ class CalendarState extends State<Calendar> {
               onPressed: _signOut
           )
         ],
-
-//          MaterialButton(
-//              child: Text(
-//                "logout",
-//                style: TextStyle(
-//                    color: Colors.white,
-//                    fontSize: 20.0,
-//                    fontFamily: "WorkSansBold"),
-//              ),
-//              onPressed: _signOut
-//          ),        ],
       ),
-      body: new RefreshIndicator(
+      body: loading ? Loading() : new RefreshIndicator(
         onRefresh: _eventsList,
         child: Column(
           children: <Widget>[
@@ -211,7 +211,24 @@ class CalendarState extends State<Calendar> {
               padding: const EdgeInsets.symmetric(vertical: 1.0),
               sliver: new SliverList(
                 delegate: new SliverChildBuilderDelegate(
-                  (context, index) => new EventSummary(events[index], index),
+                      (context, index) {
+                    return new GestureDetector(
+                      onTap: () {
+                        eventNotifier.currentEvent = eventNotifier.eventList[index];
+                        Navigator.of(context).push(
+                          new PageRouteBuilder(
+                            pageBuilder: (_, __, ___) => new DetailEvent(events[index], !events[index].participants.contains(authNotifier.user.uid)),
+                            transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+                            new SlideTransition(position: Tween<Offset>(
+                              begin: const Offset(1, 0),
+                              end: Offset.zero,
+                            ).animate(animation), child: child),
+                          ) ,
+                        );
+                      },
+                      child: new EventSummary(events[index], index),
+                    );
+                  },
                   childCount: events.length,
                 ),
               ),
@@ -224,11 +241,12 @@ class CalendarState extends State<Calendar> {
 
   void _filterSearchResults(String query) {
     List<Event> dummySearchList = List<Event>();
-    dummySearchList = events;
+    dummySearchList = eventNotifier.eventList;
     if (query.isNotEmpty) {
       List<Event> dummyListData = List<Event>();
       dummySearchList.forEach((item) {
-        if (item.title.contains(query)) {
+        String title = item.title.toLowerCase();
+        if (title.contains(query.toLowerCase())) {
           dummyListData.add(item);
         }
       });
@@ -257,8 +275,7 @@ class CalendarState extends State<Calendar> {
     if (_date != dates.length - 1) {
       List<Event> dummyListData = List<Event>();
       dummySearchList.forEach((item) {
-        if ('${new DateFormat("dd MMMM").format(item.startDate.toDate())}' ==
-            date) {
+        if ('${new DateFormat("dd MMMM").format(item.startDate.toDate())}' == date) {
           dummyListData.add(item);
         }
       });

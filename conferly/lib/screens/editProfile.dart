@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:conferly/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -98,11 +99,7 @@ class EditProfileState extends State<EditProfile> {
       ),
       body: _loading ?
       Center(
-          child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(
-                  Theme
-                      .of(context)
-                      .accentColor)))
+          child: Loading())
           :SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.all(16),

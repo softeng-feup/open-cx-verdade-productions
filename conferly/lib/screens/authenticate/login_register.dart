@@ -2,6 +2,7 @@ import 'package:conferly/models/user.dart';
 import 'package:conferly/notifier/auth_notifier.dart';
 import 'package:conferly/services/auth.dart';
 import 'package:conferly/utils/snack_bar.dart';
+import 'package:conferly/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -63,9 +64,7 @@ class _LoginRegisterPageState extends State<LoginRegisterPage> with SingleTicker
   Widget build(BuildContext context) {
     return loading ?  Scaffold(
       key: _scaffoldKey,
-      body: Center(
-        child: SpinKitWave(color: Colors.green, type: SpinKitWaveType.start),
-      ),
+      body: Loading()
     ) : Scaffold(
       key: _scaffoldKey,
       body: NotificationListener<OverscrollIndicatorNotification>(

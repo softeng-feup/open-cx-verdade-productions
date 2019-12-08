@@ -44,6 +44,11 @@ class DatabaseService {
     return _userDataFromSnapshot(snapshot);
   }
 
+  Future<bool> userExists(String uid) async {
+    DocumentSnapshot snapshot = await Firestore.instance.collection('Users').document(uid).get();
+    return snapshot.exists;
+  }
+
   Future<List<Event>> getEvents() async {
     QuerySnapshot snapshot = await Firestore.instance.collection('Events').getDocuments();
     List<Event> _eventList = [];

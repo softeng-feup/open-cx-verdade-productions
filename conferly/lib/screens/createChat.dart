@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:conferly/utils/chat.dart';
+import 'package:conferly/widgets/loading.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
@@ -129,9 +130,7 @@ class CreateChatState extends State<CreateChat> {
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(
-                child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                        Theme.of(context).accentColor)));
+                child: Loading());
           } else {
             return ListView.builder(
               padding: EdgeInsets.all(10.0),

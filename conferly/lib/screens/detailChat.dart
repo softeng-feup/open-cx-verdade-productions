@@ -1,3 +1,4 @@
+import 'package:conferly/widgets/loading.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
@@ -71,9 +72,7 @@ class DetailChatState extends State<DetailChat> {
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(
-                child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                        Theme.of(context).accentColor)));
+                child: Loading());
           } else {
             listMessages = snapshot.data.documents;
             return ListView.builder(

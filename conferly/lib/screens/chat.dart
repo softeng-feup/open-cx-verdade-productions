@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:conferly/notifier/auth_notifier.dart';
 import 'package:conferly/screens/createChat.dart';
+import 'package:conferly/widgets/loading.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 import 'package:conferly/main.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'detailChat.dart';
 
 import 'events/detailEvent.dart';
@@ -14,6 +17,7 @@ class Chat extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Chat'),
+        centerTitle: true,
       ),
         body: Column(
               children: <Widget>[
@@ -104,9 +108,7 @@ class Chat extends StatelessWidget {
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(
-                child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                        Theme.of(context).accentColor)));
+                child: Loading());
           } else {
             return ListView.builder(
               padding: EdgeInsets.all(10.0),

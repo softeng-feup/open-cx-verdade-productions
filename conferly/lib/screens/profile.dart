@@ -1,7 +1,11 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:conferly/notifier/auth_notifier.dart';
+import 'package:conferly/services/auth.dart';
+import 'package:conferly/widgets/loading.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,6 +13,7 @@ import 'package:conferly/main.dart';
 import 'package:conferly/widgets/InfoWrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../utils/chat.dart';
 import 'detailChat.dart';
@@ -26,6 +31,8 @@ class Profile extends StatefulWidget {
 }
 
 class ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
+  final _auth = AuthService();
+
   String _uid = "UID";
   String _fullName = "Name";
   String _status = "Status";
@@ -230,6 +237,7 @@ class ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
     return Scaffold(
         appBar: AppBar(
           title: Text('Profile'),
+          centerTitle: true,
           actions: <Widget>[
             isMe
                 ? IconButton(
@@ -277,14 +285,19 @@ class ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
 
                   clickMessage = false;
 
-                },)
+                },),
+            IconButton(
+                icon: Icon(
+                  FontAwesomeIcons.signOutAlt,
+                  color: Colors.white,
+                ),
+                onPressed: _signOut
+            )
           ],
         ),
         body: _loading
             ? Center(
-                child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                        Theme.of(context).accentColor)))
+                child: Loading())
             : SingleChildScrollView(
                 child: Stack(
 //                  fit: StackFit.expand,
@@ -323,6 +336,14 @@ class ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
         )
     );
 //    );
+  }
+
+  void _signOut() {
+    AuthNotifier authNotifier =
+    Provider.of<AuthNotifier>(context, listen: false);
+    print(authNotifier.user.name);
+    _auth.signOut();
+    authNotifier.setUser(null);
   }
 }
 

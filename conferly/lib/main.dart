@@ -32,7 +32,6 @@ getCurrentUser(AuthNotifier notifier) async {
 }
 
 class MyApp2 extends StatelessWidget {
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -43,8 +42,12 @@ class MyApp2 extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Coding with Curry',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        accentColor: Colors.lightBlue,
+          primarySwatch: Colors.green,
+          accentColor: Colors.orangeAccent[400],
+          textTheme: TextTheme(body1: TextStyle(
+            fontFamily: "WorkSansRegular",
+//            fontSize: 16.0,
+          ))
       ),
       home: Consumer<AuthNotifier>(
         builder: (context, notifier, child) {

@@ -49,7 +49,8 @@ class DetailEventState extends State<DetailEvent> {
           ),
         ),
       ),
-      body: Center(
+      body: SingleChildScrollView(
+        child: Center(
 //          crossAxisAlignment: CrossAxisAlignment.stretch,
           child: Column(
             children: <Widget>[
@@ -203,7 +204,7 @@ class DetailEventState extends State<DetailEvent> {
             ],
           )
       ),
-
+      ),
     );
   }
 

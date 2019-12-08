@@ -18,9 +18,6 @@ class EventSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    EventNotifier eventNotifier = Provider.of<EventNotifier>(context);
-    AuthNotifier authNotifier = Provider.of<AuthNotifier>(context);
-
     final eventThumbnail = new Container(
       margin: new EdgeInsets.symmetric(
           vertical: 1.0
@@ -159,21 +156,7 @@ class EventSummary extends StatelessWidget {
     );
 
 
-    return new GestureDetector(
-        onTap: () {
-          eventNotifier.currentEvent = eventNotifier.eventList[index];
-          Navigator.of(context).push(
-            new PageRouteBuilder(
-              pageBuilder: (_, __, ___) => new DetailEvent(eventNotifier.currentEvent, !event.participants.contains(authNotifier.user.uid)),
-              transitionsBuilder: (context, animation, secondaryAnimation, child) =>
-              new SlideTransition(position: Tween<Offset>(
-                begin: const Offset(1, 0),
-                end: Offset.zero,
-              ).animate(animation), child: child),
-            ) ,
-          );
-        },
-        child: new Container(
+    return new Container(
           margin: const EdgeInsets.symmetric(
             vertical: 5.0,
             horizontal: 13.0,
@@ -184,7 +167,6 @@ class EventSummary extends StatelessWidget {
               eventThumbnail,
             ],
           ),
-        )
     );
   }
 

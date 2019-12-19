@@ -28,6 +28,8 @@ class CreateChatState extends State<CreateChat> {
 
   bool alreadyClick = false;
 
+  List<ChatInfo> selected = new List<ChatInfo>();
+
   @override
   void dispose() {
     textEditingController.dispose();
@@ -50,7 +52,31 @@ class CreateChatState extends State<CreateChat> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Create Chat'),
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.done, color: Colors.white,), onPressed: selected.length == 0 ? null : () async {
+            ChatInfo myChatInfo = ChatInfo(MyApp.firebaseUser.name, MyApp.firebaseUser.uid);
+            if (!selected.contains(myChatInfo))
+              selected.add(myChatInfo);
 
+            print("Creating " + MyApp.firebaseUser.name);
+
+            if (alreadyClick)
+              return;
+
+            alreadyClick = true;
+
+            String uidChat =  await createChatWithMultipleUsers(selected);
+            DocumentSnapshot chat = await Firestore.instance
+                .collection('Chats')
+                .document(uidChat)
+                .get();
+
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => DetailChat(chat)),
+            );
+          })
+        ],
       ),
       body: Column(
         children: <Widget>[
@@ -148,31 +174,46 @@ class CreateChatState extends State<CreateChat> {
 
     String imageFile;
 
+    ChatInfo chatInfo = new ChatInfo(profile['name'], profile['uid']);
+
     if (profile['name'] == null || profile['name'] == "")
       return Container();
 
     return GestureDetector(
         onTap: () async {
 
-          if (alreadyClick)
-            return;
 
-          alreadyClick = true;
 
-          String uidChat =  await createChatWithTwoUsers(MyApp.firebaseUser.uid, profile['uid'], MyApp.firebaseUser.name, profile['name']);
-          DocumentSnapshot chat = await Firestore.instance
-              .collection('Chats')
-              .document(uidChat)
-              .get();
+          if (selected.contains(chatInfo))
+            selected.remove(chatInfo);
+          else
+            selected.add(chatInfo);
 
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => DetailChat(chat)),
-          );
+          print(selected);
+
+          setState(() {
+
+          });
+
+//          if (alreadyClick)
+//            return;
+//
+//          alreadyClick = true;
+//
+//          String uidChat =  await createChatWithTwoUsers(MyApp.firebaseUser.uid, profile['uid'], MyApp.firebaseUser.name, profile['name']);
+//          DocumentSnapshot chat = await Firestore.instance
+//              .collection('Chats')
+//              .document(uidChat)
+//              .get();
+//
+//          Navigator.pushReplacement(
+//            context,
+//            MaterialPageRoute(builder: (context) => DetailChat(chat)),
+//          );
 
         },
         child: Container(
-          color: Colors.transparent,
+          color: selected.contains(chatInfo) ? Colors.green : Colors.transparent,
           padding: EdgeInsets.all(4),
           margin: EdgeInsets.symmetric(horizontal: 16),
           child: Row(
@@ -249,4 +290,26 @@ class _profileImageState extends State<_profileImage>{
               )),
         ));
   }
+}
+
+class ChatInfo {
+
+  final String name;
+  final String uid;
+
+  ChatInfo(this.name, this.uid);
+
+  @override
+  bool operator ==(other) {
+    return (this.name == other.name && this.uid == other.uid);
+  }
+
+  String get getName {
+    return name;
+  }
+
+  String get getUid {
+    return uid;
+  }
+
 }

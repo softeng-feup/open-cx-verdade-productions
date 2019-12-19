@@ -14,6 +14,7 @@ import 'events/detailEvent.dart';
 class Chat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    print("NAME: " + MyApp.firebaseUser.name);
     return Scaffold(
       appBar: AppBar(
         title: Text('Chat'),
@@ -83,6 +84,8 @@ class Chat extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       chatName,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Container(height: 4,),

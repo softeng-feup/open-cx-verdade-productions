@@ -166,6 +166,8 @@ As a user I want to be part of discussions of the events I am attending, so that
 
 To better understand the context of the software system, it is very useful to have a simple UML class diagram with all the key concepts (names, attributes) and relationships involved of the problem domain addressed by your module.
 
+![Domain Model UML](https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/domain_model.png)
+
 ---
 
 ## Architecture and Design

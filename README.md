@@ -56,6 +56,49 @@ The **functional requirements** are exposed on the [Use case diagram](#Use-case-
 ### Use case diagram 
 ![Use Case Diagram](https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/Use-case.jpg)
 
+*Create/Manage personal profile:*
+* **Actor.** User
+
+* **Description.** Give the users the oportunity to share a bit about themselves in order to make networking more productive allowing user to see if other user's share a similar job or similar interrests.
+
+* **Preconditions and Postconditions.** The user has to create and account to create the profile and be logged in to manage it. To do both, he must have internet connection.
+
+* **Normal Flow.** To create and account the user must click the "Sign up" button and insert his e-mail, password and name. To manage his personal profile he must access his profile page and press the "Edit Profile" button, where he can change his interests, personal description, photo... 
+
+* **Alternative Flows and Exceptions.** 
+
+*Manage personal agenda:*
+* **Actor.** User
+
+* **Description.** Allows the user to only see the events he's interrested in, creating an easier access to forums and specific information about and event that he might need such as location or schedule.
+
+* **Preconditions and Postconditions.** The user has to be loggend in, have internet connection and also have added events to his personal agenda.
+
+* **Normal Flow.** Click the personal agenda button on the bottom navegation menu. 
+
+* **Alternative Flows and Exceptions.** If the user doesn't hasn't added any events to his personal agenda, it will appear empty.
+
+*Participate in forums:*
+* **Actor.** User
+
+* **Description.** Give the users the oportunity to discuss the event, share opinions and interact with the speaker so they feel clarified about a specific talk or subject. The likes and dislikes systems allows the speaker to know the general punblic opinion.
+
+* **Preconditions and Postconditions.** The user has to be logged in and have internet.
+
+* **Normal Flow.** After loggin in, the user must access the event page in order to get ot the event forum page. After that he can comment freely and like or dislikes other user's comments.
+
+* **Alternative Flows and Exceptions.** 
+
+*Chat with other users:*
+* **Actor.** User
+
+* **Description.** Give the users the oportunity to talk with each other in a more personal context, making networking easier and allowing the user to create professional relationships or friends. 
+
+* **Preconditions and Postconditions.** The user has to be logged in and have internet.
+
+* **Normal Flow.** After clicking the chat button in the bottom navigation manu, the user must either create a chat by selecting the users he wants to message or choose and existing chat. After that he just clicks the new or already existing chat and writes the message/s he wants to send.
+
+* **Alternative Flows and Exceptions.** 
 
 ### User stories
 *As a user I want to be able to communicate and share my ideas with others easily, wherever and whenever, so that I can promote my opinion, meet new people and learn from the experience.*

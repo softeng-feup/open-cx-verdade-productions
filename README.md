@@ -36,7 +36,7 @@ Thank you!
 ---
 
 ## Product Vision
-This app will not only give our consumers the opportunity to easily talk with others and discuss each other's ideas regarding various events through chats and forums, but also facilitate the connection with various users who share similar preferred themes, by allowing people to create their own personalized profiles, containing their favorite interests.
+This app will give our consumers the opportunity to easily talk and discuss ideas, with others, regarding various events through chats and forums, facilitating the connection between users who share similar interests. You will fill guided and relaxed with our super user-friendly calendar and your own personal agenda that let's you see only the events that you want to attend!
 
 
 ---

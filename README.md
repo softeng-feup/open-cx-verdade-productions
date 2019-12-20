@@ -100,7 +100,7 @@ The **functional requirements** are exposed on the [Use case diagram](#Use-case-
 
 * **Alternative Flows and Exceptions.** 
 
-### User stories
+### User stories and Acceptance Tests
 *As a user I want to be able to communicate and share my ideas with others easily, wherever and whenever, so that I can promote my opinion, meet new people and learn from the experience.*
 
 <img src="https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/forum.png" width="160" height="350" />

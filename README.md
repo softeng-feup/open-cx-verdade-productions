@@ -226,7 +226,9 @@ We can decompose the structure of the code in the following packages:
 * **Screens** - provides an interface for the user.
 * **Services** - enables the app to get information from the back-end.
 
-When we got the hang of Flutter and tackled the most important aspects of the project the group started working towards a more well defined structure namely the **MVC** (Model View Controller) which would allow a faster development of the application and easier scalability and maintainability.
+When we got the hang of Flutter and tackled the most important aspects of the project the group started working towards a more well defined structure namely the **MVP** (Model View Presenter) which would allow a faster development of the application and easier scalability and maintainability.
+
+![Logical Architecture Diagram](https://github.com/softeng-feup/open-cx-verdade-productions/blob/master/docs/logical_architecture_uml.jpg)
 
 ### Physical architecture
 The high-level physical software system is very straightforward since the user only needs to install our mobile application. This application uses [Firebase](https://firebase.google.com) as it's backend service meaning that every bit of information about the conference, it's events and it's users are maintained on Firebase services such as [Cloud Firestore](https://firebase.google.com/docs/firestore),  [Firebase Authentication](https://firebase.google.com/docs/auth) and [Cloud Storage](https://firebase.google.com/docs/storage).

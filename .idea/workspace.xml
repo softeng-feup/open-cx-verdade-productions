@@ -5,25 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0bff6595-fe1d-4ebb-9267-ddd8a2200808" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/open-cx-verdade-productions.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/open-cx-verdade-productions.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conferly/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/conferly/lib/main.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conferly/lib/models/user.dart" beforeDir="false" afterPath="$PROJECT_DIR$/conferly/lib/models/user.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conferly/lib/screens/authenticate/login_register.dart" beforeDir="false" afterPath="$PROJECT_DIR$/conferly/lib/screens/authenticate/login_register.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conferly/lib/screens/chat.dart" beforeDir="false" afterPath="$PROJECT_DIR$/conferly/lib/screens/chat.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conferly/lib/screens/createChat.dart" beforeDir="false" afterPath="$PROJECT_DIR$/conferly/lib/screens/createChat.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conferly/lib/screens/detailChat.dart" beforeDir="false" afterPath="$PROJECT_DIR$/conferly/lib/screens/detailChat.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conferly/lib/screens/editProfile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/conferly/lib/screens/editProfile.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conferly/lib/screens/events/agenda.dart" beforeDir="false" afterPath="$PROJECT_DIR$/conferly/lib/screens/events/agenda.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conferly/lib/screens/events/calendar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/conferly/lib/screens/events/calendar.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conferly/lib/screens/events/detailEvent.dart" beforeDir="false" afterPath="$PROJECT_DIR$/conferly/lib/screens/events/detailEvent.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conferly/lib/screens/events/event_summary.dart" beforeDir="false" afterPath="$PROJECT_DIR$/conferly/lib/screens/events/event_summary.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conferly/lib/screens/forum.dart" beforeDir="false" afterPath="$PROJECT_DIR$/conferly/lib/screens/forum.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conferly/lib/screens/profile.dart" beforeDir="false" afterPath="$PROJECT_DIR$/conferly/lib/screens/profile.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conferly/lib/services/auth.dart" beforeDir="false" afterPath="$PROJECT_DIR$/conferly/lib/services/auth.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conferly/lib/services/database.dart" beforeDir="false" afterPath="$PROJECT_DIR$/conferly/lib/services/database.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conferly/lib/widgets/loading.dart" beforeDir="false" afterPath="$PROJECT_DIR$/conferly/lib/widgets/loading.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conferly/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/conferly/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conferly/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/conferly/pubspec.yaml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -34,14 +19,35 @@
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="Nexus_6_API_28" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="emulator-5554" />
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/conferly/lib/screens/events/agenda.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="836">
-              <caret line="287" column="3" selection-start-line="287" selection-start-column="3" selection-end-line="287" selection-end-column="3" />
+            <state relative-caret-position="34">
+              <caret line="14" column="12" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="12" />
+              <folding>
+                <element signature="e#0#54#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/conferly/pubspec.yaml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="646">
+              <caret line="38" column="27" selection-start-line="38" selection-start-column="27" selection-end-line="38" selection-end-column="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/conferly/test_driver/app.dart">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="10" column="1" selection-start-line="10" selection-start-column="1" selection-end-line="10" selection-end-column="1" />
               <folding>
                 <element signature="e#0#54#0" expanded="true" />
               </folding>
@@ -50,10 +56,64 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/conferly/lib/services/auth.dart">
+        <entry file="file://$PROJECT_DIR$/conferly/test_driver/app_test.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="43" column="24" lean-forward="true" selection-start-line="43" selection-start-column="24" selection-end-line="43" selection-end-column="24" />
+            <state relative-caret-position="323">
+              <caret line="25" column="5" selection-start-line="25" selection-start-column="5" selection-end-line="25" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/conferly/test_driver/features/agenda.feature">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="46" selection-start-line="5" selection-start-column="46" selection-end-line="5" selection-end-column="46" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/conferly/lib/screens/authenticate/login_register.dart">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="12" column="23" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="23" />
+              <folding>
+                <element signature="e#0#43#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/conferly/test_driver/hooks/hook.dart">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="67" selection-start-column="67" selection-end-column="67" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/conferly/test_driver/steps/expect_page.dart">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" column="38" selection-start-line="2" selection-start-column="38" selection-end-line="3" />
+              <folding>
+                <element signature="e#0#52#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/conferly/test_driver/steps/signout.dart">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="289">
+              <caret line="19" column="1" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
+              <folding>
+                <element signature="e#0#52#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -61,7 +121,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/conferly/lib/screens/events/calendar.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="193">
+            <state relative-caret-position="3893">
               <caret line="241" column="2" selection-start-line="241" selection-start-column="2" selection-end-line="287" selection-end-column="3" />
               <folding>
                 <element signature="e#0#44#0" expanded="true" />
@@ -71,6 +131,14 @@
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Cucumber feature file" />
+        <option value="Dart File" />
+      </list>
+    </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -109,6 +177,13 @@
         <option value="$PROJECT_DIR$/conferly/lib/screens/events/calendar.dart" />
         <option value="$PROJECT_DIR$/conferly/lib/screens/events/agenda.dart" />
         <option value="$PROJECT_DIR$/conferly/lib/services/auth.dart" />
+        <option value="$PROJECT_DIR$/conferly/test_driver/app.dart" />
+        <option value="$PROJECT_DIR$/conferly/pubspec.yaml" />
+        <option value="$PROJECT_DIR$/conferly/test_driver/hooks/hook.dart" />
+        <option value="$PROJECT_DIR$/conferly/test_driver/steps/expect_page.dart" />
+        <option value="$PROJECT_DIR$/conferly/test_driver/steps/signout.dart" />
+        <option value="$PROJECT_DIR$/conferly/test_driver/app_test.dart" />
+        <option value="$PROJECT_DIR$/conferly/test_driver/features/agenda.feature" />
       </list>
     </option>
   </component>
@@ -117,6 +192,9 @@
     <option name="width" value="1294" />
     <option name="height" value="1087" />
   </component>
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -124,7 +202,6 @@
     <panes>
       <pane id="Scope" />
       <pane id="PackagesPane" />
-      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -141,49 +218,34 @@
               <item name="open-cx-verdade-productions" type="b2602c69:ProjectViewProjectNode" />
               <item name="open-cx-verdade-productions" type="462c0819:PsiDirectoryNode" />
               <item name="conferly" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="test_driver" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="open-cx-verdade-productions" type="b2602c69:ProjectViewProjectNode" />
               <item name="open-cx-verdade-productions" type="462c0819:PsiDirectoryNode" />
               <item name="conferly" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-              <item name="screens" type="462c0819:PsiDirectoryNode" />
+              <item name="test_driver" type="462c0819:PsiDirectoryNode" />
+              <item name="features" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="open-cx-verdade-productions" type="b2602c69:ProjectViewProjectNode" />
               <item name="open-cx-verdade-productions" type="462c0819:PsiDirectoryNode" />
               <item name="conferly" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-              <item name="screens" type="462c0819:PsiDirectoryNode" />
-              <item name="authenticate" type="462c0819:PsiDirectoryNode" />
+              <item name="test_driver" type="462c0819:PsiDirectoryNode" />
+              <item name="hooks" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="open-cx-verdade-productions" type="b2602c69:ProjectViewProjectNode" />
               <item name="open-cx-verdade-productions" type="462c0819:PsiDirectoryNode" />
               <item name="conferly" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-              <item name="screens" type="462c0819:PsiDirectoryNode" />
-              <item name="events" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="open-cx-verdade-productions" type="b2602c69:ProjectViewProjectNode" />
-              <item name="open-cx-verdade-productions" type="462c0819:PsiDirectoryNode" />
-              <item name="conferly" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-              <item name="services" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="open-cx-verdade-productions" type="b2602c69:ProjectViewProjectNode" />
-              <item name="open-cx-verdade-productions" type="462c0819:PsiDirectoryNode" />
-              <item name="conferly" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-              <item name="widgets" type="462c0819:PsiDirectoryNode" />
+              <item name="test_driver" type="462c0819:PsiDirectoryNode" />
+              <item name="steps" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -211,7 +273,17 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Flutter.main.dart (1)">
+  <component name="RunManager" selected="Dart Command Line App.app_test.dart">
+    <configuration name="app.dart" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/conferly/test_driver/app.dart" />
+      <option name="workingDirectory" value="$PROJECT_DIR$/conferly" />
+      <method v="2" />
+    </configuration>
+    <configuration name="app_test.dart" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/conferly/test_driver/app_test.dart" />
+      <option name="workingDirectory" value="$PROJECT_DIR$/conferly" />
+      <method v="2" />
+    </configuration>
     <configuration name="main.dart (1)" type="FlutterRunConfigurationType" factoryName="Flutter" singleton="false" temporary="true" nameIsGenerated="true">
       <option name="filePath" value="$PROJECT_DIR$/conferly/lib/main.dart" />
       <method v="2" />
@@ -222,6 +294,8 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Dart Command Line App.app_test.dart" />
+        <item itemvalue="Dart Command Line App.app.dart" />
         <item itemvalue="Flutter.main.dart (1)" />
         <item itemvalue="Flutter.main.dart" />
       </list>
@@ -254,7 +328,7 @@
     <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.17341977" />
+      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.17341977" />
       <window_info id="Structure" order="2" side_tool="true" />
       <window_info id="Image Layers" order="3" />
       <window_info id="Designer" order="4" />
@@ -273,7 +347,7 @@
       <window_info anchor="bottom" id="Android Profiler" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Logcat" order="9" weight="0.3298731" />
       <window_info anchor="bottom" id="Find" order="10" />
-      <window_info anchor="bottom" id="Messages" order="11" weight="0.3298731" />
+      <window_info anchor="bottom" id="Messages" order="11" weight="0.32914045" />
       <window_info anchor="right" id="Capture Analysis" order="0" />
       <window_info anchor="right" id="Theme Preview" order="1" />
       <window_info anchor="right" id="Flutter Inspector" order="2" />
@@ -281,7 +355,11 @@
       <window_info active="true" anchor="right" id="Assistant" order="4" visible="true" weight="0.3353028" />
       <window_info anchor="right" id="Palette&#9;" order="5" />
       <window_info anchor="right" id="Device File Explorer" order="6" side_tool="true" />
+      <window_info anchor="right" id="Coverage" order="7" side_tool="true" />
     </layout>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/open_cx_verdade_productions$app_dart.json" NAME="app.dart Coverage Results" MODIFIED="1576965841706" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="DartCoverageRunner" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" CONTEXT_FILE_PATH="$PROJECT_DIR$/conferly/test_driver/app.dart" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/conferly_app/android/settings.gradle" />
@@ -308,16 +386,6 @@
           <caret line="8" column="92" lean-forward="true" selection-start-line="8" selection-start-column="92" selection-end-line="8" selection-end-column="92" />
           <folding>
             <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/conferly/lib/screens/authenticate/login_register.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="66" column="21" lean-forward="true" selection-start-line="66" selection-start-column="21" selection-end-line="66" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#43#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -415,9 +483,94 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/conferly/lib/services/auth.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="43" column="24" selection-start-line="43" selection-start-column="24" selection-end-line="43" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/acceptanceTests.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/conferly/lib/screens/events/agenda.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="14" column="12" selection-start-line="14" selection-start-column="6" selection-end-line="14" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#54#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/conferly/pubspec.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="38" column="27" selection-start-line="38" selection-start-column="27" selection-end-line="38" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/conferly/test_driver/app.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="10" column="1" selection-start-line="10" selection-start-column="1" selection-end-line="10" selection-end-column="1" />
+          <folding>
+            <element signature="e#0#54#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/conferly/test_driver/features/agenda.feature">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="46" selection-start-line="5" selection-start-column="46" selection-end-line="5" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/conferly/lib/screens/authenticate/login_register.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="12" column="23" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="23" />
+          <folding>
+            <element signature="e#0#43#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/conferly/test_driver/hooks/hook.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="67" selection-start-column="67" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/conferly/test_driver/steps/expect_page.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="38" selection-start-line="2" selection-start-column="38" selection-end-line="3" />
+          <folding>
+            <element signature="e#0#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/conferly/test_driver/steps/signout.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="19" column="1" selection-start-line="19" selection-start-column="1" selection-end-line="19" selection-end-column="1" />
+          <folding>
+            <element signature="e#0#52#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/conferly/lib/screens/events/calendar.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193">
+        <state relative-caret-position="3893">
           <caret line="241" column="2" selection-start-line="241" selection-start-column="2" selection-end-line="287" selection-end-column="3" />
           <folding>
             <element signature="e#0#44#0" expanded="true" />
@@ -425,20 +578,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/conferly/lib/screens/events/agenda.dart">
+    <entry file="file://$PROJECT_DIR$/conferly/test_driver/app_test.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="836">
-          <caret line="287" column="3" selection-start-line="287" selection-start-column="3" selection-end-line="287" selection-end-column="3" />
-          <folding>
-            <element signature="e#0#54#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/conferly/lib/services/auth.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="43" column="24" lean-forward="true" selection-start-line="43" selection-start-column="24" selection-end-line="43" selection-end-column="24" />
+        <state relative-caret-position="323">
+          <caret line="25" column="5" selection-start-line="25" selection-start-column="5" selection-end-line="25" selection-end-column="5" />
         </state>
       </provider>
     </entry>

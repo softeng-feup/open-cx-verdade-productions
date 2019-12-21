@@ -81,11 +81,12 @@ class AgendaState extends State<Agenda> {
         centerTitle: true,
         actions: <Widget>[
           IconButton(
-              icon: Icon(
-                FontAwesomeIcons.signOutAlt,
-                color: Colors.white,
-              ),
-              onPressed: _signOut
+            key: "signout",
+            icon: Icon(
+              FontAwesomeIcons.signOutAlt,
+              color: Colors.white,
+            ),
+            onPressed: _signOut
           )
         ],
       ),

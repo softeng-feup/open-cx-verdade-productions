@@ -113,7 +113,7 @@ class AgendaState extends State<Agenda> {
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     child: Container(
-                      height: 50.0,
+                      height: 51.0,
                       child: Column(
                         children: <Widget>[
                           Padding(

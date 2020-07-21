@@ -2,7 +2,7 @@
 
 Welcome to the documentation pages of the *Conferly* of **openCX**!
 
-## [*Conferly Demo*](https://drive.google.com/drive/folders/1Z9uMTACQTI6kkHClgFHNDfv457izU_d2)
+## [*Conferly Demo*](https://drive.google.com/file/d/1O4ZfGvek6mYNwlmRRFHygKRXn9RwESeh/view?usp=sharing)
 
 You can find here detailed about the (sub)product, hereby mentioned as module, from a high-level vision to low-level implementation decisions, a kind of Software Development Report (see [template](https://github.com/softeng-feup/open-cx/blob/master/docs/templates/Development-Report.md)), organized by discipline (as of RUP): 
 
